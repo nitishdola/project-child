@@ -61,7 +61,7 @@ table thead {
              <button class="btn {{ $class}} btn-xs">{{ number_format((float)$bmi, 2, '.', '') }} </button>
 
              </td>
-              <td> <a href="{{ route('student.info', $v->studentId) }}" class="btn btn-success btn-sm"><i class="fa fa-info-circle" aria-hidden="true"></i> Info</a></td>
+              <td> <a href="{{ route('student.info', Crypt::encrypt($v->studentId)) }}" class="btn btn-success btn-sm"><i class="fa fa-info-circle" aria-hidden="true"></i> Info</a></td>
             </tr>
             @endforeach 
             </tbody>
