@@ -2,7 +2,7 @@
 
 @section('page_css')
 <style>
-.disease-list {
+.left-align,.disease-list {
 	text-align: left;
 }
 .disease-list ul li {
@@ -46,16 +46,46 @@ label.star:before {
 .fa-th {
 	color: #ED4C6A;
 }
+.fa-user-circle {
+	color: #EE4D1C;
+}
+.fa-universal-access {
+	color: #CD9D1B;
+}
+.fa-upload {
+	color: #5A88AD;
+}
 </style>
 @stop
 
 @section('main_content')
-<div class="container-fluid" style="margin-top: 2%; background: url('{{ asset("assets/img/dot-background.jpg") }}');">
+<div class="container-fluid">
     <div class="cl-mcont">
        <div class="stats_bar">
        		<div class="row">
        			<div class="col-md-8">
        				<div class="alert alert-info alert-white rounded"><div class="icon"><i class="fa fa-info-circle"></i></div><strong>Overall Health Index</strong></div>
+       			</div>
+
+       			<div class="col-md-4 left-align">
+
+       				<p style="color: #62B72E; font-weight: bold">
+       					Checkup On <i class="fa fa-calendar-check-o" aria-hidden="true"></i> {{ date('d F Y', strtotime($last_checkup->checkup_date))  }}
+       				</p>
+
+
+       				<h5>
+       					<i class="fa fa-user-circle" aria-hidden="true"></i> {{ $student_info->name }}
+       				</h5>
+
+       				
+       				<p>
+       					<i class="fa fa-universal-access" aria-hidden="true"></i> {{ $last_checkup->height }} meters
+       				</p>
+
+       				<p>
+       					<i class="fa fa-upload" aria-hidden="true"></i> {{ $last_checkup->weight }} kg
+       				</p>
        			</div>
        		</div>
 
@@ -67,10 +97,9 @@ label.star:before {
        			<div class="col-md-4 disease-list">
        				
        				<ul class="diseases">
-       					<li"><i class="fa fa-th" aria-hidden="true"></i> Power Glass / Squint </li>
-       					<li><i class="fa fa-th" aria-hidden="true"></i> Dental Care / Plaque </li>
-       					<li><i class="fa fa-th" aria-hidden="true"></i> Power Glass / Squint </li>
-       					<li><i class="fa fa-th" aria-hidden="true"></i> Dental Care / Plaque </li>
+       					@foreach($diseases as $disese)
+       					<li"><i class="fa fa-th" aria-hidden="true"></i> {{ $disese->subDiseaseName }} ( {{ $disese->diseasesName }} ) </li>
+       					@endforeach
        				</ul>
 
        				<div class="hor-pie">
