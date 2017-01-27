@@ -55,41 +55,41 @@ label.star:before {
 .fa-upload {
 	color: #5A88AD;
 }
+
+.table-fixed{
+  height: 490px;
+  overflow-y: auto;
+  width: 100%;
+}
 </style>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css" />
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.13/css/dataTables.bootstrap.min.css" />
 @stop
 
 @section('main_content')
 <div class="container-fluid">
-    <div class="cl-mcont">
-       <div class="stats_bar">
-       		<div class="row">
-       			<div class="col-md-8">
-       				<div class="alert alert-info alert-white rounded"><div class="icon"><i class="fa fa-info-circle"></i></div><strong>Overall Health Index</strong></div>
-       			</div>
+  <div class="cl-mcont">
+    <div class="stats_bar">
+   		<div class="row">
+   			<div class="col-md-7">
+   				<div class="alert alert-success alert-white rounded"><div class="icon"><i class="fa fa-stethoscope"></i></div>
 
-       			<div class="col-md-4 left-align">
+            <div class="col-md-12 header left-align">
+                <h4>
+                <i class="fa fa-user-circle" aria-hidden="true"></i> {{ $student_info->name }}
 
-       				<p style="color: #62B72E; font-weight: bold">
-       					Checkup On <i class="fa fa-calendar-check-o" aria-hidden="true"></i> {{ date('d F Y', strtotime($last_checkup->checkup_date))  }}
-       				</p>
+                <i class="fa fa-universal-access" aria-hidden="true"></i> {{ $last_checkup->height }} meters
 
+                <i class="fa fa-upload" aria-hidden="true"></i> {{ $last_checkup->weight }} kg
+                </h4>
+            </div>
 
-       				<h5>
-       					<i class="fa fa-user-circle" aria-hidden="true"></i> {{ $student_info->name }}
-       				</h5>
+            <div class="col-md-6">
+              Checkup Date : <strong><i class="fa fa-calendar-check-o" aria-hidden="true"></i> {{ date('d F Y', strtotime($last_checkup->checkup_date))  }}</strong>
+            </div>
 
-       				
-       				<p>
-       					<i class="fa fa-universal-access" aria-hidden="true"></i> {{ $last_checkup->height }} meters
-       				</p>
-
-       				<p>
-       					<i class="fa fa-upload" aria-hidden="true"></i> {{ $last_checkup->weight }} kg
-       				</p>
-       			</div>
-       		</div>
-
-       		<div class="row">
+          </div>
+       		<div class="col-md-12 block-flat">
        			<div class="col-md-3">
        				<img src="{{ asset('assets/img/icons/littlebill.png')}}" class="img-responsive" height="650" width="650">
        			</div>
@@ -98,35 +98,100 @@ label.star:before {
        				
        				<ul class="diseases">
        					@foreach($diseases as $disese)
-       					<li"><i class="fa fa-th" aria-hidden="true"></i> {{ $disese->subDiseaseName }} ( {{ $disese->diseasesName }} ) </li>
+       					<li><i class="fa fa-th" aria-hidden="true"></i> {{ $disese->subDiseaseName }} ( {{ $disese->diseasesName }} ) </li>
        					@endforeach
        				</ul>
 
        				<div class="hor-pie">
        					<div style="margin-top: 5px; font-weight: bold">BMI</div>
-
-							<div style="height:150px">
-							    <div id="bulletgraph"></div>
-							</div>
+  							<div style="height:150px">
+  							    <div id="bulletgraph"></div>
+  							</div>
        				</div>
-       			</div>
+            </div>
+          </div>
 
+       		<div class="col-md-12">
+     				<div class="alert alert-success alert-white rounded">
+              <div class="icon"><i class="fa fa-stethoscope"></i></div><strong>Helath Summary</strong>
+            </div>
+            <h4>Additional ECG. regular Opththalmogosist, dentist care.</h4>
        		</div>
+        </div>
+        <!--leaft block ends-->
+        <!--similar students block begins-->
+        <div class="col-sm-5 col-md-5">
+          <div class="block-flat">
+              <div class="header">
+                <h3>Students from same class</h3>
+              </div>
+              <div class="content">
+                @if(count($similar_students))
+                  <?php $count = 1; ?>
 
-       		<div class="row">
-       			<div class="col-md-8">
-       				<div class="alert alert-success alert-white rounded"><div class="icon"><i class="fa fa-stethoscope"></i></div><strong>Helath Summary</strong></div>
-       			</div>
-       		</div>
+                  <div class="table-fixed">
+                    <table id="datatable" class="table table-hover" style="width:98% !important; table-layout:fixed">
+                      <thead>
+                        <tr>
+                          <!-- <th class="col-md-1"> # </th> -->
+                          <th class="col-md-3"> Student Name </th>
+                          <th class="col-md-2"> Height </th>
+                          <th class="col-md-2"> Weight </th>
+                          <th class="col-md-2"> BMI </th>
+                          <th class="col-md-2"> View Details </th>
+                        </tr>
+                      </thead>
 
-       		<div class="row">
-       			<div class="col-md-8">
-       			<h3>Additional ECG. regular Opththalmogosist, dentist care.</h3>
-       			</div>
-       		</div>
+                      <tbody id="student_list">
+                      @foreach( $similar_students as $k => $v)
+                      <tr>
+                        <!-- <td> {{ (($similar_students->currentPage() - 1 ) * $similar_students->perPage() ) + $count + $k }} </td> -->
+                        <td> {{ $v->studentName }} </td>
+                        <td> {{ $v->height }} </td>
+                        <td> {{ $v->weight }} </td>
 
-       </div>
+                       <?php 
+
+                       //BMI
+                       $bmi = $v->weight/( ($v->height/100)*($v->height/100) );
+                       $class = 'btn-info';
+                       if($bmi < 18.5 ) {
+                        $class = 'btn-warning';
+                       }else if($bmi>=18.5 && $bmi <=24.9) {
+                        $class = 'btn-success';
+                       }else if($bmi>=25 && $bmi <=29.9) {
+                        $class = 'btn-warning';
+                       }else{
+                        $class = 'btn-danger';
+                       }
+                       ?>
+                       <td> 
+
+                       <button class="btn {{ $class}} btn-xs">{{ number_format((float)$bmi, 2, '.', '') }} </button>
+
+                       </td>
+                        <td> <a href="{{ route('student.info', Crypt::encrypt($v->studentId)) }}" class="btn btn-success btn-sm"> Info</a></td>
+                      </tr>
+                      @endforeach 
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="pagination">
+                    {!! $similar_students->render() !!}
+                  </div>
+                @else
+                <div class="alert alert-danger alert-dismissable alert-red">
+                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true"><i class="fa fa-times-circle"></i></button>
+                  No Students Found !
+                </div>
+                @endif
+              </div>
+          </div>
+        </div>
+
+      </div>
     </div>
+  </div>
 </div>
 <!-- Ignite UI Required Combined CSS Files -->
 <link href="http://cdn-na.infragistics.com/igniteui/2016.2/latest/css/themes/infragistics/infragistics.theme.css" rel="stylesheet" />
@@ -145,6 +210,9 @@ label.star:before {
 <!-- Ignite UI Required Combined JavaScript Files -->
 <script src="http://cdn-na.infragistics.com/igniteui/2016.2/latest/js/infragistics.core.js"></script>
 <script src="http://cdn-na.infragistics.com/igniteui/2016.2/latest/js/infragistics.dv.js"></script>
+
+<script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js" type="text/javascript"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.13/js/dataTables.bootstrap.min.js" type="text/javascript"></script>
 <script>
 	$("#bulletgraph").igBulletGraph({
     height: "80px",
@@ -184,5 +252,11 @@ label.star:before {
             ui.label = ui.label;
         }
 });
+
+$('#datatable').DataTable( {
+        "paging":   false,
+        "ordering": false,
+        "info":     false
+    } );
 </script>
 @stop

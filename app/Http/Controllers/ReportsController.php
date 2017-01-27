@@ -44,7 +44,6 @@ class ReportsController extends Controller
             ->select('students.name as studentName','students.id as studentId', 'students.sex', 'checkups.checkup_date as checkup_date', 'checkups.class as class','checkups.height as height', 'checkups.weight as weight', 'diseases.name as diseaseName', 'sub_diseases.name as subDiseaseName')
             ->paginate(150);
 
-        
         return view('admin.reports.view', compact('results'));
     }
 }
