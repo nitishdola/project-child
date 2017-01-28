@@ -42,6 +42,17 @@ Route::group(['prefix'=>'student'], function() {
         'middleware' => ['admin'],
         'uses' => 'StudentsController@viewInfo'
     ]);
+
+    Route::get('/create', [
+        'as' => 'student.create',
+        'middleware' => ['admin'],
+        'uses' => 'StudentsController@create'
+    ]);
+    Route::post('/store', [
+        'as' => 'student.store',
+        'middleware' => ['admin'],
+        'uses' => 'StudentsController@store'
+    ]);
 });
 
 Route::group(['prefix'=>'reports'], function() {
@@ -49,6 +60,20 @@ Route::group(['prefix'=>'reports'], function() {
         'as' => 'reports.data',
         'middleware' => ['admin'],
         'uses' => 'ReportsController@viewReport'
+    ]);
+});
+
+
+Route::group(['prefix'=>'school'], function() {
+    Route::get('/create', [
+        'as' => 'school.create',
+        'middleware' => ['admin'],
+        'uses' => 'SchoolsController@create'
+    ]);
+    Route::post('/store', [
+        'as' => 'school.store',
+        'middleware' => ['admin'],
+        'uses' => 'SchoolsController@store'
     ]);
 });
 

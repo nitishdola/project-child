@@ -116,6 +116,9 @@ label.star:before {
               <div class="icon"><i class="fa fa-stethoscope"></i></div><strong>Helath Summary</strong>
             </div>
             <h4>Additional ECG. regular Opththalmogosist, dentist care.</h4>
+
+            <div id="piechart_3d" style="width: 900px; height: 500px;"></div>
+
        		</div>
         </div>
         <!--leaft block ends-->
@@ -123,7 +126,7 @@ label.star:before {
         <div class="col-sm-5 col-md-5">
           <div class="block-flat">
               <div class="header">
-                <h3>Students from same class</h3>
+                <h3>Students from same class </h3>
               </div>
               <div class="content">
                 @if(count($similar_students))
@@ -213,6 +216,9 @@ label.star:before {
 
 <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js" type="text/javascript"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.13/js/dataTables.bootstrap.min.js" type="text/javascript"></script>
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
 <script>
 	$("#bulletgraph").igBulletGraph({
     height: "80px",
@@ -258,5 +264,26 @@ $('#datatable').DataTable( {
         "ordering": false,
         "info":     false
     } );
+
+var disease = '{{ $first_disease }}';
+
+google.charts.load("current", {packages:["corechart"]});
+google.charts.setOnLoadCallback(drawChart);
+function drawChart() {
+  var data = google.visualization.arrayToDataTable([
+    ['Task', 'Disease Chart : '],
+    ['Class',     11],
+    ['Section',      2],
+    ['School',  2]
+  ]);
+
+  var options = {
+    title: 'Disease',
+    is3D: true,
+  };
+
+  var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
+  chart.draw(data, options);
+}
 </script>
 @stop

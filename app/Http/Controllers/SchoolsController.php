@@ -16,8 +16,9 @@ class SchoolsController extends Controller
   	}
 
     public function create() {
-        $districts    = Department::whereStatus(1)->orderBy('name', 'DESC')->lists('name', 'id')->toArray();
-    	return view('admin.schools.create', compact('districts'));
+        $blocks     = Block::orderBy('name')->pluck('name', 'id');
+        $districts    = District::whereStatus(1)->orderBy('name', 'DESC')->lists('name', 'id')->toArray();
+    	return view('admin.schools.create', compact('districts', 'blocks'));
     }
 
     public function store(Request $request) {

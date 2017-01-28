@@ -33,6 +33,10 @@ class ReportsController extends Controller
           $where['checkup_diseases.sub_disease_id'] = $request->sub_disease_id;
         }
 
+        if($request->block_id) {
+          $where['schools.block_id'] = $request->block_id;
+        }
+
         $where['checkups.status'] = 1;
 
         $results = DB::table('students')
@@ -40,6 +44,7 @@ class ReportsController extends Controller
             ->join('checkup_diseases', 'checkup_diseases.checkup_id', '=', 'checkups.id')
             ->join('diseases', 'checkup_diseases.disease_id', '=', 'diseases.id')
             ->join('sub_diseases', 'checkup_diseases.sub_disease_id', '=', 'sub_diseases.id')
+            ->join('schools', 'schools.id', '=', 'students.school_id')
             ->where($where)
             ->select('students.name as studentName','students.id as studentId', 'students.sex', 'checkups.checkup_date as checkup_date', 'checkups.class as class','checkups.height as height', 'checkups.weight as weight', 'diseases.name as diseaseName', 'sub_diseases.name as subDiseaseName')
             ->paginate(150);

@@ -17,7 +17,8 @@ table thead {
     <div class="cl-mcont"><h2> Report : </h2>
        <div class="stats_bar">
           @if(count($results))
-          <?php $count = 1; ?>
+          <?php $count = 1; 
+          ?>
 
           <table class="table table-hover">
             <thead>
@@ -34,6 +35,7 @@ table thead {
 
             <tbody id="student_list">
             @foreach( $results as $k => $v)
+            @if($v->height >= 0)
             <tr>
               <td> {{ (($results->currentPage() - 1 ) * $results->perPage() ) + $count + $k }} </td>
               <td> {{ $v->studentName }} </td>
@@ -42,19 +44,23 @@ table thead {
               <td> {{ $v->weight }} </td>
 
              <?php 
-
-             //BMI
-             $bmi = $v->weight/( ($v->height/100)*($v->height/100) );
-             $class = 'btn-info';
-             if($bmi < 18.5 ) {
-              $class = 'btn-warning';
-             }else if($bmi>=18.5 && $bmi <=24.9) {
-              $class = 'btn-success';
-             }else if($bmi>=25 && $bmi <=29.9) {
-              $class = 'btn-warning';
-             }else{
-              $class = 'btn-danger';
-             }
+             if($v->height > 0){
+                 //BMI
+                 $bmi = $v->weight/( ($v->height/100)*($v->height/100) );
+                 $class = 'btn-info';
+                 if($bmi < 18.5 ) {
+                  $class = 'btn-warning';
+                 }else if($bmi>=18.5 && $bmi <=24.9) {
+                  $class = 'btn-success';
+                 }else if($bmi>=25 && $bmi <=29.9) {
+                  $class = 'btn-warning';
+                 }else{
+                  $class = 'btn-danger';
+                 }
+              }else{
+                $bmi = 10.00;
+                $class = 'btn-warning';
+              }
              ?>
              <td> 
 
@@ -63,6 +69,7 @@ table thead {
              </td>
               <td> <a href="{{ route('student.info', Crypt::encrypt($v->studentId)) }}" class="btn btn-success btn-sm"><i class="fa fa-info-circle" aria-hidden="true"></i> Info</a></td>
             </tr>
+            @endif
             @endforeach 
             </tbody>
           </table>

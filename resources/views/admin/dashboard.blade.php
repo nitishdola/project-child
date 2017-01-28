@@ -5,10 +5,11 @@
     <div class="cl-mcont">
        <div class="stats_bar">
           <div class="col-md-12">
-          <div data-step="2" data-intro="&lt;strong&gt;Beautiful Elements&lt;/strong&gt; &lt;br/&gt; If you are looking for a different UI, this is for you!." class="butpro butstyle">
+          
+          <div data-step="2" data-intro="" class="butpro butstyle">
              <div class="sub">
                 <img src="{{ asset('assets/img/icons/block.png') }}">
-                <span id="total_clients">170</span>
+                <span id="total_clients">{{ $blocks_count }}</span>
                 <h2>BLOCKS</h2>
              </div>
              <div class="stat">
@@ -18,10 +19,10 @@
              </div>
           </div>
 
-          <div data-step="2" data-intro="&lt;strong&gt;Beautiful Elements&lt;/strong&gt; &lt;br/&gt; If you are looking for a different UI, this is for you!." class="butpro butstyle">
+          <div data-step="2" data-intro="" class="butpro butstyle">
              <div class="sub">
                 <img src="{{ asset('assets/img/icons/school.png') }}">
-                <span id="total_clientes">170</span>
+                <span id="total_clientes">{{ $schools_count }}</span>
                 <h2>SCHOOLS</h2>
              </div>
              <div class="stat">
@@ -31,10 +32,10 @@
              </div>
           </div>
 
-          <div data-step="2" data-intro="&lt;strong&gt;Beautiful Elements&lt;/strong&gt; &lt;br/&gt; If you are looking for a different UI, this is for you!." class="butpro butstyle">
+          <div data-step="2" data-intro="" class="butpro butstyle">
              <div class="sub">
                 <img src="{{ asset('assets/img/icons/students.png') }}">
-                <span id="total_clientes">170</span>
+                <span id="total_clientes">{{ $students_count }}</span>
                 <h2>STUDENTS</h2>
              </div>
              <div class="stat">
@@ -46,10 +47,10 @@
         </div>
 
         <div class="row">
-          <div data-step="2" data-intro="&lt;strong&gt;Beautiful Elements&lt;/strong&gt; &lt;br/&gt; If you are looking for a different UI, this is for you!." class="butpro butstyle">
+          <div data-step="2" data-intro="" class="butpro butstyle">
              <div class="sub">
                 <img src="{{ asset('assets/img/icons/disease.png') }}">
-                <span id="total_clients">170</span>
+                <span id="total_clients">{{ $diseases_count }}</span>
                 <h2>DISEASES</h2>
              </div>
              <div class="stat">
@@ -61,7 +62,7 @@
           <div data-step="2" data-intro="&lt;strong&gt;Beautiful Elements&lt;/strong&gt; &lt;br/&gt; If you are looking for a different UI, this is for you!." class="butpro butstyle">
              <div class="sub">
                 <img src="{{ asset('assets/img/icons/sub-disease.png') }}">
-                <span id="total_clients">170</span>
+                <span id="total_clients">{{ $sub_diseases_count }}</span>
                 <h2>SUB-DISEASES</h2>
              </div>
              <div class="stat">
@@ -73,7 +74,7 @@
           <div data-step="2" data-intro="&lt;strong&gt;Beautiful Elements&lt;/strong&gt; &lt;br/&gt; If you are looking for a different UI, this is for you!." class="butpro butstyle">
              <div class="sub">
                 <img src="{{ asset('assets/img/icons/boy.png') }}">
-                <span id="total_clientes">170</span>
+                <span id="total_clientes">{{ $students_count_male }}</span>
                 <h2>BOYS</h2>
                 
              </div>
@@ -86,7 +87,7 @@
           <div data-step="2" data-intro="&lt;strong&gt;Beautiful Elements&lt;/strong&gt; &lt;br/&gt; If you are looking for a different UI, this is for you!." class="butpro butstyle">
              <div class="sub">
                 <img src="{{ asset('assets/img/icons/girl.png') }}">
-                <span id="total_clientes">170</span>
+                <span id="total_clientes">{{ $students_count_female }}</span>
                 <h2>GIRLS</h2>
              </div>
              <div class="stat">
@@ -141,7 +142,7 @@
                               <div class="form-group">
                                     {!! Form::label('disease_id', 'Organ System', array('class' => 'col-sm-3 control-label')) !!}
                                    <div class="col-sm-9">
-                                      {!! Form::select('disease_id', $diseases, null, ['class' => 'form-control', 'id' => 'disease_id', 'placeholder' => 'Seelct Disease' ]) !!}
+                                      {!! Form::select('disease_id', $diseases, null, ['class' => 'form-control', 'id' => 'disease_id', 'placeholder' => 'Select Disease' ]) !!}
                                    </div>
                               </div>
 
@@ -154,6 +155,20 @@
 
                            </div>
                         </div>
+
+
+                        <div class="col-xs-6">
+                           <div id="com2_stats">
+                              <div class="form-group">
+                                    {!! Form::label('disease_id', 'Block', array('class' => 'col-sm-3 control-label')) !!}
+                                   <div class="col-sm-9">
+                                      {!! Form::select('block_id', $blocks, null, ['class' => 'form-control', 'id' => 'disease_id', 'placeholder' => 'Select Block' ]) !!}
+                                   </div>
+                              </div>
+
+                           </div>
+                        </div>
+
                         <div class="form-group">
                            <div class="col-sm-offset-2 col-sm-10"><button type="submit" class="btn btn-primary">View</button></div>
                         </div>
