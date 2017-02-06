@@ -16,7 +16,7 @@ class AdminController extends Controller
     }
 
     public function index(){
-    	$schools 	= School::pluck('name', 'id');
+    	$schools   = School::select(DB::raw("CONCAT(name,' (', short_name, ')') AS name, id"))->pluck('name', 'id');
     	$diseases 	= Disease::orderBy('name')->pluck('name', 'id');
         $blocks     = Block::orderBy('name')->pluck('name', 'id');
 

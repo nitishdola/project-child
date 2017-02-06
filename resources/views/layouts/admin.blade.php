@@ -64,7 +64,8 @@
                width:"100%"
             });
 
-            $('input.zebra_datepicker').Zebra_DatePicker();
+            $('input.zebra_datepicker').Zebra_DatePicker(); 
+            
          });
       </script>
 

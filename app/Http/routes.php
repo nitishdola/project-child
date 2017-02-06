@@ -48,10 +48,28 @@ Route::group(['prefix'=>'student'], function() {
         'middleware' => ['admin'],
         'uses' => 'StudentsController@create'
     ]);
-    Route::post('/store', [
+    Route::post('/save', [
         'as' => 'student.store',
         'middleware' => ['admin'],
-        'uses' => 'StudentsController@store'
+        'uses' => 'StudentsController@saveStudent'
+    ]);
+
+    Route::get('/list-all', [
+        'as' => 'student.index',
+        'middleware' => ['admin'],
+        'uses' => 'StudentsController@listAll'
+    ]);
+
+    Route::get('/edit/{num}', [
+        'as' => 'student.edit',
+        'middleware' => ['admin'],
+        'uses' => 'StudentsController@editStudent'
+    ]);
+
+    Route::get('/delete/{num}', [
+        'as' => 'student.disable',
+        'middleware' => ['admin'],
+        'uses' => 'StudentsController@disableStudent'
     ]);
 });
 

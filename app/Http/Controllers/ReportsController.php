@@ -59,7 +59,7 @@ class ReportsController extends Controller
 
         $results = $results->paginate(150);
 
-        $schools    = School::pluck('name', 'id');
+        $schools   = School::select(DB::raw("CONCAT(name,' (', short_name, ')') AS name, id"))->pluck('name', 'id');
         $diseases   = Disease::orderBy('name')->pluck('name', 'id');
 
         $base_year = 2014;

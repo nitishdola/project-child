@@ -10,7 +10,7 @@
                   <a href="#">Student</a>
                   <ul class="dropdown-menu">
                      <li><a href="{{ route('student.create')}}">Add</a></li>
-                     <li><a href="#">View</a></li>
+                     <li><a href="{{ route('student.index')}}">View</a></li>
                   </ul>
                </li>
 

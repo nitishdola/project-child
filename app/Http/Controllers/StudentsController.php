@@ -6,16 +6,62 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 
-use Auth,Crypt,Redirect,DB;
+use Auth,Crypt,Redirect,DB,Validator;
 use App\Student, App\Checkup, App\School, App\BloodGroup;
 
 class StudentsController extends Controller
 {
 
 	public function create() {
-        $schools     	= School::orderBy('name')->pluck('name', 'id');
+        //$schools     	= School::orderBy('name')->pluck('name', 'id');
+
+        $schools   = School::select(DB::raw("CONCAT(name,' (', short_name, ')') AS name, id"))->pluck('name', 'id');
+
         $blood_groups   = BloodGroup::orderBy('name')->pluck('name', 'id');
     	return view('admin.students.create', compact('schools', 'blood_groups'));
+    }
+
+    public function saveStudent(Request $request) {
+        $validator = Validator::make($data = $request->all(), Student::$rules);
+        if ($validator->fails()) return Redirect::back()->withErrors($validator)->withInput();
+
+        $data['password'] = bcrypt( config('globals.student_password') );
+
+        $message = '';
+        if(Student::create($data)) {
+            $message .= 'Student added successfully !';
+        }else{
+            $message .= 'Unable to add student !';
+        }
+
+        return Redirect::route('student.index')->with('message', $message);
+    }
+
+    public function listAll(Request $request) {
+        $where  = []; 
+
+        if($request->name) {
+            $where['name'] = $request->name;
+        }
+
+        if($request->registration_number) {
+            $where['registration_number'] = $request->registration_number;
+        }
+
+        if($request->school_id) {
+            $where['school_id'] = $request->school_id;
+        }
+        
+        $results = Student::where('status',1)->where($where)->orderBy('name', 'ASC');
+
+        if($request->name) {
+            $results->where('name', 'like', '%' . $request->name . '%');
+        }
+
+        $results = $results->paginate(150);
+
+        $schools   = School::select(DB::raw("CONCAT(name,' (', short_name, ')') AS name, id"))->pluck('name', 'id');
+        return view('admin.students.list_all', compact('results', 'schools'));
     }
 
     public function viewInfo($student_id = NULL) {
