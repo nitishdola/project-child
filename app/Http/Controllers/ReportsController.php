@@ -8,10 +8,19 @@ use App\Http\Requests;
 
 use DB;
 
+use App\School, App\Disease;
+
 class ReportsController extends Controller
 {
     public function viewReport(Request $request) {
         $where = '';
+
+        $school_id = $request->school_id;
+        $class = $request->class;
+        $sex = $request->sex;
+        $disease_id = $request->disease_id;
+        $sub_disease_id = $request->sub_disease_id;
+        $checkup_year = $request->checkup_year;
 
         if($request->school_id) {
           $where['students.school_id'] = $request->school_id;
@@ -33,10 +42,6 @@ class ReportsController extends Controller
           $where['checkup_diseases.sub_disease_id'] = $request->sub_disease_id;
         }
 
-        if($request->block_id) {
-          $where['schools.block_id'] = $request->block_id;
-        }
-
         $where['checkups.status'] = 1;
 
         $results = DB::table('students')
@@ -46,9 +51,24 @@ class ReportsController extends Controller
             ->join('sub_diseases', 'checkup_diseases.sub_disease_id', '=', 'sub_diseases.id')
             ->join('schools', 'schools.id', '=', 'students.school_id')
             ->where($where)
-            ->select('students.name as studentName','students.id as studentId', 'students.sex', 'checkups.checkup_date as checkup_date', 'checkups.class as class','checkups.height as height', 'checkups.weight as weight', 'diseases.name as diseaseName', 'sub_diseases.name as subDiseaseName')
-            ->paginate(150);
+            ->select('students.name as studentName','students.id as studentId', 'students.sex', 'checkups.checkup_date as checkup_date', 'checkups.class as class','checkups.height as height', 'checkups.weight as weight', 'diseases.name as diseaseName', 'sub_diseases.name as subDiseaseName');
 
-        return view('admin.reports.view', compact('results'));
+        if($request->checkup_year) {
+            $results->whereYear('checkup_date', '=' , $request->checkup_year);
+        }
+
+        $results = $results->paginate(150);
+
+        $schools    = School::pluck('name', 'id');
+        $diseases   = Disease::orderBy('name')->pluck('name', 'id');
+
+        $base_year = 2014;
+        $checkup_years = [];
+
+        for( $i = $base_year; $i <= date('Y'); $i++ ) {
+            $checkup_years[$i] = $i;        
+        }
+
+        return view('admin.reports.view', compact('results', 'schools', 'checkup_years', 'diseases', 'school_id', 'class', 'sex', 'disease_id', 'sub_disease_id', 'checkup_year'));
     }
 }

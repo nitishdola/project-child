@@ -55,15 +55,11 @@ class StudentsController extends Controller
 
         $similar_students = DB::table('students')
             ->join('checkups', 'students.id', '=', 'checkups.student_id')
-            ->join('checkup_diseases', 'checkup_diseases.checkup_id', '=', 'checkups.id')
-            ->join('diseases', 'checkup_diseases.disease_id', '=', 'diseases.id')
-            ->join('sub_diseases', 'checkup_diseases.sub_disease_id', '=', 'sub_diseases.id')
+            ->join('schools', 'schools.id', '=', 'students.school_id')
             ->where($where)
             ->where('students.id', '!=', $student_id)
             ->orderBy('students.name')
-            ->select('students.name as studentName','students.id as studentId', 'students.sex', 'checkups.checkup_date as checkup_date', 'checkups.class as class','checkups.height as height', 'checkups.weight as weight', 'diseases.name as diseaseName', 'sub_diseases.name as subDiseaseName')
-            ->paginate(30);
-
+            ->select('students.name as studentName','students.id as studentId', 'students.sex', 'checkups.checkup_date as checkup_date', 'checkups.class as class','checkups.height as height', 'checkups.weight as weight')->paginate(30);
         return view('admin.students.info', compact('student_info', 'diseases', 'last_checkup','similar_students', 'first_disease' ));
     }
 }

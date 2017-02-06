@@ -6,7 +6,7 @@
        <div class="stats_bar">
           <div class="col-md-12">
           
-          <div data-step="2" data-intro="" class="butpro butstyle">
+          <!-- <div data-step="2" data-intro="" class="butpro butstyle">
              <div class="sub">
                 <img src="{{ asset('assets/img/icons/block.png') }}">
                 <span id="total_clients">{{ $blocks_count }}</span>
@@ -17,7 +17,7 @@
                    <canvas style="display: inline-block; width: 74px; height: 16px; vertical-align: top;" width="74" height="16"></canvas>
                 </span>
              </div>
-          </div>
+          </div> -->
 
           <div data-step="2" data-intro="" class="butpro butstyle">
              <div class="sub">
@@ -153,11 +153,23 @@
                                    </div>
                               </div>
 
+                              <?php
+                                $base_year = 2008;
+                              ?>
+                              <div class="form-group">
+                                 <label class="col-sm-3 control-label"> Checkup Year </label>
+                                 <div class="col-sm-9">
+                                    <select name="checkup_year" id="checkup_year" class="select2other">
+                                      {!! Form::select('checkup_year', $checkup_years, null, ['class' => 'form-control', 'id' => 'checkup_years', 'placeholder' => 'All Checkups' ]) !!}
+                                    </select>
+                                 </div>
+                              </div>
+
                            </div>
                         </div>
 
 
-                        <div class="col-xs-6">
+                        <!-- <div class="col-xs-6">
                            <div id="com2_stats">
                               <div class="form-group">
                                     {!! Form::label('disease_id', 'Block', array('class' => 'col-sm-3 control-label')) !!}
@@ -167,7 +179,7 @@
                               </div>
 
                            </div>
-                        </div>
+                        </div> -->
 
                         <div class="form-group">
                            <div class="col-sm-offset-2 col-sm-10"><button type="submit" class="btn btn-primary">View</button></div>

@@ -30,6 +30,15 @@ class AdminController extends Controller
     	$students_count_male 	= Student::whereStatus(1)->whereSex('male')->count();
     	$students_count_female 	= Student::whereStatus(1)->whereSex('female')->count();
 
-    	return view('admin.dashboard', compact('schools', 'diseases', 'blocks', 'blocks_count', 'schools_count', 'students_count', 'diseases_count', 'sub_diseases_count', 'students_count_male', 'students_count_female'));
+        $base_year = 2014;
+        $checkup_years = [];
+
+        for( $i = $base_year; $i <= date('Y'); $i++ ) {
+            $checkup_years[$i] = $i;        
+        }
+       
+
+
+    	return view('admin.dashboard', compact('schools', 'diseases', 'blocks', 'blocks_count', 'schools_count', 'students_count', 'diseases_count', 'sub_diseases_count', 'students_count_male', 'students_count_female', 'checkup_years'));
     }
 }

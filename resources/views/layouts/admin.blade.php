@@ -58,6 +58,10 @@
                formatInputTooShort: function () {
                   return "Enter min 3 Character";
                }
+            }); 
+
+            $(".select2other").select2({
+               width:"100%"
             });
 
             $('input.zebra_datepicker').Zebra_DatePicker();
