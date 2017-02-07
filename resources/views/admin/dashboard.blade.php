@@ -159,8 +159,7 @@
                               <div class="form-group">
                                  <label class="col-sm-3 control-label"> Checkup Year </label>
                                  <div class="col-sm-9">
-                                    <select name="checkup_year" id="checkup_year" class="select2other">
-                                      {!! Form::select('checkup_year', $checkup_years, null, ['class' => 'form-control', 'id' => 'checkup_years', 'placeholder' => 'All Checkups' ]) !!}
+                                      {!! Form::select('checkup_year', $checkup_years, null, ['class' => 'select2other', 'id' => 'checkup_years', 'placeholder' => 'All Checkups' ]) !!}
                                     </select>
                                  </div>
                               </div>

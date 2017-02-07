@@ -40,10 +40,6 @@ class StudentsController extends Controller
     public function listAll(Request $request) {
         $where  = []; 
 
-        if($request->name) {
-            $where['name'] = $request->name;
-        }
-
         if($request->registration_number) {
             $where['registration_number'] = $request->registration_number;
         }
@@ -55,7 +51,7 @@ class StudentsController extends Controller
         $results = Student::where('status',1)->where($where)->orderBy('name', 'ASC');
 
         if($request->name) {
-            $results->where('name', 'like', '%' . $request->name . '%');
+            $results->where('name', 'LIKE', '%' . $request->name . '%');
         }
 
         $results = $results->paginate(150);
