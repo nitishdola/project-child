@@ -14,17 +14,17 @@
                   	<div class="form-group">
                        {!! Form::label('nm', 'Name', array('class' => 'col-sm-1 control-label')) !!}
                        <div class="col-sm-3">
-                          {!! Form::text('name', null, ['class' => 'form-control', 'id' => 'class', 'placeholder' => 'All' ]) !!}
+                          {!! Form::text('name', $name , ['class' => 'form-control', 'id' => 'class', 'placeholder' => 'All' ]) !!}
                        </div>
 
                        {!! Form::label('regNo', 'Reg No', array('class' => 'col-sm-1 control-label')) !!}
                        <div class="col-sm-3">
-                          {!! Form::text('registration_number', null, ['class' => 'form-control', 'id' => 'class', 'placeholder' => 'All' ]) !!}
+                          {!! Form::text('registration_number', $registration_number, ['class' => 'form-control', 'id' => 'class', 'placeholder' => 'All' ]) !!}
                        </div>
 
                        {!! Form::label('school', 'School', array('class' => 'col-sm-1 control-label')) !!}
                        <div class="col-sm-3">
-                          {!! Form::select('school_id', $schools, null, ['class' => 'select2', 'id' => 'schools', 'placeholder' => 'All School' ]) !!}
+                          {!! Form::select('school_id', $schools, $school_id, ['class' => 'select2', 'id' => 'schools', 'placeholder' => 'All School' ]) !!}
                        </div>
                     </div>
 

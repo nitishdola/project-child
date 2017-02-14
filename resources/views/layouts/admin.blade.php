@@ -20,6 +20,7 @@
       <link rel="stylesheet" type="text/css" href="{{ asset('assets/lib/jquery.select2/select2.css') }}">
       <link rel="stylesheet" type="text/css" href="{{ asset('assets/lib/bootstrap.slider/css/bootstrap-slider.css') }}">
       <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/Zebra_datepicker/1.9.4/css/bootstrap.min.css">
+      <link rel="stylesheet" type="text/css" href="{{ asset('assets/lib/jquery.icheck/skins/square/blue.css') }}">
       <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
 
       @yield('page_css')
@@ -29,6 +30,20 @@
          @include('layouts.common.admin.nav')
       </div>
       <div id="cl-wrapper" class="fixed-menu">
+         @if(Session::has('message'))
+            <div class="container-fluid">
+               <div class="cl-mcont">
+                  <div class="block-flat">
+                     <div class="header">
+                        <div class="alert {{ Session::get('alert-class', 'alert-info') }}">
+                           <button type="button" class="close" data-dismiss="alert">×</button>
+                           <h3>{!! Session::get('message') !!}</h3>
+                        </div>
+                     </div>
+                  </div>   
+               </div>
+            </div>
+            @endif
          @yield('main_content')
       </div>
       <script type="text/javascript" src="{{ asset('assets/lib/jquery/jquery.min.js') }}"></script>
@@ -48,10 +63,13 @@
       <script src="{{ asset('assets/lib/jquery.select2/select2.min.js') }}" type="text/javascript"></script>
       <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js"></script>
       <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Zebra_datepicker/1.9.4/javascript/zebra_datepicker.js"></script>
+
+      <script src="{{ asset('assets/lib/jquery.icheck/icheck.min.js') }}" type="text/javascript"></script>
       <script type="text/javascript">
          $(document).ready(function(){
             //initialize the javascript
             App.init();
+
             $(".select2").select2({
                width:"100%", 
                minimumInputLength: 3,

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class School extends Model
 {
     protected $table    = 'schools';
-    protected $fillable = array('short_name', 'name', 'block_id', 'district_id', 'code', 'enroll');
+    protected $fillable = array('name', 'block_id', 'district_id', 'code', 'enroll');
     protected $guarded  = ['_token'];
 
     public static $rules = [ 

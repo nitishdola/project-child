@@ -55,6 +55,9 @@
                </li>
                
             </ul>
+         </li> 
+         <li class="dropdown">
+            <a href="{{ route('checkup.add') }}">Checkup Entry <b class="glyphicon glyphicon-plus"></b></a>
          </li>
          <!-- <li class="dropdown">
             <a href="#" data-toggle="dropdown" class="dropdown-toggle">Large menu <b class="caret"></b></a>

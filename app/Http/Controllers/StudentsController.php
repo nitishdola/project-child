@@ -39,25 +39,76 @@ class StudentsController extends Controller
 
     public function listAll(Request $request) {
         $where  = []; 
+        $registration_number    = $request->registration_number;
+        $school_id              = $request->school_id;
+        $name = $request->name;
 
         if($request->registration_number) {
-            $where['registration_number'] = $request->registration_number;
+            $where['registration_number'] = $registration_number;
         }
 
         if($request->school_id) {
-            $where['school_id'] = $request->school_id;
+            $where['school_id'] = $school_id;
         }
         
+        $where['status'] = 1;
         $results = Student::where('status',1)->where($where)->orderBy('name', 'ASC');
 
         if($request->name) {
-            $results->where('name', 'LIKE', '%' . $request->name . '%');
+            
+            $results->where('name', 'LIKE', '%' . $name . '%');
         }
 
         $results = $results->paginate(150);
 
         $schools   = School::select(DB::raw("CONCAT(name,' (', short_name, ')') AS name, id"))->pluck('name', 'id');
-        return view('admin.students.list_all', compact('results', 'schools'));
+        return view('admin.students.list_all', compact('results', 'schools', 'registration_number', 'school_id', 'name'));
+    }
+
+    public function disableStudent($student_id = null) {
+        $student_id = Crypt::decrypt($student_id);
+        $student    = Student::findOrFail($student_id);
+
+        $student->status = 0;
+        $message = '';
+        if($student->save()) {
+            $message .= 'Student Deleted !';
+            return Redirect::route('student.index')->with('message', $message);
+        }
+    }
+
+    public function editStudent( $student_id ) {
+        $student_id = Crypt::decrypt($student_id);
+        $schools    = School::select(DB::raw("CONCAT(name,' (', short_name, ')') AS name, id"))->pluck('name', 'id');
+
+        $blood_groups   = BloodGroup::orderBy('name')->pluck('name', 'id');
+
+        $student = Student::findOrFail($student_id);
+        return view('admin.students.edit', compact('schools', 'blood_groups', 'student'));
+    }
+
+    public function updateStudent($student_id = null, Request $request) {
+        $rules = Student::$rules;
+
+        $student_id = Crypt::decrypt($student_id);
+
+        $rules['registration_number'] = $rules['registration_number'] . ',id,' . $student_id;
+
+        $validator = Validator::make($data = $request->all(), $rules);
+        if ($validator->fails()) return Redirect::back()->withErrors($validator)->withInput();
+
+        $student = Student::findOrFail($student_id);
+
+        $message = '';
+
+        $student->fill($data);
+        if($student->save()) {
+            $message .= 'Student Info Updated Successfully !';
+        }else{
+            $message .= 'Unable to update  Student Info !';
+        }
+
+        return Redirect::route('student.index')->with('message', $message);
     }
 
     public function viewInfo($student_id = NULL) {

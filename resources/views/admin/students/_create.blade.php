@@ -82,7 +82,7 @@
 
 <div class="form-group {{ $errors->has('dob') ? 'has-error' : ''}}">
   {!! Form::label('dob', 'Date of Birth', array('class' => 'col-md-3 control-label')) !!}
-  <div class="col-md-5">
+  <div class="col-md-3">
     {!! Form::text('dob', null, ['class' => 'zebra_datepicker form-control required', 'id' => 'code', 'placeholder' => 'Date of Birth', 'autocomplete' => 'off', 'required' => 'true']) !!}
   </div>
   {!! $errors->first('dob', '<span class="help-inline">:message</span>') !!}

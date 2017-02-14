@@ -36,7 +36,7 @@ class SchoolsController extends Controller
         return Redirect::route('budget_head.index')->with('message', $message);
     }
 
-      public function edit( $id ) {
+    public function edit( $id ) {
         $id = Crypt::decrypt($id);
         $BudgetHead = BudgetHead::findOrFail($id);
         $departments    = [''=> 'Select Department'] + Department::whereStatus(1)->orderBy('name', 'DESC')->lists('name', 'id')->toArray();
