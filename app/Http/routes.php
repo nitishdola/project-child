@@ -86,6 +86,12 @@ Route::group(['prefix'=>'checkup'], function() {
         'middleware' => ['admin'],
         'uses' => 'CheckupsController@addCheckup'
     ]);
+
+    Route::post('/add', [
+        'as' => 'checkup.post',
+        'middleware' => ['admin'],
+        'uses' => 'CheckupsController@postCheckup'
+    ]);
 });
 
 Route::group(['prefix'=>'reports'], function() {
@@ -114,5 +120,10 @@ Route::group(['prefix'=>'api'], function() {
     Route::get('/get-sub-disease', [
         'as' => 'api.sub_disease_list',
         'uses' => 'ApiController@subDiseaseList'
+    ]);
+
+    Route::get('/get-students', [
+        'as' => 'api.student_list',
+        'uses' => 'ApiController@studentList'
     ]);
 });

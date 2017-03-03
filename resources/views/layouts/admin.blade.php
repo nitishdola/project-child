@@ -17,12 +17,13 @@
       <link rel="stylesheet" type="text/css" href="{{ asset('assets/lib/jquery.gritter/css/jquery.gritter.css') }}">
       <link rel="stylesheet" type="text/css" href="{{ asset('assets/lib/bootstrap.switch/css/bootstrap3/bootstrap-switch.css') }}">
       <link rel="stylesheet" type="text/css" href="{{ asset('assets/lib/bootstrap.datetimepicker/css/bootstrap-datetimepicker.min.css') }}">
-      <link rel="stylesheet" type="text/css" href="{{ asset('assets/lib/jquery.select2/select2.css') }}">
+      <link rel="stylesheet" type="text/css" href="http://select2.github.io/select2/select2-3.5.1/select2.css">
       <link rel="stylesheet" type="text/css" href="{{ asset('assets/lib/bootstrap.slider/css/bootstrap-slider.css') }}">
       <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/Zebra_datepicker/1.9.4/css/bootstrap.min.css">
       <link rel="stylesheet" type="text/css" href="{{ asset('assets/lib/jquery.icheck/skins/square/blue.css') }}">
+      <link href="{{ asset('assets/lib/multiselect_dropdown_with_checkbox/jquery.multiselect.css') }}" rel="stylesheet" type="text/css">
       <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
-
+      <link href="{{ asset('assets/css/custom.css') }}" rel="stylesheet">
       @yield('page_css')
    </head>
    <body>
@@ -60,11 +61,12 @@
       <script type="text/javascript" src="{{ asset('assets/lib/jquery.flot/jquery.flot.resize.js') }}"></script>
       <script type="text/javascript" src="{{ asset('assets/lib/jquery-ui/jquery-ui.min.js') }}"></script>
       <script type="text/javascript" src="{{ asset('assets/lib/jquery-ui/jquery-ui.min.js') }}"></script>
-      <script src="{{ asset('assets/lib/jquery.select2/select2.min.js') }}" type="text/javascript"></script>
+      <script src="http://select2.github.io/select2/select2-3.5.1/select2.js" type="text/javascript"></script>
       <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js"></script>
       <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Zebra_datepicker/1.9.4/javascript/zebra_datepicker.js"></script>
 
       <script src="{{ asset('assets/lib/jquery.icheck/icheck.min.js') }}" type="text/javascript"></script>
+      <script src="{{ asset('assets/lib/multiselect_dropdown_with_checkbox/jquery.multiselect.js') }}"></script>
       <script type="text/javascript">
          $(document).ready(function(){
             //initialize the javascript
@@ -83,7 +85,7 @@
             });
 
             $('input.zebra_datepicker').Zebra_DatePicker(); 
-            
+            $('select.multiselect').multiselect();
          });
       </script>
 

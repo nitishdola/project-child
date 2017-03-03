@@ -5,11 +5,13 @@
   </div>
   {!! $errors->first('checkup_date', '<span class="help-inline">:message</span>') !!}
 </div>
-
+<hr>
 <div class="form-group {{ $errors->has('student_id') ? 'has-error' : ''}}">
   {!! Form::label('student_id', 'Select Student*', array('class' => 'col-md-3 control-label')) !!}
-  <div class="col-md-5">
-    {!! Form::select('student_id', $students, null, ['class' => 'select2', 'id' => 'student_id', 'placeholder' => 'Select Student', 'autocomplete' => 'off']) !!}
+  <div class="col-md-9">
+    <div class="selectRow">
+        <input type="hidden" id="student_id" name='student_id' />
+    </div>
   </div>
   {!! $errors->first('student_id', '<span class="help-inline">:message</span>') !!}
 </div>

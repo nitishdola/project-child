@@ -1,0 +1,16 @@
+.underweight {
+	background: #8F5943;
+	color: #FFF;
+}
+.underweight:hover {
+	color: #FFF;
+	background: #7A4935;
+}
+.noresult {
+	color: #FFF;
+	background: #2404EC;
+}
+.noresult:hover {
+	color: #FFF;
+	background: #3114E0;	
+}

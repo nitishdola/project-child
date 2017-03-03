@@ -352,7 +352,7 @@ label.star:before {
                        <button class="btn {{ $class}} btn-xs">{{ number_format((float)$bmi, 2, '.', '') }} </button>
 
                        </td>
-                        <td> <a href="{{ route('student.info', Crypt::encrypt($v->studentId)) }}" class="btn btn-success btn-sm"> Info</a></td>
+                        <td> <a href="{{ route('student.info', Crypt::encrypt($v->studentId)) }}" class="btn btn-info btn-sm"> Info</a></td>
                       </tr>
                       @endforeach 
                       </tbody>

@@ -8,6 +8,8 @@ use App\Http\Requests;
 
 use App\District,App\Block;
 
+use Auth,Crypt,Redirect,DB,Validator; 
+
 class SchoolsController extends Controller
 {
     public function index() {
@@ -22,12 +24,12 @@ class SchoolsController extends Controller
     }
 
     public function store(Request $request) {
-    	$validator = Validator::make($data = $request->all(), BudgetHead::$rules);
+    	$validator = Validator::make($data = $request->all(), School::$rules);
         if ($validator->fails()) return Redirect::back()->withErrors($validator)->withInput();
 
         $data['created_by'] = Auth::guard('accounts_user')->user()->id;
     	$message = '';
-    	if(BudgetHead::create($data)) {
+    	if(School::create($data)) {
             $message .= 'Budget head added successfully !';
         }else{
             $message .= 'Unable to add budget head !';

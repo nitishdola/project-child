@@ -15,8 +15,13 @@ class ApiController extends Controller
     		return SubDisease::select('id', 'name')->orderBy('name')->where('disease_id', $_GET['disease_id'])->get();
     	}
     }
+
     public function studentList() {
-    	return DB::table('students')->whereStatus(1)->select('id', 'name', 'registration_number')->get();	
+    	$status = 1;
+    	if(isset($_GET['status']) && $_GET['status'] != '') {
+    		$status = $_GET['status'];
+    	}
+    	return DB::table('students')->whereStatus($status)->select('id', 'name as desc')->get();
     }
     
 }

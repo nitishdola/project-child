@@ -14,7 +14,7 @@ table thead {
 
 @section('main_content')
 <div id="pcont" class="container-fluid">
-    
+
       <div class="container-fluid">
         <div class="page-head">
           <h2>Reports Result :</h2>
@@ -41,7 +41,7 @@ table thead {
                           <div class="radio"><label><input type="radio" @if($sex == 'female') checked="checked" @endif name="sex" value="female" class="icheck"> Female</label></div>
                        </div>
                     </div>
-                    
+
                </div>
             </div>
 
@@ -84,8 +84,15 @@ table thead {
 
        <div class="stats_bar container-fluid">
           @if(count($results))
-          <?php $count = 1; 
+          <?php $count = 1;
           ?>
+          <div class="col-md-5 pull-right">
+            <strong>BMI</strong> :
+                  <button class="btn underweight">0 - 18.5 <br> ( Underweight )</button>
+                  <button class="btn btn-success">18.5 - 24.9 <br> ( Healthy weight )</button>
+                  <button class="btn btn-warning">25 - 29.9 <br>( Overweught )</button>
+                  <button class="btn btn-danger">30 - <br> (Obese)</button>
+          </div>
 
           <table class="table table-hover">
             <thead>
@@ -110,13 +117,13 @@ table thead {
               <td> {{ $v->height }} </td>
               <td> {{ $v->weight }} </td>
 
-             <?php 
+             <?php
              if($v->height > 0){
                  //BMI
                  $bmi = $v->weight/( ($v->height/100)*($v->height/100) );
                  $class = 'btn-info';
                  if($bmi < 18.5 ) {
-                  $class = 'btn-warning';
+                  $class = 'underweight';
                  }else if($bmi>=18.5 && $bmi <=24.9) {
                   $class = 'btn-success';
                  }else if($bmi>=25 && $bmi <=29.9) {
@@ -126,18 +133,18 @@ table thead {
                  }
               }else{
                 $bmi = 10.00;
-                $class = 'btn-warning';
+                $class = 'noresult';
               }
              ?>
-             <td> 
+             <td>
 
              <button class="btn {{ $class}} btn-xs">{{ number_format((float)$bmi, 2, '.', '') }} </button>
 
              </td>
-              <td> <a href="{{ route('student.info', Crypt::encrypt($v->studentId)) }}" class="btn btn-info btn-sm"><i class="fa fa-info-circle" aria-hidden="true"></i> Info</a></td>
+              <td> <a href="{{ route('student.info', Crypt::encrypt($v->studentId)) }}" target="_blank" class="btn btn-info btn-sm"><i class="fa fa-info-circle" aria-hidden="true"></i> Info</a></td>
             </tr>
             @endif
-            @endforeach 
+            @endforeach
             </tbody>
           </table>
 
@@ -151,7 +158,7 @@ table thead {
             No Items Found !
           </div>
           @endif
-       </div>  
+       </div>
     </div>
  </div>
 @endsection
@@ -161,7 +168,7 @@ table thead {
 <script>
 $(document).ready(function() {
   $disease_id = $('#disease_id').val();
-  if($disease_id > 0) 
+  if($disease_id > 0)
   prepareSubDiseaseList($disease_id);
 });
 $('#disease_id').change(function() {
@@ -208,13 +215,12 @@ function prepareSubDiseaseList() {
             }else{
               html += '<option value="'+val.id+'">'+val.name+'</option>';
             }
-            
+
         });
         $('#sub_disease_id').html(html);
       }
-      
+
     }
 }
 </script>
 @stop
-
