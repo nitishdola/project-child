@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 
 use Auth,Crypt,Redirect,DB,Validator;
-use App\Student, App\Checkup, App\School, App\BloodGroup;
+use App\Student, App\Checkup, App\School, App\BloodGroup, App\CheckupFinding;
 
 class StudentsController extends Controller
 {
@@ -113,7 +113,7 @@ class StudentsController extends Controller
 
     public function viewInfo($student_id = NULL) {
     	$student_id 	= Crypt::decrypt($student_id);
-    	$student_info 	= Student::findOrFail($student_id);
+    	$student_info 	= Student::whereId($student_id)->with('blood_group')->first();
     	
     	$last_checkup   = Checkup::where('student_id', $student_id)->orderBy('checkup_date', 'DESC')->first();
 
@@ -128,6 +128,8 @@ class StudentsController extends Controller
 	            ->where('checkup_id', $last_checkup->id)
 	            ->orderBy('checkups.checkup_date', 'DESC')
 	            ->get();
+
+            $findings = CheckupFinding::where('checkup_id', $last_checkup->id)->get();
 	    endif;
 
         $first_disease = $diseases[0]->subDiseaseName;
@@ -153,6 +155,10 @@ class StudentsController extends Controller
             ->where('students.id', '!=', $student_id)
             ->orderBy('students.name')
             ->select('students.name as studentName','students.id as studentId', 'students.sex', 'checkups.checkup_date as checkup_date', 'checkups.class as class','checkups.height as height', 'checkups.weight as weight')->paginate(30);
-        return view('admin.students.info', compact('student_info', 'diseases', 'last_checkup','similar_students', 'first_disease' ));
+        return view('admin.students.info', compact('student_info', 'diseases', 'last_checkup','similar_students', 'first_disease', 'findings' ));
+    }
+
+    public function printView() {
+        return view('admin.students.print_report');
     }
 }

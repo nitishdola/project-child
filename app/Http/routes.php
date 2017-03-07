@@ -43,6 +43,12 @@ Route::group(['prefix'=>'student'], function() {
         'uses' => 'StudentsController@viewInfo'
     ]);
 
+    Route::get('/print-view/{student_id}', [
+        'as' => 'student.print',
+        'middleware' => ['admin'],
+        'uses' => 'StudentsController@printView'
+    ]);
+
     Route::get('/create', [
         'as' => 'student.create',
         'middleware' => ['admin'],

@@ -56,6 +56,12 @@ label.star:before {
 	color: #5A88AD;
 }
 
+.fa-calendar {
+  color: #60C060;
+}
+.fa-genderless {
+  color: #F60707;
+}
 .table-fixed{
   height: 490px;
   overflow-y: auto;
@@ -220,9 +226,18 @@ label.star:before {
   text-align: left;
   transition-duration: 3s;
 }
+.info-box {
+-webkit-box-shadow: 1px 2px 8px -45px rgba(102,102,102,0.62);
+-moz-box-shadow: 1px 2px 8px -45px rgba(102,102,102,0.62);
+box-shadow: 1px 2px 8px -45px rgba(102,102,102,0.62);
+-moz-border-radius:5px;
+-webkit-border-radius:5px;
+border-radius:5px;
+}
 </style>
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css" />
 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.13/css/dataTables.bootstrap.min.css" />
+
 @stop
 
 @section('main_content')
@@ -243,12 +258,17 @@ label.star:before {
                 </h4>
             </div>
 
-            <div class="col-md-6">
-              Checkup Date : <strong><i class="fa fa-calendar-check-o" aria-hidden="true"></i> {{ date('d F Y', strtotime($last_checkup->checkup_date))  }}</strong>
+            <div class="col-md-3 left-align">
+              <i class="fa fa-calendar" aria-hidden="true"></i> DOB {{ date('d/m/Y', strtotime($student_info->dob)) }}
             </div>
 
+            <div class="col-md-9">
+              <i class="fa fa-genderless" aria-hidden="true"></i> Blood Grop {{ $student_info->blood_group['name'] }}
+            </div>
+            
+
           </div>
-       		<div class="col-md-12 block-flat">
+       		<div class="col-md-12 block-flat info-box">
        			<div class="col-md-3">
        				<img src="{{ asset('assets/img/icons/littlebill.png')}}" class="img-responsive" height="650" width="650">
        			</div>
@@ -288,22 +308,14 @@ label.star:before {
                 </div> 
        				</div>
             </div>
+
+            <div class="col-md-6">
+              Checkup Date : <strong><i class="fa fa-calendar-check-o" aria-hidden="true"></i> {{ date('d F Y', strtotime($last_checkup->checkup_date))  }}</strong>
+            </div>
           </div>
 
-       		<div class="col-md-12">
-     				<div class="alert alert-success alert-white rounded">
-              <div class="icon"><i class="fa fa-stethoscope"></i></div><strong>Health Summary</strong>
-            </div>
-            <h4>Additional ECG. regular Opththalmogosist, dentist care.</h4>
-
-            <div id="piechart_3d" style="width: 900px; height: 500px;"></div>
-
-       		</div>
-        </div>
-        <!--leaft block ends-->
-        <!--similar students block begins-->
-        <div class="col-sm-5 col-md-5">
-          <div class="block-flat">
+          <div class="col-md-12 block-flat info-box">
+            <div class="block-flat">
               <div class="header">
                 <h3> Other students ( Same Class ) </h3>
               </div>
@@ -369,6 +381,50 @@ label.star:before {
                 @endif
               </div>
           </div>
+          </div>
+        </div>
+        <!--leaft block ends-->
+        <!--similar students block begins-->
+        <div class="col-sm-5 col-md-5 block-flat info-box">
+
+          <div class="col-md-12 block-flat info-box">
+            
+            @if(count($findings))
+              <div class="alert alert-success alert-white rounded">
+                <div class="icon"><i class="fa fa-stethoscope"></i></div><strong>Health Summary/Findings</strong>
+              </div>
+
+              @foreach($findings as $$k => $v)
+                <h4> {{ $v->finding }} </h4>
+              @endforeach
+            @else 
+            <div class="alert alert-warning alert-white rounded">
+              <div class="icon"><i class="fa fa-info-circle"></i></div><strong>No Findings Found !</strong>
+            </div>
+            @endif
+          </div>
+
+          <div class="col-md-12 block-flat info-box">
+            <div class="alert alert-success alert-white rounded">
+              <div class="icon"><i class="fa fa-stethoscope"></i></div><strong>Health Report</strong>
+            </div>
+
+            <div class="progress-factor flexy-item">
+    <div class="progress-bar">
+      <div class="bar has-rotation has-colors navy ruler" role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" id="bar-0_0">
+        <div class="tooltip white"></div>
+        <div class="bar-face face-position roof percentage"></div>
+        <div class="bar-face face-position back percentage"></div>
+        <div class="bar-face face-position floor percentage volume-lights"></div>
+        <div class="bar-face face-position left"></div>
+        <div class="bar-face face-position right"></div>
+        <div class="bar-face face-position front percentage volume-lights shine"></div>
+      </div>
+    </div>
+  </div>
+           <!--  <div id="container" style="min-width: 310px; height: 400px; max-width: 1200px; margin: 0 auto"></div> -->
+
+          </div>
         </div>
 
       </div>
@@ -389,81 +445,16 @@ label.star:before {
 <script src="http://ajax.aspnetcdn.com/ajax/modernizr/modernizr-2.8.3.js"></script>
 <script src="http://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
 
-<!-- Ignite UI Required Combined JavaScript Files -->
-<script src="http://cdn-na.infragistics.com/igniteui/2016.2/latest/js/infragistics.core.js"></script>
-<script src="http://cdn-na.infragistics.com/igniteui/2016.2/latest/js/infragistics.dv.js"></script>
-
 <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js" type="text/javascript"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.13/js/dataTables.bootstrap.min.js" type="text/javascript"></script>
 
-<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-
 <script>
-	$("#bulletgraph").igBulletGraph({
-    height: "80px",
-    width: "100%",
-    minimumValue: 0, // default is 0
-    maximumValue: 31, // default is 100
-    interval: 5,
-    value: 17,
-    //targetValue: 21,
-    ranges: [
-        {
-            name: 'obese',
-            startValue: 30,
-            endValue: 50,
-            color: "red"
-        },
-        {
-            name: 'underweight',
-            startValue: 0,
-            endValue: 18.5,
-            color: "#D97B16"
-        },
-        {
-            name: 'good',
-            startValue: 18.5,
-            endValue: 24.99999,
-            color : "green"
-        },
-        {
-            name: 'overweight',
-            startValue: 25,
-            endValue: 29.99999,
-            color : "#D64C0F"
-        }
-        ], 
-    formatLabel: function (evt, ui) {
-            ui.label = ui.label;
-        }
-});
 
 $('#datatable').DataTable( {
-        "paging":   false,
-        "ordering": false,
-        "info":     false
-    } );
-
-var disease = '{{ $first_disease }}';
-
-google.charts.load("current", {packages:["corechart"]});
-google.charts.setOnLoadCallback(drawChart);
-function drawChart() {
-  var data = google.visualization.arrayToDataTable([
-    ['Task', 'Disease Chart : '],
-    ['Class',     11],
-    ['Section',      2],
-    ['School',  2]
-  ]);
-
-  var options = {
-    title: 'Disease',
-    is3D: true,
-  };
-
-  var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
-  chart.draw(data, options);
-}
+    "paging":   false,
+    "ordering": false,
+    "info":     false
+} );
 
 //jQuery('.scrollbar-outer').scrollbar();
 
@@ -472,5 +463,68 @@ $('.progress .progress-bar').css("width",
       return $(this).attr("aria-valuenow") + "%";
   }
 )
+</script>
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script>
+Highcharts.getOptions().colors = Highcharts.map(Highcharts.getOptions().colors, function (color) {
+    return {
+        radialGradient: {
+            cx: 0.5,
+            cy: 0.3,
+            r: 0.7
+        },
+        stops: [
+            [0, color],
+            [1, Highcharts.Color(color).brighten(-0.3).get('rgb')] // darken
+        ]
+    };
+});
+
+// Build the chart
+Highcharts.chart('container', {
+    chart: {
+        plotBackgroundColor: null,
+        plotBorderWidth: null,
+        plotShadow: false,
+        type: 'pie'
+    },
+    title: {
+        text: 'Browser market shares. January, 2015 to May, 2015'
+    },
+    tooltip: {
+        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+    },
+    plotOptions: {
+        pie: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            dataLabels: {
+                enabled: true,
+                format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                style: {
+                    color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                },
+                connectorColor: 'silver'
+            }
+        }
+    },
+    series: [{
+        name: 'Brands',
+        data: [
+            { name: 'Microsoft', y: 56.33 },
+            {
+                name: 'Chrome',
+                y: 24.03,
+                sliced: true,
+                selected: true
+            },
+            { name: 'Firefox', y: 10.38 },
+            { name: 'Safari', y: 4.77 }, { name: 'Opera', y: 0.91 },
+            { name: 'Proprietary or Undetectable', y: 0.2 }
+        ]
+    }]
+});
 </script>
 @stop
