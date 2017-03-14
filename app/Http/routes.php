@@ -98,6 +98,18 @@ Route::group(['prefix'=>'checkup'], function() {
         'middleware' => ['admin'],
         'uses' => 'CheckupsController@postCheckup'
     ]);
+
+    Route::get('/edit/{check_id}', [
+        'as' => 'checkup.edit',
+        'middleware' => ['admin'],
+        'uses' => 'CheckupsController@editCheckup'
+    ]);
+
+    Route::get('/update/{check_id}', [
+        'as' => 'checkup.update',
+        'middleware' => ['admin'],
+        'uses' => 'CheckupsController@updateCheckup'
+    ]);
 });
 
 Route::group(['prefix'=>'reports'], function() {

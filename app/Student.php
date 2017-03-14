@@ -31,4 +31,6 @@ class Student extends Model
     {
         return $this->belongsTo('App\BloodGroup', 'blood_group_id');
     }
+
+    
 }

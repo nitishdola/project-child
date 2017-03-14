@@ -394,7 +394,7 @@ border-radius:5px;
                 <div class="icon"><i class="fa fa-stethoscope"></i></div><strong>Health Summary/Findings</strong>
               </div>
 
-              @foreach($findings as $$k => $v)
+              @foreach($findings as $k => $v)
                 <h4> {{ $v->finding }} </h4>
               @endforeach
             @else 
@@ -406,22 +406,26 @@ border-radius:5px;
 
           <div class="col-md-12 block-flat info-box">
             <div class="alert alert-success alert-white rounded">
-              <div class="icon"><i class="fa fa-stethoscope"></i></div><strong>Health Report</strong>
+              <div class="icon"><i class="fa fa-stethoscope"></i></div><strong>Vaccination Report</strong>
+              @foreach($vaccinations as $k => $v)
+                <h4> {{ $v->vaccine['name'] }} </h4>
+              @endforeach
+
             </div>
 
             <div class="progress-factor flexy-item">
-    <div class="progress-bar">
-      <div class="bar has-rotation has-colors navy ruler" role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" id="bar-0_0">
-        <div class="tooltip white"></div>
-        <div class="bar-face face-position roof percentage"></div>
-        <div class="bar-face face-position back percentage"></div>
-        <div class="bar-face face-position floor percentage volume-lights"></div>
-        <div class="bar-face face-position left"></div>
-        <div class="bar-face face-position right"></div>
-        <div class="bar-face face-position front percentage volume-lights shine"></div>
-      </div>
-    </div>
-  </div>
+              <div class="progress-bar">
+                <div class="bar has-rotation has-colors navy ruler" role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" id="bar-0_0">
+                  <div class="tooltip white"></div>
+                  <div class="bar-face face-position roof percentage"></div>
+                  <div class="bar-face face-position back percentage"></div>
+                  <div class="bar-face face-position floor percentage volume-lights"></div>
+                  <div class="bar-face face-position left"></div>
+                  <div class="bar-face face-position right"></div>
+                  <div class="bar-face face-position front percentage volume-lights shine"></div>
+                </div>
+              </div>
+            </div>
            <!--  <div id="container" style="min-width: 310px; height: 400px; max-width: 1200px; margin: 0 auto"></div> -->
 
           </div>

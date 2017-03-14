@@ -23,4 +23,13 @@ class Checkup extends Model
 	{
 		return $this->belongsTo('App\Student', 'student_id');
 	}
+
+    public function findings()
+    {
+        return $this->hasMany('App\CheckupFinding');
+    }
+
+    public function checkup_disease() {
+        return $this->hasMany('App\CheckupDisease');
+    }
 }

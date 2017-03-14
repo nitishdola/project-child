@@ -9,13 +9,31 @@
             <div class="header">
                <h3>Checkup</h3>
             </div>
-            {!! Form::open(array('route' => 'checkup.post', 'id' => 'checkup.post', 'class' => 'form-horizontal row-border')) !!}
+            {!! Form::model($checkup, array('route' => ['checkup.post', $checkup->id], 'id' => 'checkup.post', 'class' => 'form-horizontal row-border')) !!}
                 <div class="content">
     			    @include('admin.checkups._form')
     			</div>
     			<hr>
     			<div class="content">
     			    @include('admin.checkups._health_form')
+
+    			    @foreach($checkup_diseases as $cd)
+    			    <div class="form-group {{ $errors->has('disease_id') ? 'has-error' : ''}}">
+						{!! Form::label('disease_id', 'Select Disease', array('class' => 'col-md-3 control-label')) !!}
+						<div class="col-md-5">
+							{!! Form::select('disease_id[]', $diseases, $cd->disease_id, ['class' => 'form-control disease-lists', 'id' => 'disease_id', 'placeholder' => 'Select Disease']) !!}
+						</div>
+						{!! $errors->first('disease_id', '<span class="help-inline">:message</span>') !!}
+					</div>
+
+					<div class="form-group {{ $errors->has('sub_disease_id') ? 'has-error' : ''}}">
+						<label class="col-md-3 control-label"> Select Sub Disease <div class="lblmsg">**Hold &lt;Ctrl&gt; key to select multiple sub disease(s)</div> </label>
+						<div class="col-md-5">
+							<select class="sub-disease-lists form-control" multiple="" name="sub_diseases[]">
+							</select>
+						</div>
+					</div>
+    			    @endforeach
     			</div>
                 <hr>
                 <div class="content" style="background: #F9F3D9; padding-bottom: 10px;">
@@ -101,53 +119,5 @@ function render_ui(resp,$last_div) {
     console.log(html);
     $last_div.find('.sub-disease-lists').html(html);
 }
-
-var url = '';
-url += "{{ route('api.student_list') }}";
-console.log(url);
-
-
-    var searchTerm = null;
-    // Remote data example
-    var remoteDataConfig = {
-        placeholder: "Search for an option...",
-        minimumInputLength: 3,
-        ajax: {
-            url: url,
-            dataType: 'json',
-            data: function (term, page) {
-                // Nothing sent to server side. Mock example setup.
-                searchTerm = term.toUpperCase();
-            },
-            results: function (data, page) {
-                // Normally server side logic would parse your JSON string from your data returned above then return results here that match your search term. In this case just returning 2 mock options.
-                console.log(data);
-                return {
-                    results: getMockData( data )
-                };
-            }
-        },
-        formatResult: function (option) {
-            return "<div>" + option.desc + "</div>";
-        },
-        formatSelection: function (option) {
-            return option.desc;
-        }
-    };
-
-    function getMockData( mockData ) {
-
-        var foundOptions = [];
-
-        for (var key in mockData) {
-            if (mockData[key].desc.toUpperCase().indexOf(searchTerm) >= 0) {
-                foundOptions.push(mockData[key]);
-            }
-        }
-
-        return foundOptions;
-    };
-
-    $("#student_id").select2(remoteDataConfig);
 </script>
 @stop
