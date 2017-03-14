@@ -226,20 +226,28 @@
               <div class="block-transparent">
                   <div class="header">
                       <h4>Vaccinations</h4></div>
-                  <div class="list-group todo list-widget">
+                      @if(count($vaccinations))
+                      <div class="list-group todo list-widget">
                       @foreach($vaccinations as $k => $v)
                       <li href="#" class="list-group-item"><span class="date"><i class="fa fa-clock-o"></i> {{ $v->vaccine['name'] }}
                       </span> {{ $v->vaccine['dose_number'] }} Dose </li>
                       @endforeach
-                  </div>
+                      </div>
+                      @else
+                      <h6>No Vaccinations Found</h6>
+                      @endif
               </div>
               <div class="block-transparent">
                   <div class="header dark">
                       <h4>Boosters</h4></div>
-                  <div class="list-group todo list-widget">
+                      @if(count($vaccinations))
+                      <div class="list-group todo list-widget">
                       @foreach($vaccinations as $k => $v)
                       <li href="#" class="list-group-item"><span class="date" {{ $v->vaccine['name'] }} </li>
                       @endforeach
+                      @else
+                      <h6>No Boosters Found </h6>
+                      @endif
                   </div>
               </div>
           </div>

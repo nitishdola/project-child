@@ -144,7 +144,7 @@ table thead {
              </td>
               <td> <a href="{{ route('student.info', Crypt::encrypt($v->studentId)) }}" target="_blank" class="btn btn-info btn-sm"><i class="fa fa-info-circle" aria-hidden="true"></i> Info</a></td>
 
-              <td> <a href="{{ route('student.info', Crypt::encrypt($v->studentId)) }}" target="_blank" class="btn btn-info btn-sm"><i class="fa fa-print" aria-hidden="true"></i> Print</a></td>
+              <td> <a href="{{ route('student.print', Crypt::encrypt($v->studentId)) }}" target="_blank" class="btn btn-info btn-sm"><i class="fa fa-print" aria-hidden="true"></i> Print</a></td>
 
             </tr>
             @endif

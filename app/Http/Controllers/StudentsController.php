@@ -167,7 +167,9 @@ class StudentsController extends Controller
         
         $last_checkup   = Checkup::where('student_id', $student_id)->orderBy('checkup_date', 'DESC')->first();
 
-        $all_checkups   = Checkup::where('student_id', $student_id)->with('findings', 'checkup_disease', 'checkup_disease.disease', 'checkup_disease.sub_disease')->orderBy('checkup_date', 'DESC')->get(); 
+        $all_checkups   = Checkup::where('student_id', $student_id)->with('findings', 'checkup_disease', 'checkup_disease.disease', 'checkup_disease.sub_disease')
+        ->where('id', '!=', $last_checkup->id)
+        ->orderBy('checkup_date', 'DESC')->get(); 
         //dd($all_checkups);
         if(count($last_checkup)):
             $diseases = DB::table('checkup_diseases')
