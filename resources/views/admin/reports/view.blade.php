@@ -30,7 +30,14 @@ table thead {
                     <div class="form-group">
                        {!! Form::label('class', 'Select Class', array('class' => 'col-sm-3 control-label')) !!}
                        <div class="col-sm-9">
-                          {!! Form::text('class', $class, ['class' => 'form-control', 'id' => 'class', 'placeholder' => 'Enter Class' ]) !!}
+                          {!! Form::select('class', $classes, $class, ['class' => 'form-control', 'id' => 'class', 'placeholder' => 'Enter Class' ]) !!}
+                       </div>
+                    </div>
+
+                    <div class="form-group section-deps" id="sectionHolder">
+                       {!! Form::label('section', 'Select Section', array('class' => 'col-sm-3 control-label')) !!}
+                       <div class="col-sm-9">
+                          <select name="section" id="section" class="form-control"></select>
                        </div>
                     </div>
 
@@ -99,12 +106,15 @@ table thead {
               <tr>
                 <th> # </th>
                 <th> Student Name </th>
+                <th> Reg Number </th>
+                <th> Gender </th>
                 <th> Class </th>
+                <th> Section/Semester </th>
                 <th> Height </th>
                 <th> Weight </th>
                 <th> BMI </th>
-                <th> View Details </th>
-                <th> Print </th>
+               <!--  <th> View Details </th> -->
+                <th> View/Print </th>
               </tr>
             </thead>
 
@@ -114,7 +124,13 @@ table thead {
             <tr>
               <td> {{ (($results->currentPage() - 1 ) * $results->perPage() ) + $count + $k }} </td>
               <td> {{ $v->studentName }} </td>
+              <td> {{ $v->registration_number }}</td>
+              <td> {{ $v->sex }} </td>
               <td> {{ $v->class }} </td>
+              <td>
+              {{ $v->section }}
+              {{ $v->stream }}
+              </td>
               <td> {{ $v->height }} </td>
               <td> {{ $v->weight }} </td>
 
@@ -142,9 +158,9 @@ table thead {
              <button class="btn {{ $class}} btn-xs">{{ number_format((float)$bmi, 2, '.', '') }} </button>
 
              </td>
-              <td> <a href="{{ route('student.info', Crypt::encrypt($v->studentId)) }}" target="_blank" class="btn btn-info btn-sm"><i class="fa fa-info-circle" aria-hidden="true"></i> Info</a></td>
+              <!-- <td> <a href="{{ route('student.info', Crypt::encrypt($v->studentId)) }}" target="_blank" class="btn btn-info btn-sm"><i class="fa fa-info-circle" aria-hidden="true"></i> Info</a></td> -->
 
-              <td> <a href="{{ route('student.print', Crypt::encrypt($v->studentId)) }}" target="_blank" class="btn btn-info btn-sm"><i class="fa fa-print" aria-hidden="true"></i> Print</a></td>
+              <td> <a href="{{ route('student.print', Crypt::encrypt($v->studentId)) }}" target="_blank" class="btn btn-info btn-sm"><i class="fa fa-print" aria-hidden="true"></i> View/Print</a></td>
 
             </tr>
             @endif
@@ -174,6 +190,7 @@ $(document).ready(function() {
   $disease_id = $('#disease_id').val();
   if($disease_id > 0)
   prepareSubDiseaseList($disease_id);
+  render_section_data();
 });
 $('#disease_id').change(function() {
   $disease_id = $('#disease_id').val();
@@ -226,5 +243,116 @@ function prepareSubDiseaseList() {
 
     }
 }
+
+$('#class').change(function() {
+    $class = $(this).val();
+    if($class > 0) {
+      render_section_data($class);
+    }
+  });
+
+function render_section_data() {
+  $class = $('#class').val();
+  if($class > 0) {
+    var data = '';
+    var url  = '';
+
+    data += '&class_id='+$class;
+    url  += "{{ route('api.get_class_subs') }}";
+
+    $.ajax({
+      data : data,
+      type : 'get',
+      dataType : 'json',
+      url  : url,
+
+      error : function(resp) {
+        //alert('Error');
+        $('#semesterHolder').hide();
+        $('#sectionHolder').hide();
+        $('#streamHolder').hide();
+      },
+
+      success : function(resp) {
+        console.log(resp);
+        if(resp.type == 'section') {
+          renderSection(resp.data);
+        }else if(resp.type == 'semester') {
+          renderSemester(resp.data);
+        }else if(resp.type == 'stream') {
+          renderStream(resp.data);
+        }
+        // else if(resp.type == 'branch') {
+        //   renderBranch(resp.data);
+        // }
+      }
+
+    });
+  }
+}
+
+function renderSection(data) {
+    section = "{{ $section }}";
+    html = '';
+    html += '<option value="">Select Section</option>';
+    $.each(data, function(key,val){
+        if( section!= '') {
+          if(section == val.name) {
+            html += '<option selected="selected" value="'+val.name+'">'+val.name+'</option>';    
+          }
+        }
+        html += '<option value="'+val.name+'">'+val.name+'</option>';
+    });
+
+    $('#streamHolder').hide();
+    $('#semesterHolder').hide();
+
+    $('#sectionHolder').show();
+    $('#section').html(html);
+  }
+
+  function renderSemester(data) {
+    semester = "{{ $semester }}";
+    html = '';
+    html += '<option value="">Select Semester</option>';
+    $.each(data, function(key,val){
+        if( semester!= '') {
+          if(semester == val.name) {
+            html += '<option selected="selected" value="'+val.name+'">'+val.name+'</option>';    
+          }
+        }
+        html += '<option value="'+val.name+'">'+val.name+'</option>';
+    });
+
+    $('#streamHolder').hide();
+    $('#sectionHolder').hide();
+
+    $('#semesterHolder').show();
+    $('#semester').html(html);
+  }
+
+  function renderStream(data) {
+    html = '';
+    html += '<option value="">Select Stream</option>';
+    $.each(data, function(key,val){
+        html += '<option value="'+val.name+'">'+val.name+'</option>';
+    });
+
+    $('#semesterHolder').hide();
+    $('#sectionHolder').hide();
+    
+    $('#streamHolder').show();
+    $('#stream').html(html);
+  }
+
+  function renderBranch(data) {
+    html = '';
+    html += '<option value="">Select Branch</option>';
+    $.each(data, function(key,val){
+        html += '<option value="'+val.name+'">'+val.name+'</option>';
+    });
+    $('#branchHolder').show();
+    $('#branch').html(html);
+  }
 </script>
 @stop

@@ -144,4 +144,9 @@ Route::group(['prefix'=>'api'], function() {
         'as' => 'api.student_list',
         'uses' => 'ApiController@studentList'
     ]);
+
+    Route::get('/get-class-subs', [
+        'as' => 'api.get_class_subs',
+        'uses' => 'ApiController@getClassSubs'
+    ]);
 });

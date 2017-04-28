@@ -22,9 +22,9 @@
   <div class="disease-list">
   
     <div class="form-group {{ $errors->has('disease_id') ? 'has-error' : ''}}">
-      {!! Form::label('disease_id', 'Select Disease', array('class' => 'col-md-3 control-label')) !!}
+      {!! Form::label('disease_id', 'Select Organ', array('class' => 'col-md-3 control-label')) !!}
       <div class="col-md-5">
-        {!! Form::select('disease_id[]', $diseases, null, ['class' => 'form-control disease-lists', 'id' => 'disease_id', 'placeholder' => 'Select Disease']) !!}
+        {!! Form::select('disease_id[]', $diseases, null, ['class' => 'form-control disease-lists', 'id' => 'disease_id', 'placeholder' => 'Select Organ']) !!}
       </div>
       {!! $errors->first('disease_id', '<span class="help-inline">:message</span>') !!}
     </div>

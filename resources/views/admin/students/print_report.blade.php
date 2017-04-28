@@ -28,11 +28,18 @@
 .fa-puzzle-piece {
   color: #E5C40C;
 }
+
+@media print {
+  .printrow {
+    display: none;
+  }
+}
 </style>
 @stop
 
 
-@section('main_content')
+@section('main_content') 
+
 <div id="pcont" class="container-fluid">
   <div class="cl-mcont">
       <div class="row">
@@ -52,7 +59,7 @@
                       </div>
 
                       <div class="col-xs-5" style="text-align: left;">
-                        <h5><i class="fa fa-genderless" aria-hidden="true"></i> Blood Grop {{ $student_info->blood_group['name'] }}</h5>
+                        <h5><i class="fa fa-genderless" aria-hidden="true"></i> Blood Group {{ $student_info->blood_group['name'] }}</h5>
                         
                         <h5><i class="fa fa-upload" aria-hidden="true"></i> {{ $last_checkup->weight }} kg</h5>
                         <h5><i class="fa fa-universal-access" aria-hidden="true"></i> {{ $last_checkup->height }} centi meters</h5>
@@ -73,7 +80,7 @@
                           }
                         ?>
 
-                        <h5> <button type="button" class="btn btn-default btn-flat bg {{ $bmi_class }}"><span>BMI {{ number_format((float)$student_bmi, 2, '.', '') }}</span></button> </h5>
+                        <h5> <button type="button" class="btn {{ $bmi_class }}"><span style="color: #FFF; font-weight: bold;">BMI {{ number_format((float)$student_bmi, 2, '.', '') }}</span></button> </h5>
 
                         
 
@@ -87,7 +94,7 @@
               <div class="tab-container">
                   <ul class="nav nav-tabs">
                       <li class="active"><a data-toggle="tab" href="#home">Information</a></li>
-                      <li><a data-toggle="tab" href="#disease">Diseases</a></li>
+                      <li><a data-toggle="tab" href="#disease">Organ System</a></li>
                       <li><a data-toggle="tab" href="#findings">Findings</a></li>
                   </ul>
                   <div class="tab-content">
@@ -171,10 +178,10 @@
                       </div>
                       <div id="findings" class="tab-pane">
                         <h3 class="widget-title">Findings</h3>
-                          @if(count($findings))
-                         @foreach($findings as $k => $v)
+                        @if(count($diseases))
+                         @foreach($diseases as $k => $v)
                          <div class="friend-widget">
-                              <h4>{{ ucfirst($disese->finding) }}</h4>
+                              <h4>{{ ucfirst($v->description) }}</h4>
                           </div>
                          @endforeach   
                          @else
@@ -185,37 +192,29 @@
                   </div>
               </div>
               <div class="block-transparent">
+
+
                   <div class="header">
-                      <h4>Checkup History</h4></div>
-                  <ul class="timeline">
+                      <h4>Checkup Records</h4></div>
+                  <ul class="timelines">
                     @if(count($all_checkups))
-                    @foreach($all_checkups as $checkup)
-                      <li><i class="fa fa-snowflake-o" aria-hidden="true"></i><span class="date">{{ date('d M y', strtotime($checkup->checkup_date)) }} </span>
-                          
-                          @if($checkup->findings)
-                          <div class="content">
-                            @foreach($checkup->findings as $finding)
-                            <h6> <strong>Findings</strong> </h6>
-                            <p> {{ $finding->finding }} </p>
-                            @endforeach
-                          </div>
-                          @endif
+                    @foreach($all_checkups as $key => $h)
+                      <li><span class="date"><b>{{ date('d-m-Y', strtotime($h->checkup_date)) }}</b> Height : {{$h->height}} CM Weight : {{$h->weight}} kilo grams</span>
+                        @if($h->remarks)
+                        <div class="content">
+                          @foreach($h->checkup_disease as $checkup_disease)
+                            <strong> Organ System  </strong> <b>{{ $checkup_disease->sub_disease->disease['name'] }}</b>
+                            <strong> Disease  </strong> <b>{{ $checkup_disease->sub_disease['name'] }}</b>
+                          @endforeach
+                          <h6> <strong>Findings/Remarks</strong>  <b>{{ $h->remarks }}</b></h6>
 
-                          @if($checkup->checkup_disease)
-                          <div class="content">
-                            @foreach($checkup->checkup_disease as $disease)
-                            <h6> <strong>Diseases</strong> </h6>
-                            <p> {{ $disease->sub_disease['name'] }} </p>
-                            @endforeach
-                          </div>
-                          @endif
-
+                        </div>
+                        @endif
                       </li>
                     @endforeach
                     @else
-                      <div class="alert alert-info">
-                      <h4>No Previous Checkups Found !</h4>
-                      </div>
+                      <h5>No Checkup history were found ! </h5>
+
                     @endif
                       
                   </ul>
@@ -225,7 +224,11 @@
               
               <div class="block-transparent">
                   <div class="header">
-                      <h4>Vaccinations</h4></div>
+                      
+                      <div class="alert alert-success alert-white rounded">
+                        <div class="icon"><i class="fa fa-stethoscope"></i></div><h4>Vaccinations</h4>
+                      </div>
+                    </div>
                       @if(count($vaccinations))
                       <div class="list-group todo list-widget">
                       @foreach($vaccinations as $k => $v)
@@ -237,21 +240,109 @@
                       <h6>No Vaccinations Found</h6>
                       @endif
               </div>
-              <div class="block-transparent">
-                  <div class="header dark">
-                      <h4>Boosters</h4></div>
-                      @if(count($vaccinations))
-                      <div class="list-group todo list-widget">
-                      @foreach($vaccinations as $k => $v)
-                      <li href="#" class="list-group-item"><span class="date" {{ $v->vaccine['name'] }} </li>
-                      @endforeach
-                      @else
-                      <h6>No Boosters Found </h6>
-                      @endif
-                  </div>
+
+
               </div>
+
+              <!-- <div class="block-transparent">
+                    <div id="container" style="min-width: 310px; min-height: 300px; max-width: 1200px; margin: 0 auto"></div> -->
+          </div>
+
+          <div class="row printrow">
+              <div class="col-md-8"></div>
+              <div class="col-md-4"><buttn type='button' class="btn btn-success" onclick='printDiv();'><i class="fa fa-print" aria-hidden="true"></i> Print</buttn></div>
           </div>
       </div>
+      
   </div>
 </div>
+
+
+@stop
+
+
+
+@section('page_scripts')
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script>
+Highcharts.getOptions().colors = Highcharts.map(Highcharts.getOptions().colors, function (color) {
+    return {
+        radialGradient: {
+            cx: 0.5,
+            cy: 0.3,
+            r: 0.7
+        },
+        stops: [
+            [0, color],
+            [1, Highcharts.Color(color).brighten(-0.3).get('rgb')] // darken
+        ]
+    };
+});
+
+// Build the chart
+Highcharts.chart('container', {
+    chart: {
+        plotBackgroundColor: null,
+        plotBorderWidth: null,
+        plotShadow: false,
+        type: 'pie'
+    },
+    title: {
+        text: 'Disease Percentage section/class/school wise'
+    },
+    tooltip: {
+        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+    },
+    plotOptions: {
+        pie: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            dataLabels: {
+                enabled: true,
+                format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                style: {
+                    color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                },
+                connectorColor: 'silver'
+            }
+        }
+    },
+    series: [{
+        name: 'Disease',
+        data: [
+            { name: 'Corneal opacity ', y: 56.33 },
+            {
+                name: 'Ref error/Dim vision',
+                y: 24.03,
+                sliced: true,
+                selected: true
+            },
+            { name: 'Ptosis', y: 10.38 },
+            { name: 'Poor growth', y: 4.77 }, { name: 'Opera', y: 0.91 },
+            { name: 'Fungal Infection/Ring Worm', y: 0.2 }
+        ]
+    }]
+});
+
+
+
+function printDiv() 
+{
+
+  var divToPrint=document.getElementById('pcont');
+
+  var newWin=window.open('','Print-Window');
+
+  newWin.document.open();
+
+  newWin.document.write('<html><body onload="window.print()">'+divToPrint.innerHTML+'</body></html>');
+
+  newWin.document.close();
+
+  setTimeout(function(){newWin.close();},10);
+
+}
+</script>
 @stop

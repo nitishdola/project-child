@@ -18,14 +18,16 @@ class CreateCheckupsTable extends Migration
             $table->integer('student_id', false, true);
             $table->date('checkup_date');
             $table->decimal('height', 10,2)->commect('in centi meters');
-            $table->decimal('weight', 10,2)->commect('in grams');
+            $table->decimal('weight', 10,2)->commect('in kilo grams');
             $table->string('section',20)->nullable();
-            $table->string('class',20);
+            $table->string('class',20)->nullable();
             $table->string('stream',20)->nullable();
+            $table->integer('school_id', false, true);
             $table->string('remarks',500)->nullable();
             $table->tinyInteger('status')->default(1);
 
             $table->foreign('student_id')->references('id')->on('students');
+            $table->foreign('school_id')->references('id')->on('schools');
             $table->timestamps();
         });
     }

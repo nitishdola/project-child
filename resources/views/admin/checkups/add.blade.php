@@ -5,11 +5,12 @@
 @section('main_content')
 <div class="container-fluid">
     <div class="cl-mcont">
-       <div class="block-flat">
+        {!! Form::open(array('route' => 'checkup.post', 'id' => 'checkup.post', 'class' => 'form-horizontal row-border')) !!}
+        <div class="block-flat">
             <div class="header">
                <h3>Checkup</h3>
             </div>
-            {!! Form::open(array('route' => 'checkup.post', 'id' => 'checkup.post', 'class' => 'form-horizontal row-border')) !!}
+            
                 <div class="content">
     			    @include('admin.checkups._form')
     			</div>
@@ -18,22 +19,26 @@
     			    @include('admin.checkups._health_form')
     			</div>
                 <hr>
-                <div class="content" style="background: #F9F3D9; padding-bottom: 10px;">
+                <div class="content row" style="padding-bottom: 10px;">
                     <h4>Vaccination Status</h4>
                     @include('admin.checkups._vaccine_form')
                 </div>
 
                 <hr>
-                <div class="content">
+                <div class="content row">
                 <h4>Boosters</h4>
                 @include('admin.checkups._booster_form')
                 </div>
 
-
-			{!! Form::label('', '', array('class' => 'col-md-3 control-label')) !!}
-		        {!! Form:: submit('Submit', ['class' => 'btn btn-success']) !!}
-		    {!!form::close()!!}
+                
 		</div>
+
+        <div class="content row ">
+            {!! Form::label('', '', array('class' => 'col-md-3 control-label')) !!}
+            {!! Form:: submit('Submit', ['class' => 'btn btn-success']) !!}
+        </div>
+
+        {!!form::close()!!}
 	</div>
 </div>
 @endsection
@@ -146,7 +151,7 @@ console.log(url);
         }
 
         return foundOptions;
-    };
+    }
 
     $("#student_id").select2(remoteDataConfig);
 </script>

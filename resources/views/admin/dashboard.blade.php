@@ -118,10 +118,53 @@
                                       {!! Form::select('school_id', $schools, null, ['class' => 'select2', 'id' => 'school_id', 'placeholder' => 'Seelct School' ]) !!}
                                    </div>
                                 </div>
+
+                                <div class="form-group" id="schoolRegNo" style="display: none;">
+                                   {!! Form::label('school_registration_number', 'School Registration Number', array('class' => 'col-sm-3 control-label')) !!}
+                                   <div class="col-sm-9">
+                                     {!! Form::text('school_registration_number', null, ['class' => ' form-control', 'id' => 'class', 'placeholder' => 'Select School Reg Number' ]) !!}
+                                   </div>
+                                </div>
+
                                 <div class="form-group">
                                    {!! Form::label('class', 'Select Class', array('class' => 'col-sm-3 control-label')) !!}
                                    <div class="col-sm-9">
-                                      {!! Form::text('class', null, ['class' => 'form-control', 'id' => 'class', 'placeholder' => 'Enter Class' ]) !!}
+                                      {!! Form::select('class', $classes, null, ['class' => ' select2other', 'id' => 'studentclass', 'placeholder' => 'Select Class' ]) !!}
+                                   </div>
+                                </div>
+
+                                <div class="form-group section-deps" id="sectionHolder">
+                                   {!! Form::label('section', 'Select Section', array('class' => 'col-sm-3 control-label')) !!}
+                                   <div class="col-sm-9">
+                                      <select name="section" id="section" class="form-control"></select>
+                                   </div>
+                                </div>
+
+                                <div class="form-group section-deps" id="semesterHolder">
+                                   {!! Form::label('semester', 'Select Semester', array('class' => 'col-sm-3 control-label')) !!}
+                                   <div class="col-sm-9">
+                                      <select name="semester" id="semester" class="form-control"></select>
+                                   </div>
+                                </div>
+
+                                <div class="form-group section-deps" id="branchHolder">
+                                   {!! Form::label('branch', 'Select Branch', array('class' => 'col-sm-3 control-label')) !!}
+                                   <div class="col-sm-9">
+                                      <select name="branch" id="branch" class="form-control"></select>
+                                   </div>
+                                </div>
+
+                                <div class="form-group section-deps" id="streamHolder">
+                                   {!! Form::label('stream', 'Select Stream', array('class' => 'col-sm-3 control-label')) !!}
+                                   <div class="col-sm-9">
+                                      <select name="stream" id="stream" class="form-control"></select>
+                                   </div>
+                                </div>
+
+                                <div class="form-group">
+                                   {!! Form::label('registration_number', 'Select Registration Number', array('class' => 'col-sm-3 control-label')) !!}
+                                   <div class="col-sm-9">
+                                     {!! Form::text('registration_number', null, ['class' => ' form-control', 'id' => 'class', 'placeholder' => 'Select Reg Number' ]) !!}
                                    </div>
                                 </div>
 
@@ -294,6 +337,47 @@
 
 @section('page_scripts')
 <script>
+
+  $('#studentclass').change(function() {
+    $class = $(this).val();
+    if($class > 0) {
+      var data = '';
+      var url  = '';
+
+      data += '&class_id='+$class;
+      url  += "{{ route('api.get_class_subs') }}";
+
+      $.ajax({
+        data : data,
+        type : 'get',
+        dataType : 'json',
+        url  : url,
+
+        error : function(resp) {
+          //alert('Error');
+          $('#semesterHolder').hide();
+          $('#sectionHolder').hide();
+          $('#streamHolder').hide();
+        },
+
+        success : function(resp) {
+          console.log(resp);
+          if(resp.type == 'section') {
+            renderSection(resp.data);
+          }else if(resp.type == 'semester') {
+            renderSemester(resp.data);
+          }else if(resp.type == 'stream') {
+            renderStream(resp.data);
+          }
+          // else if(resp.type == 'branch') {
+          //   renderBranch(resp.data);
+          // }
+        }
+
+      });
+    }
+  });
+
   $('#disease_id').change(function() {
     $('#sub_disease_id').empty();
     $disease_id = $(this).val();
@@ -335,5 +419,76 @@
       
     }
   });
+
+  
+
+  function renderSection(data) {
+    html = '';
+    html += '<option value="">Select Section</option>';
+    $.each(data, function(key,val){
+        html += '<option value="'+val.name+'">'+val.name+'</option>';
+    });
+
+    $('#streamHolder').hide();
+    $('#semesterHolder').hide();
+
+    $('#sectionHolder').show();
+    $('#section').html(html);
+  }
+
+  function renderSemester(data) {
+    html = '';
+    html += '<option value="">Select Semester</option>';
+    $.each(data, function(key,val){
+        html += '<option value="'+val.name+'">'+val.name+'</option>';
+    });
+
+    $('#streamHolder').hide();
+    $('#sectionHolder').hide();
+
+    $('#semesterHolder').show();
+    $('#semester').html(html);
+  }
+
+  function renderStream(data) {
+    html = '';
+    html += '<option value="">Select Stream</option>';
+    $.each(data, function(key,val){
+        html += '<option value="'+val.name+'">'+val.name+'</option>';
+    });
+
+    $('#semesterHolder').hide();
+    $('#sectionHolder').hide();
+    
+    $('#streamHolder').show();
+    $('#stream').html(html);
+  }
+
+  function renderBranch(data) {
+    html = '';
+    html += '<option value="">Select Branch</option>';
+    $.each(data, function(key,val){
+        html += '<option value="'+val.name+'">'+val.name+'</option>';
+    });
+    $('#branchHolder').show();
+    $('#branch').html(html);
+  }
+
+  //show school reg number
+  $('#school_id').change(function() {
+    if($(this).val() > 0) {
+      $('#schoolRegNo').show();
+    }else{
+      $('#schoolRegNo').hide();
+    }
+  });
 </script>
+@stop
+
+@section('page_css')
+<style>
+.section-deps {
+  display: none;
+}
+</style>
 @stop

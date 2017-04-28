@@ -240,7 +240,7 @@ border-radius:5px;
 
 @stop
 
-@section('main_content')
+@section('main_content')  
 <div class="container-fluid">
   <div class="cl-mcont">
     <div class="stats_bar">
@@ -282,14 +282,16 @@ border-radius:5px;
        				</ul>
 
        				<div class="hor-pie">
-       					<!-- <div style="margin-top: 5px; font-weight: bold">BMI</div>
-  							<div style="height:150px">
-  							    <div id="bulletgraph"></div>
-  							</div> -->
+       					<div style="margin-top: 5px; font-weight: bold">BMI</div>
+  							<div id="bulletgraph"></div>
                 <?php 
+                  $bmiX = ($last_checkup->weight/( ($last_checkup->height/100)*($last_checkup->height/100)  ) );
+
+                      
 
                     //BMI
-                    $student_bmi = ($last_checkup->weight) / ( ($last_checkup->height/100)*($last_checkup->height/100) );
+                    $student_bmi = $bmiX;
+                    //exit;
                       $bmi_class = 'btn-info';
                     if($student_bmi < 18.5 ) {
                       $bmi_class = 'progress-bar-warning_below';
@@ -345,9 +347,17 @@ border-radius:5px;
                         <td> {{ $v->weight }} </td>
 
                        <?php 
-
+                       
                        //BMI
-                       $bmi = $v->weight/( ($v->height/100)*($v->height/100) );
+                       if( ($v->weight != 0) && ($v->height) ) {
+                        $bmi = ($v->weight)/( ($v->height/100)*($v->height/100) ); 
+                       }else{
+                        $bmi = 'NOT FOUND';
+                       }
+                       
+
+                       
+
                        $class = 'btn-info';
                        if($bmi < 18.5 ) {
                         $class = 'btn-warning';
@@ -360,9 +370,9 @@ border-radius:5px;
                        }
                        ?>
                        <td> 
-
+                       
                        <button class="btn {{ $class}} btn-xs">{{ number_format((float)$bmi, 2, '.', '') }} </button>
-
+                       
                        </td>
                         <td> <a href="{{ route('student.info', Crypt::encrypt($v->studentId)) }}" class="btn btn-info btn-sm"> Info</a></td>
                       </tr>
@@ -403,8 +413,10 @@ border-radius:5px;
             </div>
             @endif
           </div>
+          
 
           <div class="col-md-12 block-flat info-box">
+            @if(count($vaccinations))
             <div class="alert alert-success alert-white rounded">
               <div class="icon"><i class="fa fa-stethoscope"></i></div><strong>Vaccination Report</strong>
               @foreach($vaccinations as $k => $v)
@@ -412,6 +424,11 @@ border-radius:5px;
               @endforeach
 
             </div>
+            @else
+              <div class="alert alert-success alert-white rounded">
+                <div class="icon"><i class="fa fa-info-circle"></i></div><strong>No Vaccination Report Found !</strong>
+            </div>
+            @endif
 
             <div class="progress-factor flexy-item">
               <div class="progress-bar">
@@ -426,7 +443,7 @@ border-radius:5px;
                 </div>
               </div>
             </div>
-           <!--  <div id="container" style="min-width: 310px; height: 400px; max-width: 1200px; margin: 0 auto"></div> -->
+           <div id="container" style="min-width: 310px; min-height: 400px; max-width: 1200px; margin: 0 auto"></div>
 
           </div>
         </div>
@@ -495,7 +512,7 @@ Highcharts.chart('container', {
         type: 'pie'
     },
     title: {
-        text: 'Browser market shares. January, 2015 to May, 2015'
+        text: 'Disease Percentage section/class/school wise'
     },
     tooltip: {
         pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -515,18 +532,18 @@ Highcharts.chart('container', {
         }
     },
     series: [{
-        name: 'Brands',
+        name: 'Disease',
         data: [
-            { name: 'Microsoft', y: 56.33 },
+            { name: 'Corneal opacity ', y: 56.33 },
             {
-                name: 'Chrome',
+                name: 'Ref error/Dim vision',
                 y: 24.03,
                 sliced: true,
                 selected: true
             },
-            { name: 'Firefox', y: 10.38 },
-            { name: 'Safari', y: 4.77 }, { name: 'Opera', y: 0.91 },
-            { name: 'Proprietary or Undetectable', y: 0.2 }
+            { name: 'Ptosis', y: 10.38 },
+            { name: 'Poor growth', y: 4.77 }, { name: 'Opera', y: 0.91 },
+            { name: 'Fungal Infection/Ring Worm', y: 0.2 }
         ]
     }]
 });

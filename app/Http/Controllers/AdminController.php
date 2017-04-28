@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use Illuminate\Support\Facades\Auth;
-use App\School, App\Disease, App\Block,App\Student,App\SubDisease;
+use App\School, App\Disease, App\Block,App\Student,App\SubDisease, App\SchoolClass;
 use DB, Validator, Redirect, Crypt;
 
 class AdminController extends Controller
@@ -30,7 +30,9 @@ class AdminController extends Controller
     	$students_count_male 	= Student::whereStatus(1)->whereSex('male')->count();
     	$students_count_female 	= Student::whereStatus(1)->whereSex('female')->count();
 
-        $base_year = 2014;
+        $classes = SchoolClass::orderBy('name')->pluck('name', 'id');
+
+        $base_year = 2010;
         $checkup_years = [];
 
         for( $i = $base_year; $i <= date('Y'); $i++ ) {
@@ -39,6 +41,6 @@ class AdminController extends Controller
        
 
 
-    	return view('admin.dashboard', compact('schools', 'diseases', 'blocks', 'blocks_count', 'schools_count', 'students_count', 'diseases_count', 'sub_diseases_count', 'students_count_male', 'students_count_female', 'checkup_years'));
+    	return view('admin.dashboard', compact('schools', 'diseases', 'blocks', 'blocks_count', 'schools_count', 'students_count', 'diseases_count', 'sub_diseases_count', 'students_count_male', 'students_count_female', 'checkup_years', 'classes'));
     }
 }

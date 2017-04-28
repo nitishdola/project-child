@@ -14,3 +14,12 @@
 	color: #FFF;
 	background: #3114E0;	
 }
+.progress-bar-warning_below {
+	background: #8F5943 !important;
+}
+
+.progress-bar-warning {
+	background: #FF9900 !important;
+}
+
+ 
