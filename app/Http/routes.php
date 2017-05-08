@@ -149,4 +149,19 @@ Route::group(['prefix'=>'api'], function() {
         'as' => 'api.get_class_subs',
         'uses' => 'ApiController@getClassSubs'
     ]);
+
+    Route::get('/get-sub-allergies', [
+        'as' => 'api.get_sub_allergies',
+        'uses' => 'ApiController@getSubAllergies'
+    ]);
+
+    Route::get('/add-sub-disease', [
+        'as' => 'api.add_sub_disease',
+        'uses' => 'ApiController@addNewSubDeases'
+    ]);
+
+    Route::get('/get-other-disease', [
+        'as' => 'api.other_sub_disease_list',
+        'uses' => 'ApiController@subOtherDiseaseList'
+    ]);
 });

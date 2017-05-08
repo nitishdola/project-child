@@ -18,7 +18,12 @@ class DatabaseSeeder extends Seeder
      //$this->command->info("classes table seeded :)"); 
       //$this->call('SectionTableSeeder');
       //$this->call('SemesterTableSeeder');
-      $this->call('StreamTableSeeder');
+      //$this->call('StreamTableSeeder');
+      //$this->call('AllergyTableSeeder');
+      //$this->call('AllergyCategoriesTableSeeder');
+      //$this->call('OtherVaccinesTableSeeder'); 
+      //$this->call('FamilyHistoriesTableSeeder');
+      $this->call('EyesightTableSeeder');
     }
 
 
@@ -165,3 +170,87 @@ class ClassesTableSeeder extends Seeder {
    }
 }
 
+class AllergyTableSeeder extends Seeder {
+ 
+   public function run()
+   {
+      DB::table('allergies')->insert(array(
+        array('name'=>'Drug'),
+        array('name'=>'Food'),
+        array('name'=>'Environment'),
+      ));
+   }
+}
+
+class AllergyCategoriesTableSeeder extends Seeder {
+ 
+   public function run()
+   {
+      DB::table('allergy_categories')->insert(array(
+        array('name'=>'Antibiotics', 'allergy_id' => 1),
+        array('name'=>'Pain Killer', 'allergy_id' => 1),
+        array('name'=>'Antipyretic', 'allergy_id' => 1),
+        array('name'=>'Other', 'allergy_id' => 1),
+
+        array('name'=>'Other', 'allergy_id' => 2),
+
+        array('name'=>'Dust', 'allergy_id' => 3),
+        array('name'=>'Sunlight', 'allergy_id' => 3),
+        array('name'=>'Insect', 'allergy_id' => 3),
+        array('name'=>'Pollen', 'allergy_id' => 3),
+        array('name'=>'Other', 'allergy_id' => 3),
+      ));
+   }
+}
+class OtherVaccinesTableSeeder extends Seeder {
+ 
+   public function run()
+   {
+      DB::table('other_vaccines')->insert(array(
+        array('name'=>'Rotavirus Vaccine'),
+        array('name'=>'Influenza Vaccine'),
+        array('name'=>'Japanese Encephalities'),
+        array('name'=>'Meningococcal Vaccine'),
+        array('name'=>'Pneumococcal Vaccine'),
+        array('name'=>'Human Papilloma Vaccine'),
+        array('name'=>'Injectable Polio Vaccine'),
+        array('name'=>'Yellow Fever'),
+        array('name'=>'Anti rabies Vaccine'),
+      ));
+   }
+}
+
+class FamilyHistoriesTableSeeder extends Seeder {
+ 
+   public function run()
+   {
+      DB::table('family_histories')->insert(array(
+        array('name'=>'Diabetes'),
+        array('name'=>'Hypertension'),
+        array('name'=>'Cancer'),
+        array('name'=>'Dyslipidemia'),
+        array('name'=>'Insomenia'),
+        array('name'=>'Obesity'),
+        array('name'=>'Gout'),
+        array('name'=>'Hypothyroid'),
+        array('name'=>'Others'),
+      ));
+   }
+}
+ 
+
+class EyesightTableSeeder extends Seeder {
+ 
+   public function run()
+   {
+      DB::table('eyesights')->insert(array(
+        array('name'=>'6/6'),
+        array('name'=>'6/9'),
+        array('name'=>'6/12'),
+        array('name'=>'6/18'),
+        array('name'=>'6/24'),
+        array('name'=>'6/34'),
+        array('name'=>'6/60'),
+      ));
+   }
+}

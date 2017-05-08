@@ -7,16 +7,25 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 
 use Auth,Crypt,Redirect,DB,Validator;
-use App\Student, App\Disease, App\SubDisease,App\CheckupDisease,App\CheckupFinding,App\Checkup, App\Vaccine, App\CheckupVaccination, App\Booster;
+use App\Student, App\Disease, App\SubDisease,App\CheckupDisease,App\CheckupFinding,App\Checkup, App\Vaccine, App\CheckupVaccination, App\OtherVaccine,App\FamilyHistory,App\Eyesight;
+use App\Allergy;
 
 class CheckupsController extends Controller
 {
     public function addCheckup() {
-      $vaccines     = Vaccine::get();
-    	$diseases   	= Disease::whereStatus(1)->orderBy('name', 'DESC')->pluck('name', 'id');
-    	$sub_diseases   = SubDisease::whereStatus(1)->orderBy('name', 'DESC')->get();
+      $vaccines       = Vaccine::get();
+      $other_vaccine  = OtherVaccine::whereStatus(1)->get();
+      $family_history = FamilyHistory::whereStatus(1)->get();
+      $other_disease_ids =  [5,6,7,8,9,10,12,13,14,15];
+    	$diseases   	  = Disease::whereStatus(1)->whereIn('id',$other_disease_ids)->orderBy('name', 'DESC')->pluck('name', 'id');
+    	//$sub_diseases   = SubDisease::whereStatus(1)->orderBy('name', 'DESC')->get();
 
-    	return view('admin.checkups.add', compact('diseases', 'sub_diseases', 'vaccines'));
+      //$ent_sub_diseases = SubDisease::whereStatus(1)->where('disease_id',1)->orderBy('name', 'DESC')->pluck('name', 'id');
+
+      $allergies      = Allergy::whereStatus(1)->orderBy('name', 'DESC')->pluck('name', 'id');
+      $eyesights      = Eyesight::whereStatus(1)->pluck('name', 'id');
+
+    	return view('admin.checkups.add', compact('diseases', 'vaccines', 'allergies', 'other_vaccine', 'family_history','eyesights'));
     }
 
     public function postCheckup(Request $request) { 

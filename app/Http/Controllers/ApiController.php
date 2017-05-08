@@ -12,8 +12,24 @@ class ApiController extends Controller
 {
     public function subDiseaseList() {
     	if(isset($_GET['disease_id']) && $_GET['disease_id'] != '') {
-    		return SubDisease::select('id', 'name')->orderBy('name')->where('disease_id', $_GET['disease_id'])->get();
+    		return SubDisease::select('id', 'name')->orderBy('name')->where('disease_id', $_GET['disease_id'])->where('status',1)->get();
     	}
+    }
+
+    public function subOtherDiseaseList() {
+        $_GET['disease_ids'] = [5,6,7,8,9,10,11,12,13,14,15];
+        if(isset($_GET['disease_ids']) && $_GET['disease_ids'] != '') {
+            return SubDisease::select('id', 'name')->orderBy('name')->whereIn('disease_id', $_GET['disease_ids'])->where('status',1)->get();
+        }
+    }
+
+    public function addNewSubDeases() {
+        if(isset($_GET['disease_id']) && $_GET['disease_id'] != '') {
+            $data = [];
+            $data['disease_id'] = $_GET['disease_id'];
+            $data['name']       = $_GET['sub_disease_name'];
+            return SubDisease::create($data);
+        }
     }
 
     public function studentList() {
@@ -69,6 +85,12 @@ class ApiController extends Controller
 
                 return json_encode($arr);
             }
+        }
+    }
+
+    public function getSubAllergies() {
+        if(isset($_GET['allergy_id']) && $_GET['allergy_id'] != '') {
+            return DB::table('allergy_categories')->whereStatus(1)->where('allergy_id', $_GET['allergy_id'])->select('id', 'name')->get();
         }
     }
     

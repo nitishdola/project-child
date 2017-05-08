@@ -20,8 +20,10 @@
       <link rel="stylesheet" type="text/css" href="http://select2.github.io/select2/select2-3.5.1/select2.css">
       <link rel="stylesheet" type="text/css" href="{{ asset('assets/lib/bootstrap.slider/css/bootstrap-slider.css') }}">
       <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/Zebra_datepicker/1.9.4/css/bootstrap.min.css">
-      <link rel="stylesheet" type="text/css" href="{{ asset('assets/lib/jquery.icheck/skins/square/blue.css') }}">
+      <link href="https://cdn.bootcss.com/iCheck/1.0.2/skins/all.css" rel="stylesheet">
+      <link rel="stylesheet" type="text/css" href="{{ asset('assets/lib/jquery.icheck/skins/square/blue.css') }}"> 
       <link href="{{ asset('assets/lib/multiselect_dropdown_with_checkbox/jquery.multiselect.css') }}" rel="stylesheet" type="text/css">
+      <link rel="stylesheet" type="text/css" href="{{ asset('assets/lib/jquery.icheck/skins/square/blue.css') }}">
       <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
       <link href="{{ asset('assets/css/custom.css') }}" rel="stylesheet">
       @yield('page_css')
@@ -65,7 +67,7 @@
       <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js"></script>
       <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Zebra_datepicker/1.9.4/javascript/zebra_datepicker.js"></script>
 
-      <script src="{{ asset('assets/lib/jquery.icheck/icheck.min.js') }}" type="text/javascript"></script>
+      <script src="https://cdn.bootcss.com/iCheck/1.0.2/icheck.min.js"></script>
       <script src="{{ asset('assets/lib/multiselect_dropdown_with_checkbox/jquery.multiselect.js') }}"></script>
       <script type="text/javascript">
          $(document).ready(function(){
@@ -86,6 +88,11 @@
 
             $('input.zebra_datepicker').Zebra_DatePicker(); 
             $('select.multiselect').multiselect();
+
+            $('.ichecks').iCheck({
+               checkboxClass: 'icheckbox_minimal',
+               radioClass: 'iradio_minimal'
+            });
          });
       </script>
 
