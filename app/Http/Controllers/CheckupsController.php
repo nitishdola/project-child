@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 
 use Auth,Crypt,Redirect,DB,Validator;
-use App\Student, App\Disease, App\SubDisease,App\CheckupDisease,App\CheckupFinding,App\Checkup, App\Vaccine, App\CheckupVaccination, App\OtherVaccine,App\FamilyHistory,App\Eyesight;
+use App\Student, App\Disease, App\SubDisease,App\CheckupDisease,App\CheckupFinding,App\Checkup, App\Vaccine, App\CheckupVaccination, App\OtherVaccine,App\FamilyHistory,App\Eyesight,App\Branch;
 use App\Allergy;
 
 class CheckupsController extends Controller
@@ -18,6 +18,8 @@ class CheckupsController extends Controller
       $family_history = FamilyHistory::whereStatus(1)->get();
       $other_disease_ids =  [5,6,7,8,9,10,12,13,14,15];
     	$diseases   	  = Disease::whereStatus(1)->whereIn('id',$other_disease_ids)->orderBy('name', 'DESC')->pluck('name', 'id');
+
+      $branches      = Branch::whereStatus(1)->pluck('name', 'id');
     	//$sub_diseases   = SubDisease::whereStatus(1)->orderBy('name', 'DESC')->get();
 
       //$ent_sub_diseases = SubDisease::whereStatus(1)->where('disease_id',1)->orderBy('name', 'DESC')->pluck('name', 'id');
@@ -25,7 +27,7 @@ class CheckupsController extends Controller
       $allergies      = Allergy::whereStatus(1)->orderBy('name', 'DESC')->pluck('name', 'id');
       $eyesights      = Eyesight::whereStatus(1)->pluck('name', 'id');
 
-    	return view('admin.checkups.add', compact('diseases', 'vaccines', 'allergies', 'other_vaccine', 'family_history','eyesights'));
+    	return view('admin.checkups.add', compact('diseases', 'vaccines', 'allergies', 'other_vaccine', 'family_history','eyesights','branches'));
     }
 
     public function postCheckup(Request $request) { 

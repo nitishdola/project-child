@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-use App\SubDisease, App\Section, App\Semester, App\Stream;
-use DB;
+use App\SubDisease, App\Section, App\Semester, App\Stream, App\Branch;
+use DB,Validator,Redirect;
 
 class ApiController extends Controller
 {
@@ -17,7 +17,7 @@ class ApiController extends Controller
     }
 
     public function subOtherDiseaseList() {
-        $_GET['disease_ids'] = [5,6,7,8,9,10,11,12,13,14,15];
+        $_GET['disease_ids'] = [5,6,7,8,9,10,12,13,14,15];
         if(isset($_GET['disease_ids']) && $_GET['disease_ids'] != '') {
             return SubDisease::select('id', 'name')->orderBy('name')->whereIn('disease_id', $_GET['disease_ids'])->where('status',1)->get();
         }
@@ -92,6 +92,26 @@ class ApiController extends Controller
         if(isset($_GET['allergy_id']) && $_GET['allergy_id'] != '') {
             return DB::table('allergy_categories')->whereStatus(1)->where('allergy_id', $_GET['allergy_id'])->select('id', 'name')->get();
         }
+    }
+
+    public function addNewDepartment() {
+        if(isset($_GET['department_name']) && trim($_GET['department_name']) != '') {
+            $department_name = trim($_GET['department_name']);
+            $data = [];
+            $data['name'] = $department_name;
+
+            $validator = Validator::make($data, Branch::$rules);
+            if ($validator->fails()) return 0;
+
+            if(Branch::create($data)) {
+                return 1;
+            }
+        }
+        return 0;
+    }
+
+    public function getAllDepartments() {
+        return Branch::whereStatus(1)->orderBy('name')->get();
     }
     
 }

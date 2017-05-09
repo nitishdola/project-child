@@ -62,6 +62,19 @@
                 <hr>
                 <div class="content row">
                 <h4>EYE Complain</h4> 
+                <div class="col-md-12">
+                      <a href="javascript:void(0)" class="addNewEye col-md-2">Add New Eye Disease</a>
+                </div>
+
+                <div  id="EyeDiseaseBox" style="display: none">
+                  <div class="col-md-3">
+                    {!! Form::text('name', null, ['class' => 'form-control required', 'id' => 'eye_disease_name', 'placeholder' => 'Eye Disease Name','autocomplete' => 'off' ]) !!}
+                  </div>
+                  <div class="col-md-3">
+                    <button class="btn btn-default" type="button" id="AddEyeDisease">Add</button>
+                  </div>
+                </div>
+
                 @include('admin.checkups._eye')
                 </div>
 
@@ -156,6 +169,8 @@
 
 loadEntList();
 loadDentalList();
+loadEyeList();
+loadDepartments();
 //loadPaediatricsList();
 
 $('#addMore').click(function(e) {
@@ -551,5 +566,147 @@ console.log($diseaseId);
         $paeiatric_clone   = $latest_paeiatric_disease_list.clone(true, true);
         $latest_paeiatric_disease_list.after($paeiatric_clone);
     });
+
+     //EYE
+     //DENTAL
+
+    $('.addNewEye').click(function() {
+        $('#EyeDiseaseBox').show();
+    });
+
+    function loadEyeList() {
+        $disease_id = 11;
+        url      = '';
+        data     = '';
+
+        url = "{{ route('api.sub_disease_list') }}";
+        data = '&disease_id='+$disease_id;
+
+        $.ajax({
+            url : url,
+            data : data,
+            type : 'get',
+            dataType : 'json',
+            error : function(resp) {
+
+            },
+            success : function(resp) {
+                renderEyeui(resp);
+            }
+        });
+    }
+
+    function renderEyeui(resp) { 
+        html = '';
+        html += '<option value=""> Select Eye Disease</option>';
+        $.each(resp, function(key,value) {
+            html += '<option value="'+value.id+'"> '+value.name+'</option>';
+        });
+        $('#eyeSubDiseaseList').html(html);
+    }
+
+    $('.addMoreEye').click(function() {
+        $latest_eye_disease_list = $('.eye-disease:last');
+        $eye_clone   = $latest_eye_disease_list.clone(true, true);
+        $('.eye-disease:last').after($eye_clone);
+    });
+
+    $('#AddEyeDisease').click(function() {
+        var disease_name = '';
+        sub_disease_name = $('#eye_disease_name').val();
+        $disease_id      = 11;
+
+        url      = '';
+        data     = '';
+
+        url = "{{ route('api.add_sub_disease') }}";
+        data = '&disease_id='+$disease_id+'&sub_disease_name='+sub_disease_name;
+
+        $.ajax({
+            url : url,
+            data : data,
+            type : 'get',
+            dataType : 'json',
+            error : function(resp) {
+                console.log(resp);
+            },
+            success : function(resp) {
+                alert('Disease added successfully !');
+                $('#EyeDiseaseBox').hide();
+                loadEyeList();
+            }
+        });
+
+    });
+
+
+
+    function loadDepartments() {
+        url      = '';
+        data     = '';
+
+        url = "{{ route('api.get_all_departments') }}";
+
+        $.ajax({
+            url : url,
+            type : 'get',
+            dataType : 'json',
+            error : function(resp) {
+
+            },
+            success : function(resp) {
+                renderDeptUi(resp);
+            }
+        });
+    }
+
+    function renderDeptUi(resp) { 
+        html = '';
+        html += '<option value=""> Select Separtment</option>';
+        $.each(resp, function(key,value) {
+            html += '<option value="'+value.id+'"> '+value.name+'</option>';
+        });
+        $('#department').html(html);
+    }
+
+
+
+    $('.addNewDepartment').click(function() {
+        $('#addDepartmentBox').slideDown();
+    });
+
+    $('#btnAddDepartment').click(function(e) {
+        e.preventDefault();
+        $department_name = $('#department_name').val();
+        if($department_name != '') {
+            data = '';
+            url  = '';
+
+            url     += "{{ route('api.add_new_department') }}";
+            data    += '&department_name='+$department_name;
+
+            $.ajax({
+                url  : url,
+                data : data,
+                type : 'get',
+
+                error : function(resp) {
+                    console.log(resp);
+                    alert('Oops ! Something went wrong. Please try again.');
+                },
+
+                success : function(resp) {
+                  console.log(resp);  
+                  if(resp) {
+                    alert('added successfully');
+                    $('#addDepartmentBox').slideUp();
+                    loadDepartments();
+                  }else{
+                    alert('Department create failed !');
+                  }
+                } 
+            });
+        }
+    })
 </script>
 @stop

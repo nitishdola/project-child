@@ -87,6 +87,9 @@
             });
 
             $('input.zebra_datepicker').Zebra_DatePicker(); 
+
+            $('input.zebra_datepicker_yearwise').Zebra_DatePicker({ view: 'years' }); 
+
             $('select.multiselect').multiselect();
 
             $('.ichecks').iCheck({

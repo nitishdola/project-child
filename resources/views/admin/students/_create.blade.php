@@ -7,11 +7,19 @@
 </div>
 
 <div class="form-group {{ $errors->has('registration_number') ? 'has-error' : ''}}">
-  {!! Form::label('registration_number', '', array('class' => 'col-md-3 control-label')) !!}
+  {!! Form::label('registration_number*', '', array('class' => 'col-md-3 control-label')) !!}
   <div class="col-md-5">
     {!! Form::text('registration_number', null, ['class' => 'form-control required', 'id' => 'name', 'placeholder' => 'Registration Number', 'autocomplete' => 'off']) !!}
   </div>
   {!! $errors->first('registration_number', '<span class="help-inline">:message</span>') !!}
+</div>
+
+<div class="form-group {{ $errors->has('school_registration_number') ? 'has-error' : ''}}">
+  {!! Form::label('school_registration_number', '', array('class' => 'col-md-3 control-label')) !!}
+  <div class="col-md-5">
+    {!! Form::text('school_registration_number', null, ['class' => 'form-control required', 'id' => 'school_registration_number', 'placeholder' => 'School Registration Number', 'autocomplete' => 'off']) !!}
+  </div>
+  {!! $errors->first('school_registration_number', '<span class="help-inline">:message</span>') !!}
 </div>
 
 <div class="form-group {{ $errors->has('name') ? 'has-error' : ''}}">
@@ -25,7 +33,7 @@
 <div class="form-group {{ $errors->has('father_name') ? 'has-error' : ''}}">
   {!! Form::label('father_name', 'Father\'s Name*', array('class' => 'col-md-3 control-label')) !!}
   <div class="col-md-5">
-    {!! Form::text('father_name', null, ['class' => 'form-control required', 'id' => 'father_name', 'placeholder' => 'Father\'s Name', 'autocomplete' => 'off', 'required' => 'true']) !!}
+    {!! Form::text('father_name', 'Not Mentioned', ['class' => 'form-control required', 'id' => 'father_name', 'placeholder' => 'Father\'s Name', 'autocomplete' => 'off', 'required' => 'true']) !!}
   </div>
   {!! $errors->first('father_name', '<span class="help-inline">:message</span>') !!}
 </div>
@@ -33,7 +41,7 @@
 <div class="form-group {{ $errors->has('mother_name') ? 'has-error' : ''}}">
   {!! Form::label('mother_name', 'Mother\'s Name*', array('class' => 'col-md-3 control-label')) !!}
   <div class="col-md-5">
-    {!! Form::text('mother_name', null, ['class' => 'form-control required', 'id' => 'code', 'placeholder' => 'Mother\'s Name', 'autocomplete' => 'off', 'required' => 'true']) !!}
+    {!! Form::text('mother_name', 'Not Mentioned', ['class' => 'form-control required', 'id' => 'code', 'placeholder' => 'Mother\'s Name', 'autocomplete' => 'off', 'required' => 'true']) !!}
   </div>
   {!! $errors->first('mother_name', '<span class="help-inline">:message</span>') !!}
 </div>
@@ -83,7 +91,7 @@
 <div class="form-group {{ $errors->has('dob') ? 'has-error' : ''}}">
   {!! Form::label('dob', 'Date of Birth', array('class' => 'col-md-3 control-label')) !!}
   <div class="col-md-3">
-    {!! Form::text('dob', null, ['class' => 'zebra_datepicker form-control required', 'id' => 'code', 'placeholder' => 'Date of Birth', 'autocomplete' => 'off', 'required' => 'true']) !!}
+    {!! Form::text('dob', null, ['class' => 'zebra_datepicker_yearwise form-control required', 'id' => 'code', 'placeholder' => 'Date of Birth', 'autocomplete' => 'off']) !!}
   </div>
   {!! $errors->first('dob', '<span class="help-inline">:message</span>') !!}
 </div>

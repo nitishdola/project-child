@@ -54,7 +54,9 @@
                               <h3 class="name">{{ $student_info->name }}</h3>
                               <h4><i class="fa fa-university"></i> {{ $student_info->school['name'] }}</h4>
                               <h5><i class="fa fa-puzzle-piece" aria-hidden="true"></i> Class {{ $last_checkup->class }} SEC {{ $last_checkup->section }}</h5>
+                              <h5><i class="fa fa-certificate" aria-hidden="true"></i> Registration Number {{ $student_info->registration_number }} School ID {{ $student_info->school_registration_number }}</h5>
                               <h5><i class="fa fa-calendar" aria-hidden="true"></i> DOB {{ date('d/m/Y', strtotime($student_info->dob)) }}</h5>
+
                           </div>
                       </div>
 

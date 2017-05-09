@@ -23,10 +23,28 @@ class DatabaseSeeder extends Seeder
       //$this->call('AllergyCategoriesTableSeeder');
       //$this->call('OtherVaccinesTableSeeder'); 
       //$this->call('FamilyHistoriesTableSeeder');
-      $this->call('EyesightTableSeeder');
+      //$this->call('EyesightTableSeeder');
+      $this->call('BranchesTableSeeder');
     }
 
 
+}
+
+class BranchesTableSeeder extends Seeder {
+ 
+   public function run()
+   {
+      DB::table('branches')->insert(array(
+        array('name' => 'Mechanical Engineering'),
+        array('name' =>  'Civil Engineering'),
+        array('name' =>  'Computer Science & Engineering'),
+        array('name' =>  'Electronics & Communication Engineering'),
+        array('name' =>  'Computer Science'),
+        array('name' =>  'Bachelor of Computer Application'),
+        array('name' =>  'Bachelor of Science in Digital Film Making & Visual Effects'),
+        array('name' =>  'Bachelor of Science and Information Technology'),
+      ));
+   }
 }
 
 class StreamTableSeeder extends Seeder {

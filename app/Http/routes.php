@@ -164,4 +164,14 @@ Route::group(['prefix'=>'api'], function() {
         'as' => 'api.other_sub_disease_list',
         'uses' => 'ApiController@subOtherDiseaseList'
     ]);
+
+    Route::get('/add-new-department', [
+        'as' => 'api.add_new_department',
+        'uses' => 'ApiController@addNewDepartment'
+    ]);
+
+    Route::get('/get-all-departments', [
+        'as' => 'api.get_all_departments',
+        'uses' => 'ApiController@getAllDepartments'
+    ]);
 });
