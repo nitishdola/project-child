@@ -13,7 +13,7 @@
 				<div class="form-group {{ $errors->has('right_naked_eyesight_id') ? 'has-error' : ''}}">
 				 
 				  <div class="col-md-7">
-				    {!! Form::select('right_naked_eyesight_id', $eyesights, null, ['class' => 'form-control required', 'id' => 'right_naked_eyesight_id', 'placeholder' => 'Select Eyesight', 'autocomplete' => 'off', 'required' => 'true']) !!}
+				    {!! Form::select('right_naked_eyesight_id', $eyesights, 1, ['class' => 'form-control required', 'id' => 'right_naked_eyesight_id', 'placeholder' => 'Select Eyesight', 'autocomplete' => 'off', 'required' => 'true']) !!}
 
 				    
 				  </div>
@@ -41,7 +41,7 @@
 				<div class="form-group {{ $errors->has('left_naked_eyesight_id') ? 'has-error' : ''}}">
 				 
 				  <div class="col-md-7">
-				    {!! Form::select('left_naked_eyesight_id', $eyesights, null, ['class' => 'form-control required', 'id' => 'left_naked_eyesight_id', 'placeholder' => 'Select Eyesight', 'autocomplete' => 'off', 'required' => 'true']) !!}
+				    {!! Form::select('left_naked_eyesight_id', $eyesights, 1, ['class' => 'form-control required', 'id' => 'left_naked_eyesight_id', 'placeholder' => 'Select Eyesight', 'autocomplete' => 'off', 'required' => 'true']) !!}
 				  </div>
 				  <div class="col-md-5"> <input type="checkbox" class="ichecks" name="right_partial_naked"> Partial </div>
 				  {!! $errors->first('left_naked_eyesight_id', '<span class="help-inline">:message</span>') !!}

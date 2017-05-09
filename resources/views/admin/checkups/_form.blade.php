@@ -3,7 +3,7 @@
   {!! Form::label('student_id', 'Select Student*', array('class' => 'col-md-3 control-label')) !!}
   <div class="col-md-9">
     <div class="selectRow">
-        <input type="hidden" id="student_id" name='student_id' />
+        <input type="hidden" id="student_id" class="col-md-12" name='student_id' />
     </div>
   </div>
   {!! $errors->first('student_id', '<span class="help-inline">:message</span>') !!}

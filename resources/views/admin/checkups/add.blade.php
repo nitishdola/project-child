@@ -114,7 +114,7 @@
                     </div>
                     <div class="col-md-12">
                             <div  id="PaediatricsDiseaseBox" style="display: none">
-                                <div class="col-md-4 ent-disease">
+                                <div class="col-md-4">
                                     <div class="form-group {{ $errors->has('sub_disease_id') ? 'has-error' : ''}}">
                                       <div class="col-md-9">
                                         {!! Form::select('disease_id', $diseases, null, ['class' => 'form-control required', 'id' => 'paediatrics_disease_id_insert', 'placeholder' => 'Select Paediatrics Organ', 'rows' => 3, 'autocomplete' => 'off' ]) !!}
@@ -307,23 +307,25 @@ console.log(url);
 
     function showOtherSubAllergyBox(allergy_sub_id,allergy_id) {
         //console.log('allergy_id '+allergy_id+' Sub '+allergy_sub_id);
-        if(allergy_id == 1 && allergy_sub_id == 4) {
-            $('#other_sub').slideDown();
-        }else if(allergy_id == 2 && allergy_sub_id == 5) {
-            $('#other_sub').slideDown();
-        }else if(allergy_id == 3 && allergy_sub_id == 10) {
-            $('#other_sub').slideDown();
-        }else{
-            $('#other_sub').val('');
-            $('#other_sub').slideUp();
-        }
+        // if(allergy_id == 1 && allergy_sub_id == 4) {
+        //     $('#other_sub').slideDown();
+        // }else if(allergy_id == 2 && allergy_sub_id == 5) {
+        //     $('#other_sub').slideDown();
+        // }else if(allergy_id == 3 && allergy_sub_id == 10) {
+        //     $('#other_sub').slideDown();
+        // }else{
+        //     $('#other_sub').val('');
+        //     $('#other_sub').slideUp();
+        // }
+
+        $('#other_sub').slideDown();
     }
 
     $('.addMoreEnt').click(function() {
         $latest_ent_disease_list = $('.ent-disease:last');
-        $clone   = $latest_ent_disease_list.clone(true, true);
-        console.log($clone);
-        $('.ent-disease:last').after($clone);
+        $ent_clone   = $latest_ent_disease_list.clone(true, true);
+        //console.log($ent_clone.html());
+        $('.ent-disease:last').after($ent_clone);
     });
 
     $('.addNewEnt').click(function() {
@@ -470,10 +472,10 @@ console.log(url);
         $('#PaediatricsDiseaseBox').show();
     });
 
-    $('#paediatrics_disease_id').change(function(){
+    $('.paediatrics_disease_id').change(function(){
         $diseaseId = '';
         $diseaseId = $(this).val();
-
+console.log($diseaseId);
         data = '';
         url = '';
         if($diseaseId > 0) {
@@ -493,6 +495,7 @@ console.log(url);
 
                 success : function(resp) {
                     //unblockUI();
+                    console.log(resp);
                     renderPaediatricsUi(resp);
                 }
             }); 
@@ -507,7 +510,7 @@ console.log(url);
         $.each(resp, function(key,value) {
             html += '<option value="'+value.id+'"> '+value.name+'</option>';
         });
-        $('#PaediatricSubDiseaseList').html(html);
+        $('.PaediatricSubDiseaseList:last').html(html);
     }
 
 
@@ -541,6 +544,12 @@ console.log(url);
         }else{
             alert('Organ system and disease name cannot be empty !');
         }
+    });
+
+     $('.addMorePaediatric').click(function() {
+        $latest_paeiatric_disease_list = $('.paediatrics-disease:last');
+        $paeiatric_clone   = $latest_paeiatric_disease_list.clone(true, true);
+        $latest_paeiatric_disease_list.after($paeiatric_clone);
     });
 </script>
 @stop
