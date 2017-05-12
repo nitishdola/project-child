@@ -120,9 +120,9 @@
                                 </div>
 
                                 <div class="form-group" id="schoolRegNo" style="display: none;">
-                                   {!! Form::label('school_registration_number', 'School Registration Number', array('class' => 'col-sm-3 control-label')) !!}
+                                   {!! Form::label('school_registration_number', 'School Reg No', array('class' => 'col-sm-3 control-label')) !!}
                                    <div class="col-sm-9">
-                                     {!! Form::text('school_registration_number', null, ['class' => ' form-control', 'id' => 'class', 'placeholder' => 'Select School Reg Number' ]) !!}
+                                     {!! Form::text('school_registration_number', null, ['class' => ' form-control', 'id' => 'class', 'placeholder' => 'All School Reg Number' ]) !!}
                                    </div>
                                 </div>
 
@@ -162,7 +162,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                   {!! Form::label('registration_number', 'Select Registration Number', array('class' => 'col-sm-3 control-label')) !!}
+                                   {!! Form::label('registration_number', 'Projectchild Reg No', array('class' => 'col-sm-3 control-label')) !!}
                                    <div class="col-sm-9">
                                      {!! Form::text('registration_number', null, ['class' => ' form-control', 'id' => 'class', 'placeholder' => 'Select Reg Number' ]) !!}
                                    </div>

@@ -57,6 +57,10 @@ class ReportsController extends Controller
           $where['checkup_diseases.sub_disease_id'] = $request->sub_disease_id;
         }
 
+        if($request->registration_number) {
+          $where['students.registration_number'] = $request->registration_number;
+        }
+
 
 
         $where['checkups.status'] = 1;
@@ -68,15 +72,15 @@ class ReportsController extends Controller
             ->join('sub_diseases', 'checkup_diseases.sub_disease_id', '=', 'sub_diseases.id')
             ->join('schools', 'schools.id', '=', 'students.school_id')
             ->where($where)
-            ->orderby('students.name')
-            ->select('students.name as studentName','students.id as studentId', 'students.registration_number as registration_number', 'students.sex', 'checkups.checkup_date as checkup_date', 'checkups.class as class','checkups.height as height','checkups.section','checkups.stream',  'checkups.weight as weight', 'diseases.name as diseaseName', 'sub_diseases.name as subDiseaseName');
+            ->orderby('students.first_name')
+            ->select('students.first_name as studentName','students.id as studentId', 'students.registration_number as registration_number', 'students.sex', 'checkups.checkup_date as checkup_date', 'checkups.class as class','checkups.height as height','checkups.section','checkups.stream',  'checkups.weight as weight', 'diseases.name as diseaseName', 'sub_diseases.name as subDiseaseName');
 
 
         if($request->checkup_year) {
             $results->whereYear('checkup_date', '=' , $request->checkup_year);
         }
 
-        $results = $results->paginate(150);
+        $results = $results->paginate(150); 
 
         $schools   = School::select(DB::raw("CONCAT(name,' (', short_name, ')') AS name, id"))->pluck('name', 'id');
         $diseases   = Disease::orderBy('name')->pluck('name', 'id');

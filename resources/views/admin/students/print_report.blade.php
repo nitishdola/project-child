@@ -205,7 +205,7 @@
                         @if($h->remarks)
                         <div class="content">
                           @foreach($h->checkup_disease as $checkup_disease)
-                            <strong> Organ System  </strong> <b>{{ $checkup_disease->sub_disease->disease['name'] }}</b>
+                            <strong> Organ System  </strong> <b>{{ $checkup_disease->disease['name'] }}</b>
                             <strong> Disease  </strong> <b>{{ $checkup_disease->sub_disease['name'] }}</b>
                           @endforeach
                           <h6> <strong>Findings/Remarks</strong>  <b>{{ $h->remarks }}</b></h6>

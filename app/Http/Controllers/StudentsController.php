@@ -187,14 +187,11 @@ class StudentsController extends Controller
             $vaccinations   = CheckupVaccination::where('checkup_id', $last_checkup->id)->with('vaccine')->get();
             $boosters       = Booster::where('checkup_id', $last_checkup->id)->with('vaccine')->get();
 
-            $history_dates  = DB::table('tbldiseasmember')->where('reg_no', $student_info->registration_number)->groupBy('date')->orderBy('date', 'ASC')->select('date')->get();
+            //$history_dates  = DB::table('tbldiseasmember')->where('reg_no', $student_info->registration_number)->groupBy('date')->orderBy('date', 'ASC')->select('date')->get();
 
-            $history = [];
-            foreach($history_dates as $date):
-            $history[]        = DB::table('tbldiseasmember')->where('reg_no', $student_info->registration_number)->where('date',$date->date)->get();
-            endforeach;
+           
         endif;
        //dd($history);
-        return view('admin.students.print_report', compact('student_info', 'diseases', 'last_checkup', 'first_disease', 'vaccinations', 'all_checkups', 'history', 'history_dates'));
+        return view('admin.students.print_report', compact('student_info', 'diseases', 'last_checkup', 'first_disease', 'vaccinations', 'all_checkups'));
     }
 }
