@@ -24,25 +24,25 @@ class ReportsController extends Controller
         $section    = $request->section;
         $stream     = $request->stream;
         $semester   = $request->semester;
-
+        $registration_number = $request->registration_number;
         if($request->school_id) {
-          $where['students.school_id'] = $request->school_id;
+          $where['latest_checkup.school_id'] = $request->school_id;
         }
 
         if($request->class) {
-          $where['checkups.class'] = $request->class;
+          $where['latest_checkup.class'] = $request->class;
         }
 
         if($request->section) {
-          $where['checkups.section'] = $request->section;
+          $where['latest_checkup.section'] = $request->section;
         }
 
         if($request->stream) {
-          $where['checkups.stream'] = $request->stream;
+          $where['latest_checkup.stream'] = $request->stream;
         }
 
         if($request->semester) {
-          $where['checkups.semester'] = $request->semester;
+          $where['latest_checkup.semester'] = $request->semester;
         }
 
         if($request->sex) {
@@ -63,17 +63,34 @@ class ReportsController extends Controller
 
 
 
-        $where['checkups.status'] = 1;
+        $where['latest_checkup.status'] = 1;
 
-        $results = DB::table('students')
-            ->join('checkups', 'students.id', '=', 'checkups.student_id')
-            ->join('checkup_diseases', 'checkup_diseases.checkup_id', '=', 'checkups.id')
-            ->join('diseases', 'checkup_diseases.disease_id', '=', 'diseases.id')
-            ->join('sub_diseases', 'checkup_diseases.sub_disease_id', '=', 'sub_diseases.id')
-            ->join('schools', 'schools.id', '=', 'students.school_id')
-            ->where($where)
-            ->orderby('students.first_name')
-            ->select('students.first_name as studentName','students.id as studentId', 'students.registration_number as registration_number', 'students.sex', 'checkups.checkup_date as checkup_date', 'checkups.class as class','checkups.height as height','checkups.section','checkups.stream',  'checkups.weight as weight', 'diseases.name as diseaseName', 'sub_diseases.name as subDiseaseName');
+        // $results = DB::table('students')
+        //     ->join('checkups', 'students.id', '=', 'checkups.student_id')
+        //     ->leftJoin('checkup_diseases', 'checkup_diseases.checkup_id', '=', 'checkups.id')
+        //     ->leftJoin('diseases', 'checkup_diseases.disease_id', '=', 'diseases.id')
+        //     ->leftJoin('sub_diseases', 'checkup_diseases.sub_disease_id', '=', 'sub_diseases.id')
+        //     ->join('schools', 'schools.id', '=', 'students.school_id')
+        //     ->where($where)
+        //     ->orderby('students.first_name')
+        //     ->select('students.first_name as studentName','students.id as studentId', 'students.registration_number as registration_number', 'students.sex', 'checkups.checkup_date as checkup_date', 'checkups.class as class','checkups.height as height','checkups.section','checkups.stream',  'checkups.weight as weight', 'diseases.name as diseaseName', 'sub_diseases.name as subDiseaseName');
+
+
+        $results = DB::table('checkups as latest_checkup')
+                ->whereNotExists(function ($query) {
+                    $query->select(DB::raw(1))
+                           ->from('checkups')
+                           ->whereRaw('student_id = latest_checkup.student_id')
+                           ->whereRaw('checkup_date > latest_checkup.checkup_date');
+                    })
+                ->join('students', 'students.id', '=', 'latest_checkup.student_id')
+                ->join('schools', 'schools.id', '=', 'latest_checkup.school_id')
+                //->leftJoin('checkup_diseases', 'checkup_diseases.checkup_id', '=', 'latest_checkup.id')
+               // ->leftJoin('diseases', 'checkup_diseases.disease_id', '=', 'diseases.id')
+                //->leftJoin('sub_diseases', 'checkup_diseases.sub_disease_id', '=', 'sub_diseases.id')
+                ->where($where)  
+                ->orderby('students.first_name')
+                ->select('students.first_name as studentFName', 'students.middle_name as studentMName', 'students.last_name as studentLName', 'students.id as studentId', 'students.registration_number as registration_number', 'students.sex', 'latest_checkup.checkup_date as checkup_date', 'latest_checkup.class as class','latest_checkup.height as height','latest_checkup.section','latest_checkup.stream',  'latest_checkup.weight as weight');
 
 
         if($request->checkup_year) {
@@ -82,16 +99,17 @@ class ReportsController extends Controller
 
         $results = $results->paginate(150); 
 
+
         $schools   = School::select(DB::raw("CONCAT(name,' (', short_name, ')') AS name, id"))->pluck('name', 'id');
         $diseases   = Disease::orderBy('name')->pluck('name', 'id');
 
-        $base_year = 2014;
+        $base_year = 2009;
         $checkup_years = [];
 
         for( $i = $base_year; $i <= date('Y'); $i++ ) {
             $checkup_years[$i] = $i;        
         }
         $classes = SchoolClass::orderBy('name')->pluck('name', 'id');
-        return view('admin.reports.view', compact('results', 'schools', 'checkup_years', 'diseases', 'school_id', 'class', 'sex', 'disease_id', 'sub_disease_id', 'checkup_year', 'section', 'stream', 'semester', 'classes'));
+        return view('admin.reports.view', compact('results', 'schools', 'checkup_years', 'diseases', 'school_id', 'class', 'sex', 'disease_id', 'sub_disease_id', 'checkup_year', 'section', 'stream', 'semester', 'classes', 'registration_number'));
     }
 }

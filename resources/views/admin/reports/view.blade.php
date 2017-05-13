@@ -18,74 +18,7 @@ table thead {
       <div class="container-fluid">
         <div class="page-head">
           <h2>Reports Result :</h2>
-          {!! Form::open(array('route' => 'reports.data', 'id' => 'reports.data', 'class' => 'form-horizontal row-border', 'method' => 'get')) !!}
-            <div class="col-xs-6">
-               <div id="com2_stats">
-                  <div class="form-group">
-                        {!! Form::label('school_id', 'Select School', array('class' => 'col-sm-3 control-label')) !!}
-                       <div class="col-sm-9">
-                          {!! Form::select('school_id', $schools, $school_id, ['class' => 'select2', 'id' => 'school_id', 'placeholder' => 'Seelct School' ]) !!}
-                       </div>
-                    </div>
-                    <div class="form-group">
-                       {!! Form::label('class', 'Select Class', array('class' => 'col-sm-3 control-label')) !!}
-                       <div class="col-sm-9">
-                          {!! Form::select('class', $classes, $class, ['class' => 'form-control', 'id' => 'class', 'placeholder' => 'Enter Class' ]) !!}
-                       </div>
-                    </div>
-
-                    <div class="form-group section-deps" id="sectionHolder">
-                       {!! Form::label('section', 'Select Section', array('class' => 'col-sm-3 control-label')) !!}
-                       <div class="col-sm-9">
-                          <select name="section" id="section" class="form-control"></select>
-                       </div>
-                    </div>
-
-                    <div class="form-group">
-                       {!! Form::label('class', 'Select Gender', array('class' => 'col-sm-3 control-label')) !!}
-                       <div class="col-sm-9">
-                          <div class="radio"><label><input type="radio" @if($sex == 'male') checked="checked" @endif value="male"  name="sex" class="icheck"> Male</label></div>
-                          <div class="radio"><label><input type="radio" @if($sex == 'female') checked="checked" @endif name="sex" value="female" class="icheck"> Female</label></div>
-                       </div>
-                    </div>
-
-               </div>
-            </div>
-
-
-            <div class="col-xs-6">
-               <div id="com2_stats">
-                  <div class="form-group">
-                        {!! Form::label('disease_id', 'Organ System', array('class' => 'col-sm-3 control-label')) !!}
-                       <div class="col-sm-9">
-                          {!! Form::select('disease_id', $diseases, $disease_id, ['class' => 'form-control', 'id' => 'disease_id', 'placeholder' => 'Select Disease' ]) !!}
-                       </div>
-                  </div>
-
-                  <div class="form-group">
-                        {!! Form::label('sub_disease_id', 'Sub Disease', array('class' => 'col-sm-3 control-label')) !!}
-                       <div class="col-sm-9">
-                          <select name="sub_disease_id" id="sub_disease_id" class="form-control"></select>
-                       </div>
-                  </div>
-
-                  <?php
-                    $base_year = 2008;
-                  ?>
-                  <div class="form-group">
-                     <label class="col-sm-3 control-label"> Checkup Year </label>
-                     <div class="col-sm-9">
-                        {!! Form::select('checkup_year', $checkup_years, $checkup_year, ['class' => 'form-control', 'id' => 'checkup_years', 'placeholder' => 'All Checkups' ]) !!}
-                     </div>
-                  </div>
-
-               </div>
-            </div>
-
-            <div class="form-group">
-               <div class="col-sm-offset-2 col-sm-10"><button type="submit" class="btn btn-primary">View</button></div>
-            </div>
-          {!! Form::close() !!}
+          @include('admin.reports._search_form')
         </div>
       </div>
 
@@ -123,7 +56,7 @@ table thead {
             @if($v->height >= 0)
             <tr>
               <td> {{ (($results->currentPage() - 1 ) * $results->perPage() ) + $count + $k }} </td>
-              <td> {{ $v->studentName }} </td>
+              <td> {{ $v->studentFName }} {{ $v->studentMName }} {{ $v->studentLName }} </td>
               <td> {{ $v->registration_number }}</td>
               <td> {{ $v->sex }} </td>
               <td> {{ $v->class }} </td>
@@ -244,7 +177,7 @@ function prepareSubDiseaseList() {
     }
 }
 
-$('#class').change(function() {
+$('#studentclass').change(function() { 
     $class = $(this).val();
     if($class > 0) {
       render_section_data($class);
@@ -252,7 +185,7 @@ $('#class').change(function() {
   });
 
 function render_section_data() {
-  $class = $('#class').val();
+  $class = $('#studentclass').val();
   if($class > 0) {
     var data = '';
     var url  = '';
@@ -306,7 +239,7 @@ function renderSection(data) {
 
     $('#streamHolder').hide();
     $('#semesterHolder').hide();
-
+    $('#branchHolder').hide();
     $('#sectionHolder').show();
     $('#section').html(html);
   }
@@ -354,5 +287,13 @@ function renderSection(data) {
     $('#branchHolder').show();
     $('#branch').html(html);
   }
+  //show school reg number
+  $('#school_id').change(function() {
+    if($(this).val() > 0) {
+      $('#schoolRegNo').show();
+    }else{
+      $('#schoolRegNo').hide();
+    }
+  });
 </script>
 @stop
