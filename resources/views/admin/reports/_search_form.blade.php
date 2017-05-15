@@ -58,7 +58,7 @@
           <div class="form-group">
                 {!! Form::label('disease_id', 'Organ System', array('class' => 'col-sm-3 control-label')) !!}
                <div class="col-sm-9">
-                  {!! Form::select('disease_id', $diseases, null, ['class' => 'form-control', 'id' => 'disease_id', 'placeholder' => 'Select Disease' ]) !!}
+                  {!! Form::select('disease_id', $diseases, $disease_id, ['class' => 'form-control', 'id' => 'disease_id', 'placeholder' => 'Select Disease' ]) !!}
                </div>
           </div>
 

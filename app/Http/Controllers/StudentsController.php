@@ -168,9 +168,36 @@ class StudentsController extends Controller
         $last_checkup   = Checkup::where('student_id', $student_id)->orderBy('checkup_date', 'DESC')->first();
 
         $all_checkups   = Checkup::where('student_id', $student_id)->with( 'checkup_disease', 'checkup_disease.disease', 'checkup_disease.sub_disease', 'checkup_disease.sub_disease.disease')
-        //->where('id', '!=', $last_checkup->id)
-        ->orderBy('checkup_date', 'DESC')->get();  //dd($all_checkups);
+        ->orderBy('checkup_date', 'DESC')->get();
+
         //dd($all_checkups);
+        $checkup_data = [];
+        foreach($all_checkups as $k => $v) {
+            $checkupId = $v->id;
+
+            $checkup_data[$k]['checkup_id'] = $checkupId;
+            $checkup_data[$k]['checkup_date'] = $v->checkup_date;
+
+            $checkup_data[$k]['height'] = $v->height;
+            $checkup_data[$k]['weight'] = $v->weight;
+
+            $checkup_data[$k]['remarks'] = $v->remarks;
+
+            
+            //find all disease
+            $diseases = DB::table('checkup_diseases')->where('checkup_id', $checkupId)->get();
+            
+            foreach($diseases as $kd => $vd) {
+                $disease_info = DB::table('diseases')->whereId($vd->disease_id)->first();
+                $checkup_data[$k]['disease_name'][$kd] = $disease_info->name;
+
+                $sub_disease_info = DB::table('sub_diseases')->whereId($vd->sub_disease_id)->first();
+                $checkup_data[$k]['sub_disease_name'][$kd] = $sub_disease_info->name;
+
+                $checkup_data[$k]['description'][$kd] = $v->description;
+            }
+        }
+        //dd($checkup_data);
         if(count($last_checkup)):
             $diseases = DB::table('checkup_diseases')
                 ->join('checkups', 'checkups.id', '=', 'checkup_diseases.checkup_id')
@@ -183,15 +210,9 @@ class StudentsController extends Controller
                 ->orderBy('checkups.checkup_date', 'DESC')
                 ->get();
 
-           // $findings = CheckupFinding::where('checkup_id', $last_checkup->id)->get();
             $vaccinations   = CheckupVaccination::where('checkup_id', $last_checkup->id)->with('vaccine')->get();
-            $boosters       = Booster::where('checkup_id', $last_checkup->id)->with('vaccine')->get();
-
-            //$history_dates  = DB::table('tbldiseasmember')->where('reg_no', $student_info->registration_number)->groupBy('date')->orderBy('date', 'ASC')->select('date')->get();
-
-           
+            $boosters       = Booster::where('checkup_id', $last_checkup->id)->with('vaccine')->get();  
         endif;
-       //dd($history);
-        return view('admin.students.print_report', compact('student_info', 'diseases', 'last_checkup', 'first_disease', 'vaccinations', 'all_checkups'));
+        return view('admin.students.print_report', compact('student_info', 'diseases', 'last_checkup', 'first_disease', 'vaccinations', 'all_checkups', 'checkup_data'));
     }
 }
