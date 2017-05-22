@@ -3,7 +3,7 @@
 	<div class="form-group">
 		<label class="col-sm-7 control-label">{{ $history->name }}</label>
 		<div class="col-sm-5">
-			<label class="checkbox-inline"><input type="checkbox" name="other_vaccines[]" value="{{$history->id}}" class="ichecks"></label>
+			<label class="checkbox-inline"><input type="checkbox" name="family_histories[]" value="{{$history->id}}" class="ichecks"></label>
 		</div>
 	</div>
 </div>

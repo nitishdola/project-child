@@ -1,7 +1,7 @@
 <div class="form-group {{ $errors->has('allergy_id') ? 'has-error' : ''}}">
   {!! Form::label('allergy_id', 'Select Allergy', array('class' => 'col-md-3 control-label')) !!}
   <div class="col-md-5">
-    {!! Form::select('allergy_id[]', $allergies, null, ['class' => 'form-control allergy', 'id' => 'allergy_id', 'placeholder' => 'Select Allergy']) !!}
+    {!! Form::select('allergy_id', $allergies, null, ['class' => 'form-control allergy', 'id' => 'allergy_id', 'placeholder' => 'Select Allergy']) !!}
   </div>
   {!! $errors->first('allergy_id', '<span class="help-inline">:message</span>') !!}
 </div>
@@ -14,10 +14,10 @@
   {!! $errors->first('sub_allergy_id', '<span class="help-inline">:message</span>') !!}
 </div>
 
-<div class="form-group {{ $errors->has('other_sub') ? 'has-error' : ''}} " id="other_sub" style="display: none">
-  {!! Form::label('other_sub', 'Please specify', array('class' => 'col-md-3 control-label')) !!}
-  <div class="col-md-9">
-    	{!! Form::text('other_sub', null, ['class' => 'form-control', 'id' => 'other_sub', 'placeholder' => 'Please specify in details']) !!}
+<div class="form-group {{ $errors->has('allergy_remarks') ? 'has-error' : ''}} " id="allergy_remarks" style="display: none">
+  {!! Form::label('allergy_remarks', 'Please specify', array('class' => 'col-md-3 control-label')) !!}
+  <div class="col-md-5">
+    	{!! Form::text('allergy_remarks', null, ['class' => 'form-control', 'id' => 'allergyRemarks', 'placeholder' => 'Please specify in details']) !!}
   </div>
-  {!! $errors->first('other_sub', '<span class="help-inline">:message</span>') !!}
+  {!! $errors->first('allergy_remarks', '<span class="help-inline">:message</span>') !!}
 </div>

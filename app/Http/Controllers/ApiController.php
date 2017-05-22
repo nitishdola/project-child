@@ -37,7 +37,10 @@ class ApiController extends Controller
     	if(isset($_GET['status']) && $_GET['status'] != '') {
     		$status = $_GET['status'];
     	}
-    	return DB::table('students')->whereStatus($status)->select('id', 'name as desc')->get();
+    	//return DB::table('students')->whereStatus($status)->select('id',  DB::raw('CONCAT(first_name, " ", middle_name," ",last_name, " - ",registration_number) AS desc'))->get();
+
+        return DB::table('students')->whereStatus($status)->select('id',  DB::raw('CONCAT(first_name, " ",middle_name," ", last_name," (",registration_number,")") AS full_name') )->get();
+
     }
 
     // public function diseasePC() {

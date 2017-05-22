@@ -25,6 +25,10 @@ class ReportsController extends Controller
         $stream     = $request->stream;
         $semester   = $request->semester;
         $registration_number = $request->registration_number;
+        $history    = $request->history;
+        $last_name  = $request->last_name;
+        $first_name  = $request->first_name;
+
         if($request->school_id) {
           $where['latest_checkup.school_id'] = $request->school_id;
         }
@@ -49,6 +53,8 @@ class ReportsController extends Controller
          	$where['students.sex']          = $request->sex;
         }
 
+
+
         if($request->disease_id) {
             //checkup id with disease id
             $checkup_ids = [];
@@ -57,6 +63,8 @@ class ReportsController extends Controller
                 $checkup_ids[] = $v->checkup_id;
             }
         }
+
+       
 
         if($request->sub_disease_id) {
             $checkup_ids = [];
@@ -79,7 +87,7 @@ class ReportsController extends Controller
                 ->where($where)  
                 ->whereYear('latest_checkup.checkup_date', '=' , $request->checkup_year)
                 ->orderby('students.first_name')
-                ->select('students.first_name as studentFName', 'students.middle_name as studentMName', 'students.last_name as studentLName', 'students.id as studentId', 'students.registration_number as registration_number', 'students.sex', 'latest_checkup.checkup_date as checkup_date', 'latest_checkup.class as class','latest_checkup.height as height','latest_checkup.section','latest_checkup.stream',  'latest_checkup.weight as weight');
+                ->select('students.first_name as studentFName', 'students.middle_name as studentMName', 'students.last_name as studentLName', 'students.id as studentId', 'students.registration_number as registration_number', 'students.sex', 'latest_checkup.checkup_date as checkup_date', 'latest_checkup.class as class','latest_checkup.height as height','latest_checkup.section','latest_checkup.stream',  'latest_checkup.weight as weight','students.history as studentHistory');
             }else{
                 $results = DB::table('checkups as latest_checkup')
                 ->join('students', 'students.id', '=', 'latest_checkup.student_id')
@@ -88,7 +96,7 @@ class ReportsController extends Controller
                 ->whereIn('latest_checkup.id', $checkup_ids)
                 ->whereYear('latest_checkup.checkup_date', '=' , $request->checkup_year)
                 ->orderby('students.first_name')
-                ->select('students.first_name as studentFName', 'students.middle_name as studentMName', 'students.last_name as studentLName', 'students.id as studentId', 'students.registration_number as registration_number', 'students.sex', 'latest_checkup.checkup_date as checkup_date', 'latest_checkup.class as class','latest_checkup.height as height','latest_checkup.section','latest_checkup.stream',  'latest_checkup.weight as weight');
+                ->select('students.first_name as studentFName', 'students.middle_name as studentMName', 'students.last_name as studentLName', 'students.id as studentId', 'students.registration_number as registration_number', 'students.sex', 'latest_checkup.checkup_date as checkup_date', 'latest_checkup.class as class','latest_checkup.height as height','latest_checkup.section','latest_checkup.stream',  'latest_checkup.weight as weight','students.history as studentHistory');
             }
             
         }else{
@@ -105,7 +113,7 @@ class ReportsController extends Controller
                     ->where($where)  
                     //->whereIn('latest_checkup.id', $checkup_ids)
                     ->orderby('students.first_name')
-                    ->select('students.first_name as studentFName', 'students.middle_name as studentMName', 'students.last_name as studentLName', 'students.id as studentId', 'students.registration_number as registration_number', 'students.sex', 'latest_checkup.checkup_date as checkup_date', 'latest_checkup.class as class','latest_checkup.height as height','latest_checkup.section','latest_checkup.stream',  'latest_checkup.weight as weight','latest_checkup.id as latest_checkup_id');
+                    ->select('students.first_name as studentFName', 'students.middle_name as studentMName', 'students.last_name as studentLName', 'students.id as studentId', 'students.registration_number as registration_number', 'students.sex', 'latest_checkup.checkup_date as checkup_date', 'latest_checkup.class as class','latest_checkup.height as height','latest_checkup.section','latest_checkup.stream',  'latest_checkup.weight as weight','latest_checkup.id as latest_checkup_id','students.history as studentHistory');
             }else{
                 $results = DB::table('checkups as latest_checkup')
                     ->whereNotExists(function ($query) {
@@ -119,9 +127,22 @@ class ReportsController extends Controller
                     ->where($where)  
                     ->whereIn('latest_checkup.id', $checkup_ids)
                     ->orderby('students.first_name')
-                    ->select('students.first_name as studentFName', 'students.middle_name as studentMName', 'students.last_name as studentLName', 'students.id as studentId', 'students.registration_number as registration_number', 'students.sex', 'latest_checkup.checkup_date as checkup_date', 'latest_checkup.class as class','latest_checkup.height as height','latest_checkup.section','latest_checkup.stream',  'latest_checkup.weight as weight','latest_checkup.id as latest_checkup_id');
+                    ->select('students.first_name as studentFName', 'students.middle_name as studentMName', 'students.last_name as studentLName', 'students.id as studentId', 'students.registration_number as registration_number', 'students.sex', 'students.history as studentHistory',  'latest_checkup.checkup_date as checkup_date', 'latest_checkup.class as class','latest_checkup.height as height','latest_checkup.section','latest_checkup.stream',  'latest_checkup.weight as weight','latest_checkup.id as latest_checkup_id');
             }
         }
+
+        if($request->history) {
+            $results->where('students.history', 'like', '%' . $request->history . '%');
+        }
+
+         if($request->first_name) {
+            $results->where('students.first_name', 'like', '%' . $request->first_name . '%');
+        }
+
+         if($request->last_name) {
+            $results->where('students.last_name', 'like', '%' . $request->last_name . '%');
+        }
+
 
         $results = $results->paginate(150);
 
@@ -135,6 +156,6 @@ class ReportsController extends Controller
             $checkup_years[$i] = $i;        
         }
         $classes = SchoolClass::orderBy('name')->pluck('name', 'id');
-        return view('admin.reports.view', compact('results', 'schools', 'checkup_years', 'diseases', 'school_id', 'class', 'sex', 'disease_id', 'sub_disease_id', 'checkup_year', 'section', 'stream', 'semester', 'classes', 'registration_number'));
+        return view('admin.reports.view', compact('results', 'schools', 'checkup_years', 'diseases', 'school_id', 'class', 'sex', 'disease_id', 'sub_disease_id', 'checkup_year', 'section', 'stream', 'semester', 'classes', 'registration_number','history','first_name','last_name'));
     }
 }

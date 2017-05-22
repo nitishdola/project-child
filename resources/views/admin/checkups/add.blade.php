@@ -5,7 +5,7 @@
 @section('main_content')
 <div class="container-fluid">
     <div class="cl-mcont">
-        {!! Form::open(array('route' => 'checkup.post', 'id' => 'checkup.post', 'class' => 'form-horizontal row-border')) !!}
+        {!! Form::open(array('route' => 'checkup.post', 'id' => 'checkup.post', 'class' => 'form-horizontal row-border','files' => true)) !!}
         <div class="block-flat">
                 <div class="header">
                    <h3>Checkup</h3>
@@ -61,14 +61,14 @@
 
                 <hr>
                 <div class="content row">
-                <h4>EYE Complain</h4> 
+                <h4>EYE Complaint</h4> 
                 <div class="col-md-12">
                       <a href="javascript:void(0)" class="addNewEye col-md-2">Add New Eye Disease</a>
                 </div>
 
                 <div  id="EyeDiseaseBox" style="display: none">
                   <div class="col-md-3">
-                    {!! Form::text('name', null, ['class' => 'form-control required', 'id' => 'eye_disease_name', 'placeholder' => 'Eye Disease Name','autocomplete' => 'off' ]) !!}
+                    {!! Form::text('', null, ['class' => 'form-control required', 'id' => 'eye_disease_name', 'placeholder' => 'Eye Disease Name','autocomplete' => 'off' ]) !!}
                   </div>
                   <div class="col-md-3">
                     <button class="btn btn-default" type="button" id="AddEyeDisease">Add</button>
@@ -80,13 +80,13 @@
 
                 <hr>
                 <div class="content row">
-                    <h4>ENT Complain</h4> 
+                    <h4>ENT Complaint</h4> 
                     <div class="col-md-10">
                         <div class="form-group {{ $errors->has('add_ENT_data') ? 'has-error' : ''}}">
                           <a href="javascript:void(0)" class="addNewEnt col-md-2">Add New ENT Disease</a>
                           <div  id="ENTDiseaseBox" style="display: none">
                               <div class="col-md-3">
-                                {!! Form::text('name', null, ['class' => 'form-control required', 'id' => 'ent_disease_name', 'placeholder' => 'ENT Disease Name','autocomplete' => 'off' ]) !!}
+                                {!! Form::text('', null, ['class' => 'form-control required', 'id' => 'ent_disease_name', 'placeholder' => 'ENT Disease Name','autocomplete' => 'off' ]) !!}
                               </div>
                               <div class="col-md-3">
                                 <button class="btn btn-default" type="button" id="AddENTDisease">Add</button>
@@ -100,13 +100,13 @@
 
                 <hr>
                 <div class="content row">
-                    <h4>Dental Complain</h4> 
+                    <h4>Dental Complaint</h4> 
                     <div class="col-md-10">
                         <div class="form-group {{ $errors->has('add_Dental_data') ? 'has-error' : ''}}">
                           <a href="javascript:void(0)" class="addNewDental col-md-3">Add New Dental Disease</a>
                           <div  id="DentalDiseaseBox" style="display: none">
                               <div class="col-md-3">
-                                {!! Form::text('name', null, ['class' => 'form-control required', 'id' => 'dental_disease_name', 'placeholder' => 'Dental Disease Name','autocomplete' => 'off' ]) !!}
+                                {!! Form::text('', null, ['class' => 'form-control required', 'id' => 'dental_disease_name', 'placeholder' => 'Dental Disease Name','autocomplete' => 'off' ]) !!}
                               </div>
                               <div class="col-md-3">
                                 <button class="btn btn-default" type="button" id="AddDentalDisease">Add</button>
@@ -120,7 +120,7 @@
                 </div>
 
                 <hr>
-                <div class="content row">
+                <div class="content row block-flat">
                     <h4>PAEDIATRICS/SURGICAL</h4> 
                     <div class="col-md-12">
                           <a href="javascript:void(0)" class="addNewPaediatrics col-md-2">Add New Paediatrics Disease</a>
@@ -137,7 +137,7 @@
 
                                 <div class="col-md-3">
                                     <div class="form-group {{ $errors->has('sub_disease_id') ? 'has-error' : ''}}">
-                                        {!! Form::text('name', null, ['class' => 'form-control required', 'id' => 'paediatrics_disease_name', 'placeholder' => 'Paediatrics Disease Name','autocomplete' => 'off' ]) !!}
+                                        {!! Form::text('', null, ['class' => 'form-control required', 'id' => 'paediatrics_disease_name', 'placeholder' => 'Paediatrics Disease Name','autocomplete' => 'off' ]) !!}
                                     </div>
                                 </div>
                                 <div class="col-md-2">
@@ -149,6 +149,49 @@
                     </div>
 
                     @include('admin.checkups._paediatrics')
+                    </div>
+
+                    <div class="content row block-flat">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">General Hygiene</label>
+                                <div class="col-sm-3">
+                                    <label class="checkbox-inline"><input type="checkbox" name="hygiene" value="good" class="ichecks"> Good</label>
+                                </div>
+
+                                <div class="col-sm-3">
+                                    <label class="checkbox-inline"><input type="checkbox" name="hygiene" value="fair" class="ichecks"> Fair</label>
+                                </div>
+
+                                <div class="col-sm-3">
+                                    <label class="checkbox-inline"><input type="checkbox" name="hygiene" value="poor" class="ichecks"> Poor</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="col-md-6">
+                                <div class="form-group {{ $errors->has('Overall Health Rermark') ? 'has-error' : ''}}">
+                                  {!! Form::label('overall_comment', 'Overall Health Rermark', array('class' => 'col-md-3 control-label')) !!}
+                                  <div class="col-md-9">
+                                    {!! Form::textarea('remarks', null, ['class' => 'form-control required', 'id' => 'overall_comment', 'placeholder' => 'Overall Health Rermark', 'rows' => 5, 'autocomplete' => 'off' ]) !!}
+                                  </div>
+                                  {!! $errors->first('Overall Health Rermark', '<span class="help-inline">:message</span>') !!}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="col-md-6">
+                                <div class="form-group {{ $errors->has('file') ? 'has-error' : ''}} " id="file">
+                                    {!! Form::label('file', 'Add Photo', array('class' => 'col-md-3 control-label')) !!}
+                                    <div class="col-md-5">
+                                        {!! Form::file('file', null, ['class' => 'form-control', 'id' => 'file']) !!}
+                                    </div>
+                                    {!! $errors->first('file', '<span class="help-inline">:message</span>') !!}
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div> 
     
@@ -212,14 +255,13 @@ $(".disease-lists").on("change", function() {
 			dataType : 'json',
 
 			error : function(resp) {
-				console.log(resp);
+				//console.log(resp);
 				$.unblockUI();
 			},
 
 			success : function(resp) {
 				$.unblockUI();
 				$last_div 	= $this.closest('.disease-list');
-
 				render_ui(resp, $last_div);
 			}
 		});
@@ -231,7 +273,6 @@ function render_ui(resp,$last_div) {
 	$.each(resp, function (key, val) {
 		html += '<option value="'+val.id+'">'+val.name+'</option>';
     });
-    console.log(html);
     $last_div.find('.sub-disease-lists').html(html);
 }
 
@@ -261,10 +302,10 @@ console.log(url);
             }
         },
         formatResult: function (option) {
-            return "<div>" + option.desc + "</div>";
+            return "<div>" + option.full_name + "</div>";
         },
         formatSelection: function (option) {
-            return option.desc;
+            return option.full_name;
         }
     };
 
@@ -273,7 +314,7 @@ console.log(url);
         var foundOptions = [];
 
         for (var key in mockData) {
-            if (mockData[key].desc.toUpperCase().indexOf(searchTerm) >= 0) {
+            if (mockData[key].full_name.toUpperCase().indexOf(searchTerm) >= 0) {
                 foundOptions.push(mockData[key]);
             }
         }
@@ -288,8 +329,8 @@ console.log(url);
         $allergy_id = $(this).val(); 
         html = data = url = '';
         if($allergy_id != '') {
-            $('#other_sub').val('');
-            $('#other_sub').slideUp();
+            $('#allergy_remarks').val('');
+            $('#allergy_remarks').slideUp();
              
             data += '&allergy_id='+$allergy_id;
             url  += "{{ route('api.get_sub_allergies') }}";
@@ -333,7 +374,7 @@ console.log(url);
         //     $('#other_sub').slideUp();
         // }
 
-        $('#other_sub').slideDown();
+        $('#allergy_remarks').slideDown();
     }
 
     $('.addMoreEnt').click(function() {
@@ -403,7 +444,7 @@ console.log(url);
         html = '';
         html += '<option value=""> Select ENT Disease</option>';
         $.each(resp, function(key,value) {
-            html += '<option value="'+value.id+'"> '+value.name+'</option>';
+            html += '<option name="ent_sub_disease_id[]" value="'+value.id+'"> '+value.name+'</option>';
         });
         $('#entSubDiseaseList').html(html);
     }
@@ -440,7 +481,7 @@ console.log(url);
         html = '';
         html += '<option value=""> Select Dental Disease</option>';
         $.each(resp, function(key,value) {
-            html += '<option value="'+value.id+'"> '+value.name+'</option>';
+            html += '<option name="dental_sub_disease_id[]" value="'+value.id+'"> '+value.name+'</option>';
         });
         $('#dentalSubDiseaseList').html(html);
     }
@@ -525,6 +566,8 @@ console.log($diseaseId);
         $.each(resp, function(key,value) {
             html += '<option value="'+value.id+'"> '+value.name+'</option>';
         });
+
+        console.log(html);
         $('.PaediatricSubDiseaseList:last').html(html);
     }
 
@@ -600,7 +643,7 @@ console.log($diseaseId);
         html = '';
         html += '<option value=""> Select Eye Disease</option>';
         $.each(resp, function(key,value) {
-            html += '<option value="'+value.id+'"> '+value.name+'</option>';
+            html += '<option name="eye_sub_disease_id[]" value="'+value.id+'"> '+value.name+'</option>';
         });
         $('#eyeSubDiseaseList').html(html);
     }
@@ -664,7 +707,7 @@ console.log($diseaseId);
         html = '';
         html += '<option value=""> Select Separtment</option>';
         $.each(resp, function(key,value) {
-            html += '<option value="'+value.id+'"> '+value.name+'</option>';
+            html += '<option name="department_id[]" value="'+value.id+'"> '+value.name+'</option>';
         });
         $('#department').html(html);
     }

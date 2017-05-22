@@ -112,10 +112,18 @@
                       {!! Form::open(array('route' => 'reports.data', 'id' => 'reports.data', 'class' => 'form-horizontal row-border', 'method' => 'get')) !!}
                         <div class="col-xs-6">
                            <div id="com2_stats">
+
+                              <div class="form-group">
+                                 {!! Form::label('history', '', array('class' => 'col-sm-3 control-label')) !!}
+                                 <div class="col-sm-9">
+                                   {!! Form::text('history', null, ['class' => ' form-control', 'id' => 'history', 'placeholder' => 'Enter History' ]) !!}
+                                 </div>
+                              </div>
+
                               <div class="form-group">
                                     {!! Form::label('school_id', 'Select School', array('class' => 'col-sm-3 control-label')) !!}
                                    <div class="col-sm-9">
-                                      {!! Form::select('school_id', $schools, null, ['class' => 'select2', 'id' => 'school_id', 'placeholder' => 'Seelct School' ]) !!}
+                                      {!! Form::select('school_id', $schools, null, ['class' => 'select2', 'id' => 'school_id', 'placeholder' => 'Select School' ]) !!}
                                    </div>
                                 </div>
 
@@ -203,7 +211,20 @@
                                  <label class="col-sm-3 control-label"> Checkup Year </label>
                                  <div class="col-sm-9">
                                       {!! Form::select('checkup_year', $checkup_years, null, ['class' => 'select2other', 'id' => 'checkup_years', 'placeholder' => 'All Checkups' ]) !!}
-                                    </select>
+                                 </div>
+                              </div>
+
+                              <div class="form-group">
+                                 {!! Form::label('first_name', '', array('class' => 'col-sm-3 control-label')) !!}
+                                 <div class="col-sm-9">
+                                   {!! Form::text('first_name', null, ['class' => ' form-control', 'id' => 'first_name', 'placeholder' => 'Enter First Name' ]) !!}
+                                 </div>
+                              </div>
+
+                              <div class="form-group">
+                                 {!! Form::label('last_name', '', array('class' => 'col-sm-3 control-label')) !!}
+                                 <div class="col-sm-9">
+                                   {!! Form::text('last_name', null, ['class' => ' form-control', 'id' => 'last_name', 'placeholder' => 'Enter Last Name' ]) !!}
                                  </div>
                               </div>
 

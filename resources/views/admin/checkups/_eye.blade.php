@@ -8,6 +8,15 @@
 	  </div>
 	  {!! $errors->first('sub_disease_id', '<span class="help-inline">:message</span>') !!}
 	</div>
+
+	<div class="form-group {{ $errors->has('eye_comments') ? 'has-error' : ''}}">
+	  {!! Form::label('eye_comments', 'Comments', array('class' => 'col-md-3 control-label')) !!}
+	  <div class="col-md-9">
+	    {!! Form::textarea('eye_comments[]', null, ['class' => 'form-control required', 'id' => 'eye_comments', 'placeholder' => 'Comments', 'rows' => 3, 'autocomplete' => 'off' ]) !!}
+	  </div>
+	  {!! $errors->first('eye_comments', '<span class="help-inline">:message</span>') !!}
+	</div>
+	<input type="hidden" name="eye_disease_id" value="11">
 </div>
 
 <div class="col-md-12">
@@ -30,14 +39,14 @@
 				<td>
 					<div class="form-group {{ $errors->has('right_naked_eyesight_id') ? 'has-error' : ''}}">
 					 
-					  <div class="col-md-7">
-					    {!! Form::select('right_naked_eyesight_id', $eyesights, 1, ['class' => 'form-control required', 'id' => 'right_naked_eyesight_id', 'placeholder' => 'Select Eyesight', 'autocomplete' => 'off', 'required' => 'true']) !!}
+						<div class="col-md-7">
+						    {!! Form::select('right_naked_eyesight_id', $eyesights, 1, ['class' => 'form-control required', 'id' => 'right_naked_eyesight_id', 'placeholder' => 'Select Eyesight', 'autocomplete' => 'off', 'required' => 'true']) !!}
+						</div>
 
-					    
-					  </div>
-
-					  <div class="col-md-5"> <input type="checkbox" class="ichecks" name="right_partial_naked"> Partial </div>
-					  {!! $errors->first('right_naked_eyesight_id', '<span class="help-inline">:message</span>') !!}
+						<div class="col-md-5"> 
+							<input type="checkbox" class="ichecks" name="right_naked_is_partial"> Partial 
+						</div>
+						{!! $errors->first('right_naked_eyesight_id', '<span class="help-inline">:message</span>') !!}
 					</div>
 				</td>
 				<td>
@@ -47,7 +56,7 @@
 					    {!! Form::select('right_spects_eyesight_id', $eyesights, null, ['class' => 'form-control required', 'id' => 'left_naked_eyesight_id', 'placeholder' => 'Select Eyesight', 'autocomplete' => 'off', 'required' => 'true']) !!}
 					  </div>
 
-					  <div class="col-md-5"> <input type="checkbox" class="ichecks" name="right_partial_spects"> Partial </div>
+					  <div class="col-md-5"> <input type="checkbox" class="ichecks" name="right_spects_is_partial"> Partial </div>
 					  {!! $errors->first('right_spects_eyesight_id', '<span class="help-inline">:message</span>') !!}
 					</div>
 				</td>
@@ -61,7 +70,7 @@
 					  <div class="col-md-7">
 					    {!! Form::select('left_naked_eyesight_id', $eyesights, 1, ['class' => 'form-control required', 'id' => 'left_naked_eyesight_id', 'placeholder' => 'Select Eyesight', 'autocomplete' => 'off', 'required' => 'true']) !!}
 					  </div>
-					  <div class="col-md-5"> <input type="checkbox" class="ichecks" name="right_partial_naked"> Partial </div>
+					  <div class="col-md-5"> <input type="checkbox" class="ichecks" name="left_naked_is_partial"> Partial </div>
 					  {!! $errors->first('left_naked_eyesight_id', '<span class="help-inline">:message</span>') !!}
 					</div>
 				</td>
@@ -71,7 +80,7 @@
 					  <div class="col-md-7">
 					    {!! Form::select('left_spects_eyesight_id', $eyesights, null, ['class' => 'form-control required', 'id' => 'left_spects_eyesight_id', 'placeholder' => 'Select Eyesight', 'autocomplete' => 'off', 'required' => 'true']) !!}
 					  </div>
-					  <div class="col-md-5"> <input type="checkbox" class="ichecks" name="left_partial_spects"> Partial </div>
+					  <div class="col-md-5"> <input type="checkbox" class="ichecks" name="left_spects_is_partial"> Partial </div>
 					  {!! $errors->first('left_spects_eyesight_id', '<span class="help-inline">:message</span>') !!}
 					</div>
 				</td>
@@ -99,17 +108,4 @@
 	  {!! $errors->first('extra_ocular_movement', '<span class="help-inline">:message</span>') !!}
 	</div>
 </div>
-
-
-<div class="col-md-6">
-	<div class="form-group {{ $errors->has('eye_comments') ? 'has-error' : ''}}">
-	  {!! Form::label('eye_comments', 'Comments', array('class' => 'col-md-3 control-label')) !!}
-	  <div class="col-md-9">
-	    {!! Form::textarea('eye_comments', null, ['class' => 'form-control required', 'id' => 'eye_comments', 'placeholder' => 'Comments', 'rows' => 3, 'autocomplete' => 'off' ]) !!}
-	  </div>
-	  {!! $errors->first('eye_comments', '<span class="help-inline">:message</span>') !!}
-	</div>
-</div>
-
-
 

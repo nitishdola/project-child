@@ -9,6 +9,14 @@
   {!! $errors->first('student_id', '<span class="help-inline">:message</span>') !!}
 </div>
 
+<div class="form-group {{ $errors->has('school_id') ? 'has-error' : ''}}">
+  {!! Form::label('school_id', 'Select School*', array('class' => 'col-md-3 control-label')) !!}
+  <div class="col-md-9">
+      {!! Form::select('school_id', $schools, null, ['class' => 'form-control required', 'id' => 'school_id', 'placeholder' => 'Select School', 'autocomplete' => 'off', 'required' => 'true']) !!}
+  </div>
+  {!! $errors->first('student_id', '<span class="help-inline">:message</span>') !!}
+</div>
+
 <div class="form-group {{ $errors->has('class') ? 'has-error' : ''}}">
   {!! Form::label('class*', '', array('class' => 'col-md-3 control-label')) !!}
   <div class="col-md-9">
@@ -44,7 +52,7 @@
 <div class="form-group {{ $errors->has('department') ? 'has-error' : ''}}">
   {!! Form::label('department', '', array('class' => 'col-md-3 control-label')) !!}
   <div class="col-md-9">
-    <select id="department" class="form-control"></select>
+    <select id="department" name="department_id" class="form-control"></select>
   </div>
   {!! $errors->first('department', '<span class="help-inline">:message</span>') !!}
 </div>
@@ -55,7 +63,7 @@
   <div class="form-group" >
     {!! Form::label('department_name', '', array('class' => 'col-md-3 control-label')) !!}
     <div class="col-md-9">
-      {!! Form::text('department_name', null, ['class' => 'form-control required', 'id' => 'department_name', 'placeholder' => 'Department Name', 'autocomplete' => 'off']) !!}
+      {!! Form::text('', null, ['class' => 'form-control required', 'id' => 'department_name', 'placeholder' => 'Department Name', 'autocomplete' => 'off']) !!}
     </div>
     {!! $errors->first('department_name', '<span class="help-inline">:message</span>') !!}
   </div>

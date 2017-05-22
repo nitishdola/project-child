@@ -46,7 +46,7 @@ table thead {
                 <th> Height </th>
                 <th> Weight </th>
                 <th> BMI </th>
-               <!--  <th> View Details </th> -->
+                <th> History </th>
                 <th> View/Print </th>
               </tr>
             </thead>
@@ -91,7 +91,7 @@ table thead {
              <button class="btn {{ $class}} btn-xs">{{ number_format((float)$bmi, 2, '.', '') }} </button>
 
              </td>
-              <!-- <td> <a href="{{ route('student.info', Crypt::encrypt($v->studentId)) }}" target="_blank" class="btn btn-info btn-sm"><i class="fa fa-info-circle" aria-hidden="true"></i> Info</a></td> -->
+              <td> {{ ucfirst($v->studentHistory) }}</td> 
 
               <td> <a href="{{ route('student.print', Crypt::encrypt($v->studentId)) }}" target="_blank" class="btn btn-info btn-sm"><i class="fa fa-print" aria-hidden="true"></i> View/Print</a></td>
 
@@ -102,7 +102,7 @@ table thead {
           </table>
 
           <div class="pagination">
-            {!! $results->render() !!}
+            {!! $results->appends(Input::except('page'))->render() !!}
           </div>
 
           @else

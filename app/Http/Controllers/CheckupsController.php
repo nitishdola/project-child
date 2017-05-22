@@ -8,7 +8,7 @@ use App\Http\Requests;
 
 use Auth,Crypt,Redirect,DB,Validator;
 use App\Student, App\Disease, App\SubDisease,App\CheckupDisease,App\CheckupFinding,App\Checkup, App\Vaccine, App\CheckupVaccination, App\OtherVaccine,App\FamilyHistory,App\Eyesight,App\Branch;
-use App\Allergy;
+use App\Allergy, App\School;
 
 class CheckupsController extends Controller
 {
@@ -26,13 +26,26 @@ class CheckupsController extends Controller
 
       $allergies      = Allergy::whereStatus(1)->orderBy('name', 'DESC')->pluck('name', 'id');
       $eyesights      = Eyesight::whereStatus(1)->pluck('name', 'id');
+      $schools        = School::orderBy('name')->pluck('name', 'id');
 
-    	return view('admin.checkups.add', compact('diseases', 'vaccines', 'allergies', 'other_vaccine', 'family_history','eyesights','branches'));
+    	return view('admin.checkups.add', compact('diseases', 'vaccines', 'allergies', 'other_vaccine', 'family_history','eyesights','branches', 'schools'));
     }
 
     public function postCheckup(Request $request) { 
       DB::beginTransaction();
       $data = $request->all();
+
+      $destination_path = public_path('uploads/checkup_images/photos/'.date('Y-m-d'));
+
+      if ($request->hasFile('file')) {
+        if ($request->file('file')->isValid()){
+            $fileName = date('YmdHis').'_'.$request->student_id.'-checkup.'.$request->file('file')->getClientOriginalExtension();
+            $request->file('file')->move($destination_path, $fileName);
+            $data['cv_url'] = 'photos/'.date('Y-m-d').'/'.$fileName;
+        }
+      }
+      dump($request);
+      dd($data);
       $validator = Validator::make($data, Checkup::$rules);
       if ($validator->fails()) return Redirect::back()->withErrors($validator);
       $checkup = Checkup::create( $data );

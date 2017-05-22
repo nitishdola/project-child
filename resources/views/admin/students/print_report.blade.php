@@ -6,7 +6,16 @@
   .fa-stethoscope, #print-button {
     display: none;
   }
+  .checkup-details {
+    margin-top:140px;
+  }
 }
+</style>
+
+<style type="text/css">
+  .checkup-details {
+    margin-top:140px;
+  }
 </style>
 @stop
 @section('main_content')
@@ -30,7 +39,9 @@
                               
                                <p class="description">
                               <strong> Project Child Reg No </strong>  <b>{{ $student_info->registration_number }}</b>
+                              </p>
 
+                              <p>
                               <strong> School Reg No </strong>  <b>{{ $student_info->school_registration_number }}</b>
 
                               </p>
@@ -60,7 +71,7 @@
                           <table class="table no-border no-strip skills">
                               <tbody class="no-border-x no-border-y">
                                   <tr>
-                                      <td style="width:45%;"><strong>Blood Group</strong></td>
+                                      <td style="width:60%;"><strong>Blood Group</strong></td>
                                       <td class="vmiddle">
                                           <b>{{ $student_info->blood_group['name'] }}</b>
                                       </td>
@@ -74,7 +85,7 @@
                                   <tr>
                                       <td><strong>Height</strong></td>
                                       <td class="vmiddle">
-                                          <b>{{ $last_checkup->height }} centi meters</b>
+                                          <b>{{ $last_checkup->height }} cm</b>
                                       </td>
                                   </tr>
                                   <tr>
@@ -104,19 +115,19 @@
                                           <table class="table no-border no-strip skills">
                                               <tbody class="no-border-x no-border-y">
                                                   <tr>
-                                                      <td style="width:20%;"><b>Father's Name</b></td>
+                                                      <td style="width:30%;"><b>Father's Name</b></td>
                                                       <td>{{ $student_info->father_name }}</td>
                                                   </tr>
                                                   <tr>
-                                                      <td style="width:20%;"><b>Mother's Name</b></td>
+                                                      <td style="width:30%;"><b>Mother's Name</b></td>
                                                       <td>{{ $student_info->mother_name }}</td>
                                                   </tr>
                                                   <tr>
-                                                      <td style="width:20%;"><b>Contact Number</b></td>
+                                                      <td style="width:30%;"><b>Contact Number</b></td>
                                                       <td>{{ $student_info->contact_number }}</td>
                                                   </tr>
                                                   <tr>
-                                                      <td style="width:20%;"><b>Address</b></td>
+                                                      <td style="width:30%;"><b>Address</b></td>
                                                       <td>{{ $student_info->address }}</td>
                                                   </tr>
                                               </tbody>
@@ -129,11 +140,11 @@
                                           <table class="table no-border no-strip skills">
                                               <tbody class="no-border-x no-border-y">
                                                   <tr>
-                                                      <td style="width:20%;"><b>Doctor's Name</b></td>
+                                                      <td style="width:30%;"><b>Doctor's Name</b></td>
                                                       <td>{{ $student_info->family_doctor }}</td>
                                                   </tr>
                                                   <tr>
-                                                      <td style="width:20%;"><b>Doctor's Contact Number</b></td>
+                                                      <td style="width:30%;"><b>Contact Number</b></td>
                                                       <td>{{ $student_info->doctor_number }}</td>
                                                   </tr>
                                               </tbody>
@@ -188,7 +199,7 @@
           </div>
       </div>
 
-      <div class="row">
+      <div class="row checkup-details">
         <div class="block-transparent">
             <div class="header">
                 <h4>Checkup Details</h4></div>
@@ -199,29 +210,32 @@
                 <li>
                     <i class="fa fa-stethoscope red" aria-hidden="true"></i><span class="date">{{ date('d-m-y', strtotime($h->checkup_date)) }}</span>
                     <div class="content" >
-                        <p> <strong>Height : </strong> <b>{{$h->height}}</b> 
-                            <strong>CM Weight : </strong> <b>{{$h->weight}} kilo grams</b>
+                        <p> <strong>Height : </strong> <b>{{$h->height}} cm</b> 
+                            <strong> Weight : </strong> <b>{{$h->weight}} kilograms</b>
                         </p>  
 
                         
                         <div class="disease-found" style="padding:20px 0">
                           @if(count($h->checkup_disease))
                           @foreach($h->checkup_disease as $x => $checkup_disease)
-                          
-                            <p> 
-                              <strong> <span class="col-xs-3"> <i class="fa fa-hand-o-right" aria-hidden="true"></i>  Organ System  </span></strong> 
-                              <span class="col-xs-3"><b>{{ $checkup_disease->disease['name'] }}</b></span>
-                              <strong> Disease  </strong> : <b>{{ $checkup_disease->sub_disease['name'] }}</b>
-                            </p> 
-                            <p>
-                               <span class="col-xs-12" style="font-size: 12px;"><i>{{ $checkup_disease->description }}</i></span>
-                            </p>
+                            <div class="clearfix"></div>
+                            <div class="disease-data" style="padding-top: 20px;">
+                              <p> 
+                                <strong> <span class="col-xs-3"> <i class="fa fa-hand-o-right" aria-hidden="true"></i>  Organ System  </span></strong> 
+                                <span class="col-xs-3"><b>{{ $checkup_disease->disease['name'] }}</b></span>
+                                <strong> Disease  </strong> : <b>{{ $checkup_disease->sub_disease['name'] }}</b>
+                              </p> 
+                              <p>
+                                <strong> <span class="col-xs-3"> Comments : </span></strong> 
+                                <span class="col-xs-9"><b>{{ $checkup_disease->description }}</b></span>
+                              </p>
+                            </div>
                           
                           
                           @endforeach
                           <hr>
                           @endif
-                          <p><span class="col-xs-12"><strong>Findings/Remarks</strong>  <b>{{ $h->remarks }}</b></span>
+                          <p><strong>Findings/Remarks</strong>  <b>{{ $h->remarks }}</b>
                           </p>
                         </div>
                     </div>
