@@ -8,7 +8,7 @@ use App\Http\Requests;
 
 use Auth,Crypt,Redirect,DB,Validator;
 use App\Student, App\Disease, App\SubDisease,App\CheckupDisease,App\CheckupFinding,App\Checkup, App\Vaccine, App\CheckupVaccination, App\OtherVaccine,App\FamilyHistory,App\Eyesight,App\Branch;
-use App\Allergy, App\School;
+use App\Allergy, App\School, App\CheckupOtherVaccine,App\CheckupFamilyHistory, App\CheckupAllergy;
 
 class CheckupsController extends Controller
 {
@@ -17,10 +17,10 @@ class CheckupsController extends Controller
       $other_vaccine  = OtherVaccine::whereStatus(1)->get();
       $family_history = FamilyHistory::whereStatus(1)->get();
       $other_disease_ids =  [5,6,7,8,9,10,12,13,14,15];
-    	$diseases   	  = Disease::whereStatus(1)->whereIn('id',$other_disease_ids)->orderBy('name', 'DESC')->pluck('name', 'id');
+      $diseases       = Disease::whereStatus(1)->whereIn('id',$other_disease_ids)->orderBy('name', 'DESC')->pluck('name', 'id');
 
       $branches      = Branch::whereStatus(1)->pluck('name', 'id');
-    	//$sub_diseases   = SubDisease::whereStatus(1)->orderBy('name', 'DESC')->get();
+      //$sub_diseases   = SubDisease::whereStatus(1)->orderBy('name', 'DESC')->get();
 
       //$ent_sub_diseases = SubDisease::whereStatus(1)->where('disease_id',1)->orderBy('name', 'DESC')->pluck('name', 'id');
 
@@ -28,7 +28,7 @@ class CheckupsController extends Controller
       $eyesights      = Eyesight::whereStatus(1)->pluck('name', 'id');
       $schools        = School::orderBy('name')->pluck('name', 'id');
 
-    	return view('admin.checkups.add', compact('diseases', 'vaccines', 'allergies', 'other_vaccine', 'family_history','eyesights','branches', 'schools'));
+      return view('admin.checkups.add', compact('diseases', 'vaccines', 'allergies', 'other_vaccine', 'family_history','eyesights','branches', 'schools'));
     }
 
     public function postCheckup(Request $request) { 
@@ -44,37 +44,78 @@ class CheckupsController extends Controller
             $data['cv_url'] = 'photos/'.date('Y-m-d').'/'.$fileName;
         }
       }
-      dump($request);
-      dd($data);
+
+      
       $validator = Validator::make($data, Checkup::$rules);
       if ($validator->fails()) return Redirect::back()->withErrors($validator);
       $checkup = Checkup::create( $data );
 
       try {
           // add checkup_diseases
-          $subdisease_data['checkup_id']    	= $checkup->id;
-          for($i = 0; $i < count($request->sub_diseases); $i++) {
-              $subdisease_data['sub_disease_id']  = $request->sub_diseases[$i];
-              //get Disease is
-              $disease = SubDisease::findOrFail($request->sub_diseases[$i]);
-              $subdisease_data['disease_id']  = $disease->disease_id;
-              $validator = Validator::make($subdisease_data, CheckupDisease::$rules);
-              if ($validator->fails()) return Redirect::back()->withErrors($validator);
-              CheckupDisease::create( $subdisease_data );
-          }
-      }catch(ValidationException $e)
-      {
-          return Redirect::back();
-      }
+          $eye_subdisease_data['checkup_id']      = $checkup->id;
 
-      try {
-          // add checkup_diseases
-          $finding_data['checkup_id']    	= $checkup->id;
-          for($i = 0; $i < count($request->finding); $i++) {
-              $finding_data['finding']  = $request->finding[$i];
-              $validator = Validator::make($finding_data, CheckupFinding::$rules);
+          //EYE disease
+          if(count($request->eye_sub_disease_id)) {
+            $eye_subdisease_data['disease_id'] = $request->eye_disease_id;
+            for($keye = 0; $keye < count($request->eye_sub_disease_id); $keye++) {
+              $eye_subdisease_data['sub_disease_id'] = $request->eye_sub_disease_id[$keye];
+              if(isset($request->eye_comments[$keye]) && $request->eye_comments[$keye] != '' ) {
+                $eye_subdisease_data['description'] = $request->eye_comments[$keye];
+              }
+
+              $validator = Validator::make($eye_subdisease_data, CheckupDisease::$rules);
               if ($validator->fails()) return Redirect::back()->withErrors($validator);
-              CheckupFinding::create( $finding_data );
+              CheckupDisease::create( $eye_subdisease_data );
+            }
+          }
+
+          //ENT disease
+          $ent_subdisease_data['checkup_id']      = $checkup->id;
+          if(count($request->ent_sub_disease_id)) {
+            $ent_subdisease_data['disease_id'] = 1;
+            for($kent = 0; $kent < count($request->ent_sub_disease_id); $kent++) {
+              $ent_subdisease_data['sub_disease_id'] = $request->ent_sub_disease_id[$kent];
+              if(isset($request->ent_comments[$kent]) && $request->ent_comments[$kent] != '' ) {
+                $ent_subdisease_data['description'] = $request->ent_comments[$kent];
+              }
+
+              $validator = Validator::make($ent_subdisease_data, CheckupDisease::$rules);
+              if ($validator->fails()) return Redirect::back()->withErrors($validator);
+              CheckupDisease::create( $ent_subdisease_data );
+            }
+          }
+          //ENT disease
+          $dental_subdisease_data['checkup_id']      = $checkup->id;
+          if(count($request->dental_sub_disease_id)) {
+            $dental_subdisease_data['disease_id'] = 3;
+            for($kdent = 0; $kdent < count($request->dental_sub_disease_id); $kdent++) {
+              $dental_subdisease_data['sub_disease_id'] = $request->dental_sub_disease_id[$kdent];
+              if(isset($request->dental_comments[$kdent]) && $request->dental_comments[$kdent] != '' ) {
+                $dental_subdisease_data['description'] = $request->dental_comments[$kdent];
+              }
+
+              $validator = Validator::make($dental_subdisease_data, CheckupDisease::$rules);
+              if ($validator->fails()) return Redirect::back()->withErrors($validator);
+              CheckupDisease::create( $dental_subdisease_data );
+            }
+          }
+          //all other sub diseases
+          $other_subdisease_data['checkup_id']      = $checkup->id;
+          if(count($request->disease_id)) {
+            for($koth = 0; $koth < count($request->disease_id); $koth++) {
+              $other_subdisease_data['disease_id'] = $request->disease_id[$koth];
+              if(isset($request->sub_disease_id[$koth])) {
+                $other_subdisease_data['sub_disease_id'] = $request->sub_disease_id[$koth];
+              }
+
+              if(isset($request->paediatrics_comments[$koth])) {
+                $other_subdisease_data['description'] = $request->paediatrics_comments[$koth];
+              }
+
+              $validator = Validator::make($other_subdisease_data, CheckupDisease::$rules);
+              if ($validator->fails()) return Redirect::back()->withErrors($validator);
+              CheckupDisease::create( $other_subdisease_data );
+            }
           }
       }catch(ValidationException $e)
       {
@@ -82,40 +123,79 @@ class CheckupsController extends Controller
       }
 
       //vaccination entry
+      try {
+        $vaccination = [];
+        $vaccination['checkup_id']     = $checkup->id;
 
-      $vaccination = [];
-      $vaccination['checkup_id']     = $checkup->id;
+        $vaccines       = Vaccine::get();
 
-      for($i = 0; $i < count($request->vaccines); $i++) {
-        if(isset($request->$i)) {
-          for( $j = 0; $j < count($request->$i); $j++) {
-            $vaccination['vaccine_id']  = $i;
-            $vaccination['dose_number'] = $request->$i[$j];
-
-            $validator = Validator::make($vaccination, CheckupVaccination::$rules);
-            if ($validator->fails()) return Redirect::back()->withErrors($validator);
-            CheckupVaccination::create( $vaccination );
+        foreach($vaccines as $vk => $vacc) {
+          $student_vaccines = $request->vaccines;
+          if(isset($request->vaccines[$vacc->id]))   {
+            $vaccination['vaccine_id']  = $vacc->id;
+            $vaccination['dose_number'] = $request->vaccines[$vacc->id][0];
+            CheckupVaccination::create($vaccination);
           }
         }
+      }catch(ValidationException $e)
+      {
+          return Redirect::back();
       }
 
-      //Booster vaccine
+      //other vaccines other_vaccines
       try {
-          // add checkup_diseases
-          $boosters_data['checkup_id']     = $checkup->id;
-          for($i = 0; $i < count($request->boosters); $i++) {
-              $boosters_data['finding']  = $request->boosters[$i];
-              $validator = Validator::make($boosters_data, Booster::$rules);
-              if ($validator->fails()) return Redirect::back()->withErrors($validator);
-              Booster::create( $boosters_data );
+        $other_vaccination = [];
+        $other_vaccination['checkup_id']     = $checkup->id;
+
+        if(count($request->other_vaccines)) {
+          for($i = 0; $i < count($request->other_vaccines); $i++) {
+            $other_vaccination['other_vaccine_id']  = $request->other_vaccines[$i];
+            CheckupOtherVaccine::create($other_vaccination);
           }
+        }
+        
+      }catch(ValidationException $e)
+      {
+          return Redirect::back();
+      }
+
+
+      //other vaccines family history
+      try {
+        $family_history = [];
+        $family_history['checkup_id']     = $checkup->id;
+
+        if(count($request->family_histories)) {
+          for($i = 0; $i < count($request->family_histories); $i++) {
+            $family_history['family_history_id']  = $request->family_histories[$i];
+            CheckupFamilyHistory::create($family_history);
+          }
+        }
+        
+      }catch(ValidationException $e)
+      {
+          return Redirect::back();
+      }
+
+      //other vaccines family history
+      try {
+        if($request->allergy_id) {
+
+          $allergies = [];
+          $allergies['checkup_id']          = $checkup->id;
+          $allergies['allergy_id']          = $request->allergy_id;
+          $allergies['allergy_category_id'] = $request->sub_alg;
+          $allergies['remarks']             = $request->allergy_remarks;
+
+          CheckupAllergy::create($allergies);
+        }
       }catch(ValidationException $e)
       {
           return Redirect::back();
       }
 
       DB::commit();
-    	return view('admin.checkups.add_success');
+      return view('admin.checkups.add_success');
     }
 
     public function editCheckup($checkup_id) {

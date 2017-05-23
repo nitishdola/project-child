@@ -29,7 +29,7 @@
                     <div class="col-md-6">
                         @include('admin.checkups._health_form')
                     </div>
-    			</div>
+                </div>
                 <div class="clearfix"></div>
                 <hr>
                 <div class="content" style="padding-bottom: 10px; text-align: left;">
@@ -174,7 +174,7 @@
                                 <div class="form-group {{ $errors->has('Overall Health Rermark') ? 'has-error' : ''}}">
                                   {!! Form::label('overall_comment', 'Overall Health Rermark', array('class' => 'col-md-3 control-label')) !!}
                                   <div class="col-md-9">
-                                    {!! Form::textarea('remarks', null, ['class' => 'form-control required', 'id' => 'overall_comment', 'placeholder' => 'Overall Health Rermark', 'rows' => 5, 'autocomplete' => 'off' ]) !!}
+                                    {!! Form::textarea('description', null, ['class' => 'form-control required', 'id' => 'overall_comment', 'placeholder' => 'Overall Health Rermark', 'rows' => 5, 'autocomplete' => 'off' ]) !!}
                                   </div>
                                   {!! $errors->first('Overall Health Rermark', '<span class="help-inline">:message</span>') !!}
                                 </div>
@@ -195,7 +195,7 @@
                     </div>
                 </div> 
     
-		</div>
+        </div>
 
         <div class="content row ">
             {!! Form::label('', '', array('class' => 'col-md-3 control-label')) !!}
@@ -203,7 +203,7 @@
         </div>
 
         {!!form::close()!!}
-	</div>
+    </div>
 </div>
 @endsection
 
@@ -217,14 +217,14 @@ loadDepartments();
 //loadPaediatricsList();
 
 $('#addMore').click(function(e) {
-	e.preventDefault();
-	//var item = 1;
-	$latest_div 	= $('#disease_box .disease-list:last');
+    e.preventDefault();
+    //var item = 1;
+    $latest_div     = $('#disease_box .disease-list:last');
 
-	$clone 			= $latest_div.clone(true, true);
-	$clone.find("input[type='text'], select.sub-disease-lists").empty();
+    $clone          = $latest_div.clone(true, true);
+    $clone.find("input[type='text'], select.sub-disease-lists").empty();
 
-	$latest_div.after($clone);// console.log($clone.html());
+    $latest_div.after($clone);// console.log($clone.html());
 });
 
 
@@ -240,38 +240,38 @@ $('#addMoreFinding').click(function(e) {
 });
 
 $(".disease-lists").on("change", function() {
-	var url 	= '';
-	var data	= '';
-	var $this = $(this);
-	var disease_id = $this.val();
-	if(disease_id != '' || disease_id != 0) {
-		$.blockUI();
-		url 	+= '{{ route("api.sub_disease_list") }}';
-		data 	+= '&disease_id='+disease_id;
-		$.ajax({
-			data : data,
-			url  : url,
-			type : 'get',
-			dataType : 'json',
+    var url     = '';
+    var data    = '';
+    var $this = $(this);
+    var disease_id = $this.val();
+    if(disease_id != '' || disease_id != 0) {
+        $.blockUI();
+        url     += '{{ route("api.sub_disease_list") }}';
+        data    += '&disease_id='+disease_id;
+        $.ajax({
+            data : data,
+            url  : url,
+            type : 'get',
+            dataType : 'json',
 
-			error : function(resp) {
-				//console.log(resp);
-				$.unblockUI();
-			},
+            error : function(resp) {
+                //console.log(resp);
+                $.unblockUI();
+            },
 
-			success : function(resp) {
-				$.unblockUI();
-				$last_div 	= $this.closest('.disease-list');
-				render_ui(resp, $last_div);
-			}
-		});
-	}
+            success : function(resp) {
+                $.unblockUI();
+                $last_div   = $this.closest('.disease-list');
+                render_ui(resp, $last_div);
+            }
+        });
+    }
 });
 
 function render_ui(resp,$last_div) {
-	html = '';
-	$.each(resp, function (key, val) {
-		html += '<option value="'+val.id+'">'+val.name+'</option>';
+    html = '';
+    $.each(resp, function (key, val) {
+        html += '<option value="'+val.id+'">'+val.name+'</option>';
     });
     $last_div.find('.sub-disease-lists').html(html);
 }
@@ -643,7 +643,7 @@ console.log($diseaseId);
         html = '';
         html += '<option value=""> Select Eye Disease</option>';
         $.each(resp, function(key,value) {
-            html += '<option name="eye_sub_disease_id[]" value="'+value.id+'"> '+value.name+'</option>';
+            html += '<option value="'+value.id+'"> '+value.name+'</option>';
         });
         $('#eyeSubDiseaseList').html(html);
     }

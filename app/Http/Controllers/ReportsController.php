@@ -79,6 +79,9 @@ class ReportsController extends Controller
         }
         $where['latest_checkup.status'] = 1;
 
+
+        
+
         if($request->checkup_year) {
             if(empty($checkup_ids)) {
                 $results = DB::table('checkups as latest_checkup')
@@ -101,6 +104,8 @@ class ReportsController extends Controller
             
         }else{
             if(empty($checkup_ids)) {
+                $student = DB::table('students')->where('registration_number', $request->registration_number)->first();
+                //dd($student);
                 $results = DB::table('checkups as latest_checkup')
                     ->whereNotExists(function ($query) {
                         $query->select(DB::raw(1))

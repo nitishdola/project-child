@@ -12,7 +12,7 @@
 	<div class="form-group {{ $errors->has('eye_comments') ? 'has-error' : ''}}">
 	  {!! Form::label('eye_comments', 'Comments', array('class' => 'col-md-3 control-label')) !!}
 	  <div class="col-md-9">
-	    {!! Form::textarea('eye_comments[]', null, ['class' => 'form-control required', 'id' => 'eye_comments', 'placeholder' => 'Comments', 'rows' => 3, 'autocomplete' => 'off' ]) !!}
+	    {!! Form::textarea('eye_comments[]', null, ['class' => 'form-control required eye_comments', 'id' => 'eye_comments', 'placeholder' => 'Comments', 'rows' => 3, 'autocomplete' => 'off' ]) !!}
 	  </div>
 	  {!! $errors->first('eye_comments', '<span class="help-inline">:message</span>') !!}
 	</div>
@@ -44,7 +44,7 @@
 						</div>
 
 						<div class="col-md-5"> 
-							<input type="checkbox" class="ichecks" name="right_naked_is_partial"> Partial 
+							<input type="checkbox" class="ichecks" value="1" name="right_naked_is_partial"> Partial 
 						</div>
 						{!! $errors->first('right_naked_eyesight_id', '<span class="help-inline">:message</span>') !!}
 					</div>
@@ -56,7 +56,7 @@
 					    {!! Form::select('right_spects_eyesight_id', $eyesights, null, ['class' => 'form-control required', 'id' => 'left_naked_eyesight_id', 'placeholder' => 'Select Eyesight', 'autocomplete' => 'off', 'required' => 'true']) !!}
 					  </div>
 
-					  <div class="col-md-5"> <input type="checkbox" class="ichecks" name="right_spects_is_partial"> Partial </div>
+					  <div class="col-md-5"> <input type="checkbox" value="1" class="ichecks" name="right_spects_is_partial"> Partial </div>
 					  {!! $errors->first('right_spects_eyesight_id', '<span class="help-inline">:message</span>') !!}
 					</div>
 				</td>
@@ -70,7 +70,7 @@
 					  <div class="col-md-7">
 					    {!! Form::select('left_naked_eyesight_id', $eyesights, 1, ['class' => 'form-control required', 'id' => 'left_naked_eyesight_id', 'placeholder' => 'Select Eyesight', 'autocomplete' => 'off', 'required' => 'true']) !!}
 					  </div>
-					  <div class="col-md-5"> <input type="checkbox" class="ichecks" name="left_naked_is_partial"> Partial </div>
+					  <div class="col-md-5"> <input type="checkbox" value="1" class="ichecks" name="left_naked_is_partial"> Partial </div>
 					  {!! $errors->first('left_naked_eyesight_id', '<span class="help-inline">:message</span>') !!}
 					</div>
 				</td>
@@ -80,7 +80,7 @@
 					  <div class="col-md-7">
 					    {!! Form::select('left_spects_eyesight_id', $eyesights, null, ['class' => 'form-control required', 'id' => 'left_spects_eyesight_id', 'placeholder' => 'Select Eyesight', 'autocomplete' => 'off', 'required' => 'true']) !!}
 					  </div>
-					  <div class="col-md-5"> <input type="checkbox" class="ichecks" name="left_spects_is_partial"> Partial </div>
+					  <div class="col-md-5"> <input type="checkbox" value="1" class="ichecks" name="left_spects_is_partial"> Partial </div>
 					  {!! $errors->first('left_spects_eyesight_id', '<span class="help-inline">:message</span>') !!}
 					</div>
 				</td>
