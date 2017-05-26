@@ -41,7 +41,9 @@ class StudentsController extends Controller
         $where  = []; 
         $registration_number    = $request->registration_number;
         $school_id              = $request->school_id;
-        $name = $request->name;
+        $first_name             = $request->first_name;
+
+        $last_name              = $request->last_name;
 
         if($request->registration_number) {
             $where['registration_number'] = $registration_number;
@@ -52,17 +54,22 @@ class StudentsController extends Controller
         }
         
         $where['status'] = 1;
-        $results = Student::where('status',1)->where($where)->orderBy('name', 'ASC');
+        $results = Student::where('status',1)->where($where)->orderBy('first_name', 'ASC');
 
-        if($request->name) {
+        if($request->first_name) {
             
-            $results->where('name', 'LIKE', '%' . $name . '%');
+            $results->where('first_name', 'LIKE', '%' . $first_name . '%');
+        }
+
+        if($request->last_name) {
+            
+            $results->where('last_name', 'LIKE', '%' . $last_name . '%');
         }
 
         $results = $results->paginate(150);
 
         $schools   = School::select(DB::raw("CONCAT(name,' (', short_name, ')') AS name, id"))->pluck('name', 'id');
-        return view('admin.students.list_all', compact('results', 'schools', 'registration_number', 'school_id', 'name'));
+        return view('admin.students.list_all', compact('results', 'schools', 'registration_number', 'school_id', 'first_name', 'last_name'));
     }
 
     public function disableStudent($student_id = null) {

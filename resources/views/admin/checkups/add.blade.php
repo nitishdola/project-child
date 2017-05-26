@@ -290,6 +290,7 @@ console.log(url);
             url: url,
             dataType: 'json',
             data: function (term, page) {
+                console.log(term);
                 // Nothing sent to server side. Mock example setup.
                 searchTerm = term.toUpperCase();
             },
@@ -297,6 +298,7 @@ console.log(url);
                 // Normally server side logic would parse your JSON string from your data returned above then return results here that match your search term. In this case just returning 2 mock options.
                 //console.log(data);
                 return {
+                    
                     results: getMockData( data )
                 };
             }
@@ -310,7 +312,7 @@ console.log(url);
     };
 
     function getMockData( mockData ) {
-
+        console.log(mockData);
         var foundOptions = [];
 
         for (var key in mockData) {

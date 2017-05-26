@@ -33,13 +33,10 @@ class ApiController extends Controller
     }
 
     public function studentList() {
-    	$status = 1;
-    	if(isset($_GET['status']) && $_GET['status'] != '') {
-    		$status = $_GET['status'];
-    	}
+    	
     	//return DB::table('students')->whereStatus($status)->select('id',  DB::raw('CONCAT(first_name, " ", middle_name," ",last_name, " - ",registration_number) AS desc'))->get();
 
-        return DB::table('students')->whereStatus($status)->select('id',  DB::raw('CONCAT(first_name, " ",middle_name," ", last_name," (",registration_number,")") AS full_name') )->get();
+        return DB::table('students')->whereStatus(1)->select('id',  DB::raw('CONCAT(first_name," ", registration_number) AS full_name') )->get();
 
     }
 

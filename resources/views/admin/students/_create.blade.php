@@ -22,12 +22,28 @@
   {!! $errors->first('school_registration_number', '<span class="help-inline">:message</span>') !!}
 </div>
 
-<div class="form-group {{ $errors->has('name') ? 'has-error' : ''}}">
-  {!! Form::label('name', 'Name*', array('class' => 'col-md-3 control-label')) !!}
+<div class="form-group {{ $errors->has('first_name') ? 'has-error' : ''}}">
+  {!! Form::label('first_name', 'First Name*', array('class' => 'col-md-3 control-label')) !!}
   <div class="col-md-5">
-    {!! Form::text('name', null, ['class' => 'form-control required', 'id' => 'name', 'placeholder' => 'Name', 'autocomplete' => 'off', 'required' => 'true']) !!}
+    {!! Form::text('first_name', null, ['class' => 'form-control required', 'id' => 'first_name', 'placeholder' => 'First Name', 'autocomplete' => 'off', 'required' => 'true']) !!}
   </div>
-  {!! $errors->first('name', '<span class="help-inline">:message</span>') !!}
+  {!! $errors->first('first_name', '<span class="help-inline">:message</span>') !!}
+</div>
+
+<div class="form-group {{ $errors->has('middle_name') ? 'has-error' : ''}}">
+  {!! Form::label('middle_name', '', array('class' => 'col-md-3 control-label')) !!}
+  <div class="col-md-5">
+    {!! Form::text('middle_name', null, ['class' => 'form-control required', 'id' => 'middle_name', 'placeholder' => 'Middle Name', 'autocomplete' => 'off']) !!}
+  </div>
+  {!! $errors->first('middle_name', '<span class="help-inline">:message</span>') !!}
+</div>
+
+<div class="form-group {{ $errors->has('last_name') ? 'has-error' : ''}}">
+  {!! Form::label('last_name*', '', array('class' => 'col-md-3 control-label')) !!}
+  <div class="col-md-5">
+    {!! Form::text('last_name', null, ['class' => 'form-control required', 'id' => 'last_name', 'placeholder' => 'Name', 'autocomplete' => 'off', 'required' => 'true']) !!}
+  </div>
+  {!! $errors->first('last_name', '<span class="help-inline">:message</span>') !!}
 </div>
 
 <div class="form-group {{ $errors->has('father_name') ? 'has-error' : ''}}">

@@ -33,6 +33,18 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('admin/password/reset/{token?}','AdminAuth\PasswordController@showResetForm');
 
     Route::get('/admin', ['as' => 'admin.home', 'uses' => 'AdminController@index']);
+
+
+
+    Route::get('/school-admin/login','SchoolAdminAuth\AuthController@showLoginForm');
+    Route::post('/school-admin/login','SchoolAdminAuth\AuthController@login');
+    //Route::post('/school-admin/login','SchoolAdminController@postLogin');
+    Route::get('/school-admin/logout',['as' => 'school_admin.logout', 'uses' => 'SchoolAdminAuth\AuthController@logout']);
+
+    Route::get('/school-administrator', ['as' => 'school.admin.home', 'uses' => 'SchoolAdminController@index']);
+
+
+    
 });  
 
 
@@ -174,4 +186,28 @@ Route::group(['prefix'=>'api'], function() {
         'as' => 'api.get_all_departments',
         'uses' => 'ApiController@getAllDepartments'
     ]);
+});
+
+
+Route::group(['prefix'=>'school-administrator'], function() {
+    Route::group(['prefix'=>'student'], function() {
+        Route::get('/view-all', [
+            'as' => 'school_admin.view_all_students',
+            'middleware' => ['school_admin'],
+            'uses' => 'SchoolAdminController@viewAllStudents'
+        ]);
+
+        Route::get('/checkup-report', [
+            'as' => 'school_admin.checkup_report',
+            'middleware' => ['school_admin'],
+            'uses' => 'SchoolAdminController@checkupSearch'
+        ]);
+
+        Route::get('/view-student-info/{student_id}', [
+            'as' => 'school_admin.view_student_info',
+            'middleware' => ['school_admin'],
+            'uses' => 'SchoolAdminController@viewStudentInfo'
+        ]);
+
+    });
 });

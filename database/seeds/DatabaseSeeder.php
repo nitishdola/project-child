@@ -24,7 +24,8 @@ class DatabaseSeeder extends Seeder
       //$this->call('OtherVaccinesTableSeeder'); 
       //$this->call('FamilyHistoriesTableSeeder');
       //$this->call('EyesightTableSeeder');
-      $this->call('BranchesTableSeeder');
+      //$this->call('BranchesTableSeeder');
+      $this->call('SchoolAdminSeeder');
     }
 
 
@@ -269,6 +270,36 @@ class EyesightTableSeeder extends Seeder {
         array('name'=>'6/24'),
         array('name'=>'6/34'),
         array('name'=>'6/60'),
+      ));
+   }
+}
+
+class SchoolAdminSeeder extends Seeder {
+ 
+   public function run()
+   {
+      DB::table('school_admins')->insert(array(
+        array('school_id'=>1, 'username' => '912', 'password' => bcrypt('DBS912')),
+
+        array('school_id'=>2, 'username' => '911', 'password' => bcrypt('FHSS911')),
+        array('school_id'=>3, 'username' => '914', 'password' => bcrypt('DBU914')),
+        array('school_id'=>4, 'username' => '913', 'password' => bcrypt('MPS913')),
+        array('school_id'=>5, 'username' => '919', 'password' => bcrypt('VM919')),
+        array('school_id'=>6, 'username' => '915', 'password' => bcrypt('PSSS915')),
+
+        array('school_id'=>7, 'username' => '916', 'password' => bcrypt('PS916')),
+        array('school_id'=>8, 'username' => '917', 'password' => bcrypt('FS917')),
+        array('school_id'=>9, 'username' => '918', 'password' => bcrypt('FHSSCITY918')),
+        array('school_id'=>10, 'username' => '9110', 'password' => bcrypt('MMHC9110')),
+        array('school_id'=>11, 'username' => '9112', 'password' => bcrypt('MES9112')),
+
+        array('school_id'=>12, 'username' => '9113', 'password' => bcrypt('DPS9113')),
+        array('school_id'=>13, 'username' => '9115', 'password' => bcrypt('SFS9115')),
+        array('school_id'=>14, 'username' => '9114', 'password' => bcrypt('SPS9114')),
+        array('school_id'=>15, 'username' => '9117', 'password' => bcrypt('HC9117')),
+        array('school_id'=>16, 'username' => '9116', 'password' => bcrypt('GGSS9116')),
+
+        array('school_id'=>17, 'username' => '9111', 'password' => bcrypt('gyan9111')),
       ));
    }
 }

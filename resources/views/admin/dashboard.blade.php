@@ -176,13 +176,13 @@
                                    </div>
                                 </div>
 
-                                <div class="form-group">
+                                <!-- <div class="form-group">
                                    {!! Form::label('class', 'Select Gender', array('class' => 'col-sm-3 control-label')) !!}
                                    <div class="col-sm-9">
                                       <div class="radio"><label><input type="radio" value="male"  name="sex" class="icheck"> Male</label></div>
                                       <div class="radio"><label><input type="radio" name="sex" value="female" class="icheck"> Female</label></div>
                                    </div>
-                                </div>
+                                </div> -->
                                 
                            </div>
                         </div>
@@ -221,12 +221,12 @@
                                  </div>
                               </div>
 
-                              <div class="form-group">
+                             <!--  <div class="form-group">
                                  {!! Form::label('last_name', '', array('class' => 'col-sm-3 control-label')) !!}
                                  <div class="col-sm-9">
                                    {!! Form::text('last_name', null, ['class' => ' form-control', 'id' => 'last_name', 'placeholder' => 'Enter Last Name' ]) !!}
                                  </div>
-                              </div>
+                              </div> -->
 
                            </div>
                         </div>
