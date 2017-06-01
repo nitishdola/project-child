@@ -13,6 +13,7 @@ use App\School, App\Disease, App\SchoolClass;
 class ReportsController extends Controller
 {
     public function viewReport(Request $request) {
+        
         $where = '';
         $checkup_ids = [];
         $school_id  = $request->school_id;

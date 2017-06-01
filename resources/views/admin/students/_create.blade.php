@@ -49,7 +49,7 @@
 <div class="form-group {{ $errors->has('father_name') ? 'has-error' : ''}}">
   {!! Form::label('father_name', 'Father\'s Name*', array('class' => 'col-md-3 control-label')) !!}
   <div class="col-md-5">
-    {!! Form::text('father_name', 'Not Mentioned', ['class' => 'form-control required', 'id' => 'father_name', 'placeholder' => 'Father\'s Name', 'autocomplete' => 'off', 'required' => 'true']) !!}
+    {!! Form::text('father_name', null, ['class' => 'form-control required', 'id' => 'father_name', 'placeholder' => 'Father\'s Name', 'autocomplete' => 'off', 'required' => 'true']) !!}
   </div>
   {!! $errors->first('father_name', '<span class="help-inline">:message</span>') !!}
 </div>
@@ -57,7 +57,7 @@
 <div class="form-group {{ $errors->has('mother_name') ? 'has-error' : ''}}">
   {!! Form::label('mother_name', 'Mother\'s Name*', array('class' => 'col-md-3 control-label')) !!}
   <div class="col-md-5">
-    {!! Form::text('mother_name', 'Not Mentioned', ['class' => 'form-control required', 'id' => 'code', 'placeholder' => 'Mother\'s Name', 'autocomplete' => 'off', 'required' => 'true']) !!}
+    {!! Form::text('mother_name', null, ['class' => 'form-control required', 'id' => 'code', 'placeholder' => 'Mother\'s Name', 'autocomplete' => 'off', 'required' => 'true']) !!}
   </div>
   {!! $errors->first('mother_name', '<span class="help-inline">:message</span>') !!}
 </div>

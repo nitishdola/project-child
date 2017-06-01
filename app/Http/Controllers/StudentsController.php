@@ -91,11 +91,14 @@ class StudentsController extends Controller
         $blood_groups   = BloodGroup::orderBy('name')->pluck('name', 'id');
 
         $student = Student::findOrFail($student_id);
+     
         return view('admin.students.edit', compact('schools', 'blood_groups', 'student'));
     }
 
     public function updateStudent($student_id = null, Request $request) {
         $rules = Student::$rules;
+
+
 
         $student_id = Crypt::decrypt($student_id);
 
@@ -169,6 +172,7 @@ class StudentsController extends Controller
     }
 
     public function printView($student_id = NULL) {
+
         $student_id     = Crypt::decrypt($student_id);
         $student_info   = Student::whereId($student_id)->with('blood_group', 'school')->first();
         

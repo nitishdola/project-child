@@ -44,6 +44,12 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('/school-administrator', ['as' => 'school.admin.home', 'uses' => 'SchoolAdminController@index']);
 
 
+    Route::get('/student/login','StudentAdminAuth\AuthController@showLoginForm');
+    Route::post('/student/login','StudentAdminAuth\AuthController@login');
+    Route::get('/student/logout',['as' => 'student.logout', 'uses' => 'StudentAdminAuth\AuthController@logout']);
+
+    Route::get('/student-home', ['as' => 'student.admin.home', 'uses' => 'StudentAdminController@index']);
+
     
 });  
 
@@ -211,3 +217,22 @@ Route::group(['prefix'=>'school-administrator'], function() {
 
     });
 });
+
+Route::group(['prefix'=>'student'], function() {
+    Route::get('/change-password', [
+        'as' => 'student.change_password',
+        'middleware' => ['student_admin'],
+        'uses' => 'StudentAdminController@changePassword'
+    ]);
+
+    Route::post('/update-password', [
+        'as' => 'student.update_password',
+        'middleware' => ['student_admin'],
+        'uses' => 'StudentAdminController@updatePassword'
+    ]);
+});
+
+
+Route::get('/create-password', [
+    'uses' => 'StudentAdminController@createStudentPassword'
+]);

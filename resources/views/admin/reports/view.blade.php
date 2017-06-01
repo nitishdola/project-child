@@ -24,15 +24,20 @@ table thead {
 
        <div class="stats_bar container-fluid">
           @if(count($results))
-          <?php $count = 1;
+            <?php $count = 1;
+
+            $bmi_data = calculateBMI($student_info->dob, $last_checkup->height, $last_checkup->weight, $student_info->sex); 
+
+            $student_bmi = $bmi_data['bmi'];
+            $bmi_remarks = $bmi_data['remarks'];
           ?>
-          <div class="col-md-5 pull-right">
+          <!-- <div class="col-md-5 pull-right">
             <strong>BMI</strong> :
                   <button class="btn underweight">0 - 18.5 <br> ( Underweight )</button>
                   <button class="btn btn-success">18.5 - 24.9 <br> ( Healthy weight )</button>
                   <button class="btn btn-warning">25 - 29.9 <br>( Overweught )</button>
                   <button class="btn btn-danger">30 - <br> (Obese)</button>
-          </div>
+          </div> -->
 
           <table class="table table-hover">
             <thead>
@@ -53,7 +58,7 @@ table thead {
 
             <tbody id="student_list">
             @foreach( $results as $k => $v)
-            @if($v->height >= 0)
+            
             <tr>
               <td> {{ (($results->currentPage() - 1 ) * $results->perPage() ) + $count + $k }} </td>
               <td> {{ $v->studentFName }} {{ $v->studentMName }} {{ $v->studentLName }} </td>
@@ -96,7 +101,6 @@ table thead {
               <td> <a href="{{ route('student.print', Crypt::encrypt($v->studentId)) }}" target="_blank" class="btn btn-info btn-sm"><i class="fa fa-print" aria-hidden="true"></i> View/Print</a></td>
 
             </tr>
-            @endif
             @endforeach
             </tbody>
           </table>

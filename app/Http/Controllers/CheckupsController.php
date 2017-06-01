@@ -41,7 +41,7 @@ class CheckupsController extends Controller
         if ($request->file('file')->isValid()){
             $fileName = date('YmdHis').'_'.$request->student_id.'-checkup.'.$request->file('file')->getClientOriginalExtension();
             $request->file('file')->move($destination_path, $fileName);
-            $data['cv_url'] = 'photos/'.date('Y-m-d').'/'.$fileName;
+            $data['photo_path'] = 'photos/'.date('Y-m-d').'/'.$fileName;
         }
       }
 
@@ -199,7 +199,7 @@ class CheckupsController extends Controller
     }
 
     public function editCheckup($checkup_id) {
-      $checkup = Checkup::findOrfail($checkup_id);
+      $checkup          = Checkup::findOrfail($checkup_id);
       $checkup_diseases = CheckupDisease::where('checkup_id', $checkup_id)->get();
       $checkup_findings = CheckupFinding::where('checkup_id', $checkup_id)->get();
       $checkup_vaccinations = CheckupVaccination::where('checkup_id', $checkup_id)->get();

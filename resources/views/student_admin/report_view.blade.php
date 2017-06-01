@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.student_admin')
 
 @section('page_css')
 <style>
@@ -19,21 +19,11 @@
 </style>
 @stop
 @section('main_content')
-<?php $bmi_data = calculateBMI($student_info->dob, $last_checkup->height, $last_checkup->weight, $student_info->sex); 
-
-$student_bmi = $bmi_data['bmi'];
-$bmi_remarks = $bmi_data['remarks'];
-?>
 <div id="pcont" class="container-fluid">
   <div class="cl-mcont">
       <div class="row">
           <div class="col-xs-12">
               <div class="block-flat profile-info">
-                  <div class="row">
-                      <div class="col-md-10"> </div>
-                      <div class="col-md-2"><a href="{{ route('student.edit', Crypt::encrypt($student_info->id)) }}" class="btn btn-info btn-sm"> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> EDIT BASIC INFO</a></div>
-                  </div>
-
                   <div class="row">
                       <div class="col-xs-2">
                           <div class="avatar">
@@ -61,7 +51,21 @@ $bmi_remarks = $bmi_data['remarks'];
                               </p>
                           </div>
                       </div>
-                      <
+                      <?php 
+
+                          //BMI
+                          $student_bmi = ($last_checkup->weight) / ( ($last_checkup->height/100)*($last_checkup->height/100) );
+                            $bmi_class = 'btn-info';
+                          if($student_bmi < 18.5 ) {
+                            $bmi_class = 'progress-bar-warning_below';
+                          }else if($student_bmi >=18.5 && $student_bmi <=24.9) {
+                            $bmi_class = 'btn-success';
+                          }else if($student_bmi >=25 && $student_bmi <=29.9) {
+                            $bmi_class = 'progress-bar-warning';
+                          }else{
+                            $bmi_class = 'btn-danger';
+                          }
+                        ?>
 
                       <div class="col-xs-3">
                           <table class="table no-border no-strip skills">
@@ -90,15 +94,9 @@ $bmi_remarks = $bmi_data['remarks'];
                                           <b>{{ number_format((float)$student_bmi, 2, '.', '') }}</b>
                                       </td>
                                   </tr>
-                                  <tr>
-                                    <td colspan="2">
-                                      <strong> {{ $bmi_remarks }} </strong>
-                                    </td>
-                                  </tr>
                               </tbody>
                           </table>
                       </div>
-
                   </div>
               </div>
           </div>
@@ -160,7 +158,12 @@ $bmi_remarks = $bmi_data['remarks'];
                                       </td>
                                   </tr>
 
-                                  
+                                  <tr>
+                                      <td class="category"><strong>REMARKS</strong></td>
+                                      <td>
+                                          <p>{{ ucfirst($last_checkup->remarks) }}</p>
+                                      </td>
+                                  </tr>
                               </tbody>
                           </table>
                       </div>
@@ -207,28 +210,11 @@ $bmi_remarks = $bmi_data['remarks'];
                 <li>
                     <i class="fa fa-stethoscope red" aria-hidden="true"></i><span class="date">{{ date('d-m-y', strtotime($h->checkup_date)) }}</span>
                     <div class="content" >
-
-
-                        <?php $checkup_bmi_data = calculateBMI($student_info->dob, $h->height, $h->weight, $student_info->sex); 
-                        $checkup_error    = $checkup_bmi_data['error'];
-                        $checkup_bmi      = $checkup_bmi_data['bmi'];
-                        $checkup_remarks  = $checkup_bmi_data['remarks'];
-                        ?>
-
-                        <p> 
-                        @if($checkup_error == '')
-                        <strong>Height : </strong> <b>{{$h->height}} cm</b> 
+                        <p> <strong>Height : </strong> <b>{{$h->height}} cm</b> 
                             <strong> Weight : </strong> <b>{{$h->weight}} kilograms</b>
-
-                            <strong> BMI : </strong> <b> {{ number_format((float)$checkup_bmi, 2, '.', '') }} </b>
-                             ( <strong> {{ $checkup_remarks }} </strong> )
-                        @else
-                        {{ $checkup_error }}
-                        @endif
                         </p>  
 
                         
-                                                
                         <div class="disease-found" style="padding:20px 0">
                           @if(count($h->checkup_disease))
                           @foreach($h->checkup_disease as $x => $checkup_disease)
@@ -252,14 +238,7 @@ $bmi_remarks = $bmi_data['remarks'];
                           <p><strong>Findings/Remarks</strong>  <b>{{ $h->remarks }}</b>
                           </p>
                         </div>
-
-                        <div class="row">
-                            <div class="col-md-11"> </div>
-                            <div class="col-md-1"><a href="#" class="btn btn-info btn-sm"> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> EDIT</a></div>
-                        </div>
                     </div>
-
-
                 </li>
                 
                 @endforeach
